@@ -6,6 +6,8 @@ Summary: I propose the term “novelty distance” to describe the distance betw
 
 I first came across the idea of novelty search via Kenneth O. Stanley’s YouTube talk [Why Greatness Cannot Be Planned](https://www.youtube.com/watch?v=dXQPL9GooyI) and the corresponding [book](https://www.amazon.com/Why-Greatness-Cannot-Planned-Objective/dp/3319155237). It’s an exploration algorithm that is driven by the novelty of behavior rather than an objective.
 
+https://www.youtube.com/watch?v=dXQPL9GooyI
+
 The most intriguing part of novelty search to me is its focus not on optimization but rather discovery. It’s not to say novelty search is a better search algorithm but that its application should be used to generate a different kind of result. Dr. Stanley explores in detail what novelty search means for an individual, so I will just briefly summarize here.
 
 In our life we often set goals for ourselves and we measure our progress based on whether or not we achieve those goals. More recently, the concept of [moonshots](https://www.theatlantic.com/magazine/archive/2017/11/x-google-moonshot-factory/540648/) has gained a lot of popularity. To answer the question of “why haven’t we been able to achieve more?” moonshots is given as the reason. We haven’t set ambitious enough goals and so all that we can hope to achieve is incremental progress.
