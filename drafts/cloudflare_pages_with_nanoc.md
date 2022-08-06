@@ -13,7 +13,7 @@ For years, my Nanoc workflow looked like this:
 3. Upload the contents of `output/` to an S3 bucket using [Transmit](https://panic.com/transmit/)
 4. Use Cloudflare to point a domain to the S3 bucket
 
-This workflow served me pretty well, but it did involve a lot of manual steps. A few months ago I was able to replace steps 2 and 3 with a GitHub Action. The GitHub Action utilized a script for uploading content to an S3 bucket. It looked like this:
+This workflow served me pretty well, but it required a lot of manual steps. A few months ago I was able to replace steps 2 and 3 with a GitHub Action. The GitHub Action utilized a script for uploading content to an S3 bucket. It looked like this:
 
 ```yaml
 name: Build and Upload to S3
@@ -59,4 +59,4 @@ After migrating my static sites, I really wanted to replace my Nanoc + GitHub Ac
 3. Set the "Build command" to `nanoc`
 4. Set the "Build output directory" to `/output` unless you've customized this in Nanoc.
 
-That's it! As you make changes to your Nanoc site and merge those changes into your repository's default branch in GitHub or GitLab, Cloudflare Pages will build your site and deploy it to its CDN across the world.
+That's it! As you make changes to your Nanoc site and merge those changes into your repository's default branch in GitHub or GitLab, Cloudflare Pages will build your site and deploy it to its global CDN.
