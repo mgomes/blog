@@ -1,4 +1,4 @@
-Date: August 8, 2022
+Date: August 6, 2022
 Tags: ruby
 Summary: Use the Ruby Nanoc gem to publish Cloudflare Pages
 
