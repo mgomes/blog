@@ -7,7 +7,18 @@ Tags: random
 
 I was sucked into this recently and found a great 4-part documentary series on YouTube by A Great Big Story. The videos are unlisted for some reason, though. So here are the links to all four parts:
 
-Part 1: [Cracking the Code of Cicada 3301 | EPISODE 1](https://www.youtube.com/watch?v=RatbYqc0-jE)
-Part 2: [Cracking the Code of Cicada 3301 | EPISODE 2](https://www.youtube.com/watch?v=Rx8pfheh6aI)
-Part 3: [Cracking the Code of Cicada 3301 | EPISODE 3](https://www.youtube.com/watch?v=HRYyhdTHraU)
-Part 4: [Cracking the Code of Cicada 3301 | EPISODE 4](https://www.youtube.com/watch?v=GanHp3XCYgg)
+## Part 1
+
+https://www.youtube.com/watch?v=RatbYqc0-jE
+
+## Part 2
+
+https://www.youtube.com/watch?v=Rx8pfheh6aI
+
+## Part 3
+
+https://www.youtube.com/watch?v=HRYyhdTHraU
+
+## Part 4
+
+https://www.youtube.com/watch?v=GanHp3XCYgg
