@@ -25,14 +25,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "drafts/ambitions-crucible.md",
+                "file": "posts/ambitions-crucible.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "1699c76f2c131740",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "posts/ambitions-crucible.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -98,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "drafts/ambitions-crucible.md",
+                "file": "posts/ambitions-crucible.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "drafts/ambitions-crucible.md",
+                "file": "posts/ambitions-crucible.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "drafts/ambitions-crucible.md"
+                "file": "posts/ambitions-crucible.md"
               }
             }
           }
@@ -159,13 +171,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4b6ef53f60b4315a",
+  "active": "63d55e313269c598",
   "lastOpenFiles": [
+    "posts/ambitions-crucible.md",
     "_Files/ambitions_crucible.epub",
     "_Files/Ambition's Crucible.epub",
     "_Files",
     "posts/theory-of-computational-irreducibility.md",
-    "drafts/ambitions-crucible.md",
     "_Images/Ambition's Crucible 1.epub",
     "_Images/Ambition's Crucible.epub",
     "_Images/ambitions-crucible.png",
