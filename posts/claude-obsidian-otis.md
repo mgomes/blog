@@ -55,7 +55,7 @@ No more "sorry, I can't read that format." Everything is searchable, everything 
 
 Instead of navigating folder structures, I just say "add this to my notes" and Claude knows exactly where today's note lives (`~/work log/2025/2025-01/2025-01-09.md`). It creates the folder structure if needed, follows my naming conventions, and just works.
 
-<video controls muted playsinline loop style="max-width:100%;width:100%;height:auto;display:block;margin:1rem 0;" title="Claude Code Daily Notes">
+<video poster="/_Images/claude-code-daily-note-poster.jpg" controls muted playsinline loop style="max-width:100%;width:100%;height:auto;display:block;margin:1rem 0;" title="Claude Code Daily Notes">
 	<source src="/_Images/claude-code-daily-note.mp4" type="video/mp4" />
 	Claude Code Daily Notes video
 </video>
@@ -76,7 +76,7 @@ Remember that paper you scanned three years ago? The one about... something with
 
 If it knows everything I’ve watched and liked, it should be able to recommend new things.
 
-<video controls muted playsinline loop style="max-width:100%;width:100%;height:auto;display:block;margin:1rem 0;" title="Claude Code Movie Search">
+<video poster="/_Images/claude-code-movies-poster.jpg" controls muted playsinline loop style="max-width:100%;width:100%;height:auto;display:block;margin:1rem 0;" title="Claude Code Movie Search">
 	<source src="/_Images/claude-code-movies.mp4" type="video/mp4" />
 	Claude Code Movie Search video
 </video>
