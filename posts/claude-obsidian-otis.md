@@ -53,7 +53,7 @@ No more "sorry, I can't read that format." Everything is searchable, everything 
 
 ### Daily Notes Without the Hassle
 
-Instead of navigating folder structures, I just say "add this to my notes" and Claude knows exactly where today's note lives (`~/work log/2025/2025-01/2025-01-09.md`). It creates the folder structure if needed, follows my naming conventions, and just works.
+Instead of navigating folder structures, I just say "add this to my notes" and Claude knows exactly where today's note lives (`~/work log/2025/2025-08/2025-08-09.md`). It creates the folder structure if needed, follows my naming conventions, and just works.
 
 <video poster="/_Images/claude-code-daily-note-poster.jpg" controls muted playsinline loop style="max-width:100%;width:100%;height:auto;display:block;margin:1rem 0;" title="Claude Code Daily Notes">
 	<source src="/_Images/claude-code-daily-note.mp4" type="video/mp4" />
