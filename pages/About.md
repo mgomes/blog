@@ -1,1 +1,0 @@
-I build at the intersection of AI and developer experience. I've spent the past five years at Heroku leading the creation of Heroku’s AI platform and shaping its technical strategy. Before that, I co-founded a chatbot startup and built systems for places like Red Hat, the University of Michigan, and the U.S. Department of Education. I'm happiest where creativity meets code.
