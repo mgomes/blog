@@ -1,3 +1,5 @@
+Link: /now
+
 # What I'm Doing Now
 
 (This is a [now](https://nownownow.com/about) page.)
