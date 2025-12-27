@@ -1,5 +1,7 @@
 Link: /now
 
+Updated December 26th, 2025, from my home in Michigan (USA).
+
 # What I'm Doing Now
 
 (This is a [now](https://nownownow.com/about) page.)
