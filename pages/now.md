@@ -4,11 +4,11 @@ Link: /now
 
 (This is a [now](https://nownownow.com/about) page.)
 
-## 3xo
+## Vibescript
 
-I'm building a desktop app to orchestrate work between humans and AI agents. It uses a kanban interface to visualize the flow.
+I'm currently building an embedded programming language called [Vibescript](https://github.com/mgomes/vibesript). It's designed to be used in vibe coded environments. It's memory and compute can be completely controlled by the embeddor. It's written and Go and designed to be as expressive as Ruby.
 
-The [website](https://3xo.ai) is live, and I have CI/CD working for macOS and Linux builds. The app itself is currently horribly buggy, but I will announce here when it's stable enough for testers.
+I'm having a lot of fun with this.
 
 ## The Stack
 
