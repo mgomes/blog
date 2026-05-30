@@ -42,4 +42,4 @@ Total wall time to compute a digit on a 10-core machine (Apple Silicon M1 Max), 
 | 1,000,000  | 1.3 s  | 0.48 s |
 | 10,000,000 | 53 s   | 9 s    |
 
-None of this is useful to me. But computing π is a reliable way to find a language's sharp edges, and Go's turned out to be the missing FFT multiply in its standard library. The code is [on GitHub](https://github.com/mgomes/chudnovsky) if you want to poke at it.
+None of this is practically useful. 😅 But computing π is a reliable way to find a language's sharp edges, and Go's turned out to be the missing FFT multiply in its standard library. The code is [on GitHub](https://github.com/mgomes/chudnovsky) if you want to poke at it.
