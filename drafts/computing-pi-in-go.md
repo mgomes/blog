@@ -14,7 +14,9 @@ I have done it before in Ruby and in Crystal. The Ruby version leans on Ramanuja
 
 Chudnovsky is the usual choice. It converges quickly, adding roughly 14 digits of π per term:
 
-$$\frac{1}{\pi} = 12 \sum_{k=0}^{\infty} \frac{(-1)^k (6k)!\,(545140134k + 13591409)}{(3k)!\,(k!)^3\,640320^{3k + 3/2}}$$
+$$
+\frac{1}{\pi} = 12 \sum_{k=0}^{\infty} \frac{(-1)^k (6k)! (545140134k + 13591409)}{(3k)! (k!)^3 640320^{3k + 3/2}}
+$$
 
 Evaluated term by term the sum is $$O(n^2)$$, since the factorials keep growing. The standard fix is binary splitting. Instead of computing each term on its own, you write the partial sum over a range as a single fraction, then combine the left and right halves of the range recursively. That turns the whole thing into a balanced tree of large integer multiplications, which is a much nicer shape to work with.
 
