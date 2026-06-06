@@ -2,7 +2,7 @@ Date: June 6, 2026
 Tags: ai, vibe coding, vibescript, go
 Summary: Vibescript v0.40.0 adds Tasks, a small structured-concurrency API backed by bounded Go goroutines.
 
-# Vibescript v0.40.0
+# Structured Concurrency Lands in Vibescript v0.40.0
 
 [Vibescript v0.40.0](https://github.com/mgomes/vibescript/releases/tag/v0.40.0) is out. The main addition is `Tasks`, a small structured-concurrency API for scripts that need bounded fanout.
 
