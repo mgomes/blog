@@ -47,6 +47,8 @@ def prepare_pair(first, second)
 end
 ```
 
+`left.value` and `right.value` each wait for that specific task to finish, then return its result or raise its error.
+
 `Tasks.run` returns the block value. It also waits automatically at scope exit. If you need to explicitly wait until tasks finish, you can use `tasks.wait`:
 
 ```ruby
@@ -81,7 +83,7 @@ engine, err := vibes.NewEngine(vibes.Config{
 })
 ```
 
-`DefaultTaskConcurrency` defaults to `4`. `MaxTaskConcurrency` defaults to `64`. If the host sets a lower cap, the implicit default follows that lower cap.
+`DefaultTaskConcurrency` defaults to `4`. `MaxTaskConcurrency` defaults to `64`. If the host lowers the cap below the default, the default lowers with it. For example, `MaxTaskConcurrency: 2` means a script that omits `max:` uses two workers, not four.
 
 If a script asks for a `max:` above the host cap, Vibescript raises a runtime error.
 
@@ -120,4 +122,4 @@ Those are solvable problems, but solving them would make Vibescript larger and m
 
 The goal with Vibescript has always been to keep the language small enough for a host application to reason about. `Tasks.map` says "run this named operation over this collection." `Tasks.run` says "within this scope, start these named operations and wait before leaving."
 
-That's it! I had a lot of fun desinging and testing this. Vibescript is very close now to 1.0.
+That's it! I had a lot of fun designing and testing this. Vibescript is very close to 1.0 now.
