@@ -1,6 +1,6 @@
 Link: /now
 
-Updated December 26th, 2025, from my home in Michigan (USA).
+Updated July 8th, 2026, from my home in Michigan (USA).
 
 # What I'm Doing Now
 
@@ -8,15 +8,11 @@ Updated December 26th, 2025, from my home in Michigan (USA).
 
 ## Vibescript
 
-I'm currently building an embedded programming language called [Vibescript](https://github.com/mgomes/vibesript). It's designed to be used in vibe coded environments. It's memory and compute can be completely controlled by the embeddor. It's written and Go and designed to be as expressive as Ruby.
+I'm currently building an embedded programming language called [Vibescript](https://vibescript.mauriciogomes.com). It's designed to be used in vibe coded environments. It's memory and compute can be completely controlled by the embeddor. It's written and Go and designed to be as expressive as Ruby.
 
 I'm having a lot of fun with this.
 
-## The Stack
-
-I'm currently betting on [Wails](https://wails.io). The build sizes are refreshing compared to Electron.
-
-This has forced me to dive deeper into [Go](https://go.dev). While I still miss the expressiveness of Ruby, Go's tooling and simplicity are winning me over.
+It's nearing a 1.0 release!
 
 ## Questions
 
