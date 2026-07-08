@@ -8,11 +8,7 @@ Updated July 8th, 2026, from my home in Michigan (USA).
 
 ## Vibescript
 
-I'm currently building an embedded programming language called [Vibescript](https://vibescript.mauriciogomes.com). It's designed to be used in vibe coded environments. It's memory and compute can be completely controlled by the embeddor. It's written and Go and designed to be as expressive as Ruby.
-
-I'm having a lot of fun with this.
-
-It's nearing a 1.0 release!
+I'm currently building an embedded programming language called [Vibescript](https://vibescript-lang.org). I am still having a lot of fun building this. It's nearing a 1.0 release! I am focusing on performance issues and bugs at the moment.
 
 ## Questions
 
