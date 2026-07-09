@@ -18,7 +18,7 @@ fibonacci(35);
 
 I will just call it `fib(35)`. It is a genuinely mean little benchmark: no clever math, no memoization, just about 29.8 million function calls stacked on top of each other. It is a pure test of how fast an interpreter can walk its own tree.
 
-As it happens, the [Vibescript](https://github.com/mgomes/vibescript) runtime is itself a tree-walking interpreter, written in Go. So when I read Mario's post I ran the same benchmark.
+As it happens, the [Vibescript](https://github.com/mgomes/vibescript) runtime is itself a tree-walking interpreter, written in Go. So when I read Mario's post I thought I'd run the same benchmark ahead of Vibescript's 1.0 release.
 
 {{more}}
 
