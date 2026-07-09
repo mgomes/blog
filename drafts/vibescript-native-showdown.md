@@ -40,7 +40,7 @@ end
 fib(35)
 ```
 
-Mario ran his benchmarks on an M5. I unfortuntately do not have one of those. I do have access to an M4 Mac Mini, and the machine I am typing on is an older M1 Max. The table below shows the results of each test and the corresponding chip that powered it through.
+Mario ran his benchmarks on an M5. I unfortuntately don't have one of those. I do have access to an M4 Mac Mini, and the machine I am typing on is an older M1 Max. The table below shows the results of each test and the corresponding chip that powered it through.
 
 | Interpreter (Monkey unless noted) | Chip   | fib(35) (s) | RAM (MB) |
 | --------------------------------- | ------ | ----------- | -------- |
