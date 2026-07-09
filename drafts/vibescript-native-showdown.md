@@ -63,7 +63,7 @@ Monkey is a teaching interpreter. It runs the program and trusts it. Vibescript 
 
 That last one is where "doing more work" turns into a real cost for Vibescript. To enforce a memory quota we need to know, at every moment, how much memory the script is holding. Vibescript works this out by walking the reachable object graph and adding up what it finds: the whole environment stack, every loaded module, and the running task state. Call it the accounting layer.
 
-The catch is that this number is a security boundary. If the estimate comes out too high, no harm done, the script hits its limit a little early. If it comes out too low, a script can quietly retain more memory than it is allowed, which is a sandbox escape. So the accounting has to be close to exact. And the obvious shortcut, "nothing changed, reuse the old number," is exactly the kind of thing that ends up turning an exact number into a wrong one.
+The catch is that this number is a security boundary. If the estimate comes out too high, no harm done, the script hits its limit a little early. If it comes out too low, a script can quietly retain more memory than it is allowed, which is a sandbox escape. So the accounting has to be close to exact.
 
 ## The accounting used to cost everything
 
