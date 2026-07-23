@@ -1,0 +1,26 @@
+<head>
+    <meta charset="utf-8">
+    <title>{{ site.Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{- $desc := .Description | default site.Params.description }}
+    {{- $ogTitle := site.Title }}
+    {{- if not .IsHome }}{{ with .Title }}{{ $ogTitle = printf "%s - %s" . site.Title }}{{ end }}{{ end }}
+    <meta name="description" content="{{ $desc }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ "avatar.png" | absURL }}">
+    <meta name="twitter:title" content="{{ $ogTitle }}">
+    <meta name="twitter:description" content="{{ $desc }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:description" content="{{ $desc }}">
+    <meta property="og:image" content="{{ "avatar.png" | absURL }}">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ site.Title }}" href="{{ "feed.rss" | absURL }}">
+    <link rel="icon" href="/avatar.png" type="image/x-icon">
+    {{- $css := slice (resources.Get "css/main.css") (resources.Get "css/chroma.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+    {{- if .Params.math }}
+    <link rel="stylesheet" href="/katex/katex.min.css">
+    {{- end }}
+</head>

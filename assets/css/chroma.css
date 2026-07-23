@@ -1,0 +1,73 @@
+/* Chroma syntax highlighting, ported from the Blot template's highlight.js
+   theme (monochrome: bold keywords, gray strings/comments). */
+.chroma .c, .chroma .ch, .chroma .cm, .chroma .c1, .chroma .cs {
+  color: #696969;
+  font-style: italic;
+}
+
+.chroma .k, .chroma .kd, .chroma .kn, .chroma .kp, .chroma .kr, .chroma .kv {
+  color: #000;
+  font-weight: bold;
+}
+
+.chroma .kc, .chroma .m, .chroma .mb, .chroma .mf, .chroma .mh, .chroma .mi, .chroma .il, .chroma .mo {
+  color: #696969;
+}
+
+.chroma .s, .chroma .sa, .chroma .sb, .chroma .sc, .chroma .dl, .chroma .sd,
+.chroma .s2, .chroma .se, .chroma .sh, .chroma .si, .chroma .sx, .chroma .s1 {
+  color: #696969;
+  background: rgba(236, 236, 236, 0.37);
+}
+
+.chroma .nf, .chroma .fm {
+  color: #000;
+  font-weight: bold;
+}
+
+.chroma .kt, .chroma .nc, .chroma .nn {
+  color: #696969;
+  font-weight: bold;
+}
+
+.chroma .nt {
+  color: #696969;
+}
+
+.chroma .sr {
+  color: #696969;
+  background: rgba(236, 236, 236, 0.37);
+}
+
+.chroma .ss {
+  color: #000;
+  background: rgba(236, 236, 236, 0.37);
+}
+
+.chroma .nb, .chroma .bp {
+  color: #000;
+  text-decoration: underline;
+}
+
+.chroma .cp, .chroma .cpf {
+  color: #ababab;
+  font-weight: bold;
+}
+
+.chroma .gd {
+  color: #fff;
+  background: rgba(236, 236, 236, 0.37);
+}
+
+.chroma .gi {
+  color: #000;
+  background: rgba(236, 236, 236, 0.37);
+}
+
+.chroma .ge {
+  font-style: italic;
+}
+
+.chroma .gs {
+  font-weight: bold;
+}
