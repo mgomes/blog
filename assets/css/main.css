@@ -127,6 +127,11 @@ th, td {box-sizing: border-box;border: 1px solid #ababab;padding: 5px 12px 6px}
 /* Date spacing for entry */
 h1 + .light {margin-top: -0.75em;margin-bottom: 1.5em}
 
+/* PARAGRAPH JUSTIFICATION (justif picks up elements with text-align: justify) */
+.container p:not(.light), .container li, .container blockquote {
+  text-align: justify;
+}
+
 /* FOOTNOTES */
 .footnote-ref {
   font-size: 12px;
