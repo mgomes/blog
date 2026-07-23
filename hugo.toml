@@ -12,6 +12,9 @@ pagerSize = 5
 [taxonomies]
 tag = "tags"
 
+[permalinks.page]
+posts = "/:contentbasename/"
+
 [permalinks.term]
 tags = "/tagged/:slug/"
 
