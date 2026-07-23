@@ -1,7 +1,7 @@
 # Built with Hugo v0.164.0 (standard build suffices; extended not required).
 baseURL = "https://mauriciogomes.com/"
 title = "Success Not Guaranteed"
-languageCode = "en-us"
+locale = "en-us"
 timeZone = "America/Detroit"
 buildFuture = false
 capitalizeListTitles = false
