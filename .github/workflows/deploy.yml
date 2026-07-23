@@ -1,0 +1,28 @@
+# Triggers a Cloudflare Pages build via deploy hook:
+# - on every push to master (the project was created via API and CF's native
+#   push webhook never fired; if the repo is ever reconnected in the CF
+#   dashboard, drop the push trigger here to avoid double builds)
+# - nightly, so future-dated posts publish on schedule (buildFuture is off)
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "10 5 * * *" # 00:10 EST / 01:10 EDT, just after midnight America/Detroit
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CF_PAGES_DEPLOY_HOOK secret not set; skipping"
+            exit 0
+          fi
+          curl -sf -X POST "$HOOK" > /dev/null && echo "build triggered"
