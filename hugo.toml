@@ -1,0 +1,48 @@
+# Built with Hugo v0.164.0 (standard build suffices; extended not required).
+baseURL = "https://mauriciogomes.com/"
+title = "Success Not Guaranteed"
+languageCode = "en-us"
+timeZone = "America/Detroit"
+buildFuture = false
+capitalizeListTitles = false
+
+[pagination]
+pagerSize = 5
+
+[taxonomies]
+tag = "tags"
+
+[permalinks.term]
+tags = "/tagged/:slug/"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.highlight]
+noClasses = false
+
+[markup.goldmark.extensions.passthrough]
+enable = true
+
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [["$$", "$$"]]
+inline = []
+
+[outputs]
+home = ["html", "rss"]
+section = ["html"]
+taxonomy = ["html"]
+term = ["html"]
+
+[mediaTypes."application/rss+xml"]
+suffixes = ["rss"]
+
+[outputFormats.rss]
+mediatype = "application/rss+xml"
+baseName = "feed"
+
+[services.rss]
+limit = -1
+
+[params]
+author = "Mauricio Gomes"
