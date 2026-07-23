@@ -1,5 +1,5 @@
 {{ if eq .Type "block" }}
-  {{ transform.ToMath .Inner (dict "displayMode" true) | safeHTML }}
+  {{ transform.ToMath .Inner (dict "displayMode" true "output" "htmlAndMathml") | safeHTML }}
 {{ else }}
-  {{ transform.ToMath .Inner | safeHTML }}
+  {{ transform.ToMath .Inner (dict "output" "htmlAndMathml") | safeHTML }}
 {{ end }}

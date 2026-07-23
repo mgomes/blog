@@ -1,18 +1,21 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
 <channel>
-  <title><![CDATA[ {{ site.Title }}]]></title>
+  <title>{{ printf "<![CDATA[ %s]]>" site.Title | safeHTML }}</title>
   <link>{{ site.BaseURL | strings.TrimSuffix "/" }}</link>
   <atom:link href="{{ "feed.rss" | absURL }}" rel="self" type="application/rss+xml"/>
-  <description><![CDATA[ The feed of updates to {{ site.Params.author }}'s blog. ]]></description>
+  <description>{{ printf "<![CDATA[ The feed of updates to %s's blog. ]]>" site.Params.author | safeHTML }}</description>
   {{- range where site.RegularPages "Section" "posts" }}
+  {{- /* Blot GUIDs are unencoded permalinks without a trailing slash; keep
+        them byte-identical so feed readers don't re-show every post. */}}
+  {{- $guid := printf "%s%s" (site.BaseURL | strings.TrimSuffix "/") (strings.TrimSuffix "/" (urls.Parse .Permalink).Path) }}
   <item>
-    <title><![CDATA[ {{ .Title }} ]]></title>
-    <link>{{ .Permalink | strings.TrimSuffix "/" }}</link>
-    <guid>{{ .Permalink | strings.TrimSuffix "/" }}</guid>
+    <title>{{ printf "<![CDATA[ %s ]]>" .Title | safeHTML }}</title>
+    <link>{{ $guid }}</link>
+    <guid>{{ $guid }}</guid>
     <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
-    <dc:creator><![CDATA[ {{ site.Params.author }} ]]></dc:creator>
-    <description><![CDATA[ {{ .Content }} ]]></description>
+    <dc:creator>{{ printf "<![CDATA[ %s ]]>" site.Params.author | safeHTML }}</dc:creator>
+    <description>{{ printf "<![CDATA[ %s ]]>" (replace (string .Content) "]]>" "]]&gt;") | safeHTML }}</description>
   </item>
   {{- end }}
 </channel>
