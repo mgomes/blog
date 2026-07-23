@@ -1,11 +1,16 @@
-Date: June 11, 2014
-Tags: virtualization, abstraction, innovation
-
-# Levels of Abstraction and Progress
+---
+title: Levels of Abstraction and Progress
+date: '2014-06-11'
+tags:
+- virtualization
+- abstraction
+- innovation
+url: "/levels-of-abstraction-and-progress/"
+---
 
 The abstractions we build are the building blocks of future innovations.
 
-{{more}}
+<!--more-->
 
 Today Google [announced](https://cloudplatform.googleblog.com/2014/06/an-update-on-container-support-on-google-cloud-platform.html) they have added support for [Docker](https://docker.com) in Google App Engine. While this is great news for developers looking for a place to deploy their Docker images, it represents something larger. The Linux container represents a major shift in how we think about servers and the way we interact with them.
 

@@ -1,8 +1,12 @@
-Date: April 15, 2025
-Tags: ai, mcp
-Summary: MCP server for the Kagi search engine written in Go
-
-# Kagi MCP Server
+---
+title: Kagi MCP Server
+date: '2025-04-15'
+tags:
+- ai
+- mcp
+description: MCP server for the Kagi search engine written in Go
+url: "/kagi-mcp-server/"
+---
 
 I built a little [Kagi MCP Server](https://github.com/mgomes/kagimcp) last week. It helps language models like Claude search the web and summarize web pages using [Kagi's excellent search and AI capabilities](https://kagi.com).
 

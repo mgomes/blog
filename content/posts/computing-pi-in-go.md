@@ -1,21 +1,26 @@
-Date: May 30, 2026
-Tags: go, projects
-Summary: Computing digits of π in Go, and seeing how fast I could make it.
-
-# Computing π in Go
+---
+title: Computing π in Go
+date: '2026-05-30'
+tags:
+- go
+- projects
+description: Computing digits of π in Go, and seeing how fast I could make it.
+url: "/computing-π-in-go/"
+math: true
+---
 
 Every so often I end up writing another program to compute the digits of π. I have no real need for it. It has never once come up in my actual work. But it is a tidy, self-contained problem with a clear right answer, and it makes a good excuse to get a feel for a language or a library.
 
 I have done it before in Ruby and in Crystal. The Ruby version leans on Ramanujan's series and `BigDecimal`. The Crystal version uses the Chudnovsky formula with binary splitting. I also have a small pile of throwaway versions that various LLMs generated for me, using everything from the Bailey-Borwein-Plouffe formula to Bellard's. This time I reached for Go.
 
-{{more}}
+<!--more-->
 
 ## The algorithm
 
 Chudnovsky is the usual choice. It converges quickly, adding roughly 14 digits of π per term:
 
 $$
-\\frac{1}{\\pi} = 12 \\sum_{k=0}^{\\infty} \\frac{(-1)^k (6k)! (545140134k + 13591409)}{(3k)! (k!)^3 640320^{3k + 3/2}}
+\frac{1}{\pi} = 12 \sum_{k=0}^{\infty} \frac{(-1)^k (6k)! (545140134k + 13591409)}{(3k)! (k!)^3 640320^{3k + 3/2}}
 $$
 
 Evaluated term by term the sum is O(n²), since the factorials keep growing. The standard fix is binary splitting. Instead of computing each term on its own, you write the partial sum over a range as a single fraction, then combine the left and right halves of the range recursively. That turns the whole thing into a balanced tree of large integer multiplications, which is a much nicer shape to work with.

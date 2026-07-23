@@ -1,8 +1,8 @@
-Link: /now
-
-Updated July 8th, 2026, from my home in Michigan (USA).
-
-# What I'm Doing Now
+---
+title: What I'm Doing Now
+url: "/now/"
+updated: Updated July 8th, 2026, from my home in Michigan (USA).
+---
 
 (This is a [now](https://nownownow.com/about) page.)
 

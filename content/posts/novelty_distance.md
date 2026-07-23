@@ -1,12 +1,16 @@
-Date: April 22, 2020
-Tags: novelty_search
-Summary: I propose the term “novelty distance” to describe the distance between current reality and a future outcome.
-
-# Novelty Distance
+---
+title: Novelty Distance
+date: '2020-04-22'
+tags:
+- novelty_search
+description: I propose the term “novelty distance” to describe the distance between
+  current reality and a future outcome.
+url: "/novelty-distance/"
+---
 
 I first came across the idea of novelty search via Kenneth O. Stanley’s YouTube talk [Why Greatness Cannot Be Planned](https://www.youtube.com/watch?v=dXQPL9GooyI) and the corresponding [book](https://www.amazon.com/Why-Greatness-Cannot-Planned-Objective/dp/3319155237). It’s an exploration algorithm that is driven by the novelty of behavior rather than an objective.
 
-https://www.youtube.com/watch?v=dXQPL9GooyI
+{{< youtube dXQPL9GooyI >}}
 
 The most intriguing part of novelty search to me is its focus not on optimization but rather discovery. It’s not to say novelty search is a better search algorithm but that its application should be used to generate a different kind of result. Dr. Stanley explores in detail what novelty search means for an individual, so I will just briefly summarize here.
 
@@ -21,4 +25,3 @@ This is where *novelty distance* comes in. Novelty distance is the distance betw
 One fun thought experiment you can do with novelty distance is to imagine a traveler from the future telling you about an exceedingly rare future outcome for yourself. For example, maybe in the future you discover the cure for cancer. The novelty distance is essentially how incredulous it would make you feel.
 
 I am not sure how practical novelty distance is for helping you to plan your life or career. At the very least though, maybe it’s worthwhile trying to live a life where if you ever meet that time-traveler you aren’t so shocked to hear about the accomplishments of a future version of yourself.
-

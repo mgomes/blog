@@ -1,8 +1,14 @@
-Date: July 8, 2026
-Tags: vibescript, go, performance, benchmarks
-Summary: Optimizing Vibescript performance in the march toward 1.0.
-
-# Vibescript in the Native Showdown
+---
+title: Vibescript in the Native Showdown
+date: '2026-07-08'
+tags:
+- vibescript
+- go
+- performance
+- benchmarks
+description: Optimizing Vibescript performance in the march toward 1.0.
+url: "/vibescript-in-the-native-showdown/"
+---
 
 Mario Arias runs a series called [Comparing Programming Languages](https://marioarias.hashnode.dev/comparing-programming-languages-xii-the-native-showdown). He has written the same interpreter, the [Monkey language](https://interpreterbook.com/) from Thorsten Ball's book, in a whole pile of languages, and every so often he lines them up and makes them race. The twelfth post is a native showdown. He took the implementations that compile to a native binary, handed each one the same tiny Monkey program, and timed them.
 
@@ -20,7 +26,7 @@ I will just call it `fib(35)`. It is a genuinely mean little benchmark: no cleve
 
 As it happens, the [Vibescript](https://github.com/mgomes/vibescript) runtime is itself a tree-walking interpreter, written in Go. So when I read Mario's post I thought I'd run the same benchmark ahead of Vibescript's 1.0 release.
 
-{{more}}
+<!--more-->
 
 ## Why it's a fair fight
 

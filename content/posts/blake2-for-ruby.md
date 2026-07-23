@@ -1,7 +1,11 @@
-Date: May 29, 2018
-Tags: open source, projects
-
-# BLAKE2b for Ruby
+---
+title: BLAKE2b for Ruby
+date: '2018-05-29'
+tags:
+- open source
+- projects
+url: "/blake2b-for-ruby/"
+---
 
 [BLAKE2](https://blake2.net) is a cryptographic hash function faster than MD5, SHA-1, SHA-2, and SHA-3, yet is at least as secure as the latest standard SHA-3. It was a final candidate to become SHA-3, but apparently the committee didn't feel like it differed enough from SHA-2. Either way, it is a really fast, secure cryptographic hashing function that I wanted to use in Ruby.
 

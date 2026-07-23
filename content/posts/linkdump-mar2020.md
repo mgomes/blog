@@ -1,7 +1,10 @@
-Date: March 10, 2020
-Tags: linkdump
-
-# Link Dump March 2020
+---
+title: Link Dump March 2020
+date: '2020-03-10'
+tags:
+- linkdump
+url: "/link-dump-march-2020/"
+---
 
 * [The Tour de France was started by a newspaper](https://marketingexamples.com/sideproject/tour-de-france)
 * [BLAKE3](https://github.com/BLAKE3-team/BLAKE3/) was released. Borrows a lot from crypto to allow for multi-core hashing.

@@ -1,8 +1,12 @@
-Date: January 2, 2020
-Tags: innovation
-Summary: We structure our teams around systems and processes but what we gain in productivity we lose in innovation.
-
-# Innovation Isn’t Produced, It’s Cultivated
+---
+title: Innovation Isn’t Produced, It’s Cultivated
+date: '2020-01-02'
+tags:
+- innovation
+description: We structure our teams around systems and processes but what we gain
+  in productivity we lose in innovation.
+url: "/innovation-isnt-produced-its-cultivated/"
+---
 
 In software development, we love our processes. Scrum, Agile, Waterfall, Extreme Programming, etc. They are all designed to allow teams to deliver software on a predictable schedule. Product managers love having a way to make and prioritize requests. Software developers like the way it prevents unrealistic expectations from forming. It provides a **cadence** to product development.
 

@@ -1,8 +1,11 @@
-Date: January 30, 2021
-Tags: linux
-Summary: Fix wifi connection drops on Dell XPS 13 (9300) with Linux.
-
-# Wifi Connection Drops on Dell XPS 13 (9300) with Linux
+---
+title: Wifi Connection Drops on Dell XPS 13 (9300) with Linux
+date: '2021-01-30'
+tags:
+- linux
+description: Fix wifi connection drops on Dell XPS 13 (9300) with Linux.
+url: "/wifi-connection-drops-on-dell-xps-13-9300-with-linux/"
+---
 
 I purchased a Dell XPS 9300 Developer Edition laptop in August 2020. It shipped with Ubuntu 20.04, but I replaced it with Arch Linux. This was a return to Linux for me since switching all my machines to MacOS in 2005.
 

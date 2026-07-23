@@ -1,7 +1,10 @@
-Date: April 1, 2020
-Tags: linkdump
-
-# Link Dump April 2020
+---
+title: Link Dump April 2020
+date: '2020-04-01'
+tags:
+- linkdump
+url: "/link-dump-april-2020/"
+---
 
 * [United Launch Alliance (ULA) rocket factory tour](https://www.youtube.com/watch?v=o0fG_lnVhHw)
 * [Hideo Kojima's Strange Worlds](https://www.nytimes.com/2020/03/03/magazine/hideo-kojima-death-stranding-video-game.html) The mind behind Metal Gear Solid and other works.

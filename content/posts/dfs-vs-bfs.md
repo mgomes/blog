@@ -1,8 +1,11 @@
-Date: December 26, 2025
-Tags: algorithms
-Summary: A depth-first vs breadth-first search visualizer
-
-# Maze Solving
+---
+title: Maze Solving
+date: '2025-12-26'
+tags:
+- algorithms
+description: A depth-first vs breadth-first search visualizer
+url: "/maze-solving/"
+---
 
 I built [a little maze solving tool](https://fun.mauriciogomes.com/maze-solver/index.html) to help visualize the difference between [depth-first search (DFS)](https://en.wikipedia.org/wiki/Depth-first_search) and [breadth-first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search).
 

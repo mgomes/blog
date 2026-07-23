@@ -1,11 +1,15 @@
-Date: August 7, 2024
-Tags: ai, quantization
-
-# Selecting a Llama 3.1 Model (what is a q4_K_S anyway??)
+---
+title: Selecting a Llama 3.1 Model (what is a q4_K_S anyway??)
+date: '2024-08-07'
+tags:
+- ai
+- quantization
+url: "/selecting-a-llama-3-1-model-what-is-a-q4_k_s-anyway/"
+---
 
 You're ready to give Meta's new Llama 3.1 model a try, but do you download `405b-instruct-q4_K_S`, `8b-instruct-q3_K_L`, or `70b-instruct-q5_0-taylors-version`?
 
-{{more}}
+<!--more-->
 
 If you're staring at [Ollama's Llama 3.1 model page](https://ollama.com/library/llama3.1/tags), you will see almost 90 different versions of the model. Let's break down the naming convention to help you select the right one for your use case.
 

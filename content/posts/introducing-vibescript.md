@@ -1,8 +1,13 @@
-Date: November 4, 2025
-Tags: ai, vibe coding
-Summary: Introducing Vibescript, a Ruby-like scripting language designed to be easy to read and easy for AI to vibe code.
-
-# Introducing Vibescript
+---
+title: Introducing Vibescript
+date: '2025-11-04'
+tags:
+- ai
+- vibe coding
+description: Introducing Vibescript, a Ruby-like scripting language designed to be
+  easy to read and easy for AI to vibe code.
+url: "/introducing-vibescript/"
+---
 
 As vibe coding grows in popularity, there are domains where we want to narrow what users can build. Instead of giving a blank canvas, we can offer an opinionated set of well-defined primitives that combine into predictable, safe applications. Think of it less like traditional software development and more like HyperCard: flexible, but within bounds.
 

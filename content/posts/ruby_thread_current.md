@@ -1,7 +1,11 @@
-Date: December 6, 2018
-Tags: ruby, concurrency
-
-# Ruby’s Thread.current
+---
+title: Ruby’s Thread.current
+date: '2018-12-06'
+tags:
+- ruby
+- concurrency
+url: "/ruby-s-thread-current/"
+---
 
 Ruby’s class and instance variables are notorious for their thread safety. While it’s perfectly fine to use class and instance variables within a threaded Ruby application, it’s important to know when doing so will cause issues.
 

@@ -1,7 +1,12 @@
-Date: May 21, 2018
-Tags: chatbots, open source, projects
-
-# Introducing Stealth
+---
+title: Introducing Stealth
+date: '2018-05-21'
+tags:
+- chatbots
+- open source
+- projects
+url: "/introducing-stealth/"
+---
 
 After eight months of development, I'm excited to announce the official launch of [Stealth](https://hellostealth.org). Stealth is an open source Ruby framework for creating conversational voice and text chatbots.
 

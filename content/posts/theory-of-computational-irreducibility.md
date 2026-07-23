@@ -1,11 +1,14 @@
-Date: October 17, 2016
-Tags: computation
-
-# Theory of Computational Irreducibility
+---
+title: Theory of Computational Irreducibility
+date: '2016-10-17'
+tags:
+- computation
+url: "/theory-of-computational-irreducibility/"
+---
 
 In Stephen Wolfram’s book, A New Kind of Science, Wolfram put forth a theory that complex systems cannot be shortcut by math. In order to obtain the output of a program for a certain step, one must run that program for each step up until the desired step.
 
-{{more}}
+<!--more-->
 
 While studying [cellular automata](https://en.m.wikipedia.org/wiki/Cellular_automaton), Stephen Wolfram discovered that some of the simple programs used to generate cellular automata produced complex output. In his most famous example, named Rule 30, it produced really intricate patterns:
 

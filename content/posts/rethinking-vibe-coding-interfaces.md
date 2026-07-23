@@ -1,10 +1,16 @@
-Date: October 25, 2025
-Tags: ai, vibe coding, automation
-Summary: what if AI coding looked more like software development and less like chat?
+---
+title: Rethinking the Interface for Vibe Coding
+date: '2025-10-25'
+tags:
+- ai
+- vibe coding
+- automation
+description: what if AI coding looked more like software development and less like
+  chat?
+url: "/rethinking-the-interface-for-vibe-coding/"
+---
 
-# Rethinking the Interface for Vibe Coding
-
-https://youtu.be/kGakSweVNsk
+{{< youtube kGakSweVNsk >}}
 
 ## Exploring 3xo, a Kanban-style Agent Workspace
 

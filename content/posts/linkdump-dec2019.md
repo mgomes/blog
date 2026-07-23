@@ -1,7 +1,10 @@
-Date: December 31, 2019
-Tags: linkdump
-
-# Link Dump December 2019
+---
+title: Link Dump December 2019
+date: '2019-12-31'
+tags:
+- linkdump
+url: "/link-dump-december-2019/"
+---
 
 * [Touch screen interfaces](https://features.propublica.org/navy-uss-mccain-crash/navy-installed-touch-screen-steering-ten-sailors-paid-with-their-lives/) and the USS John S. McCain
 * [The Builder’s High](https://randsinrepose.com/archives/the-builders-high/) From 2014 but maybe even more relevant in today’s social media climate

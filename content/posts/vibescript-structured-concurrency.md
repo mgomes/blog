@@ -1,8 +1,15 @@
-Date: June 6, 2026
-Tags: ai, vibe coding, vibescript, go
-Summary: Vibescript v0.40.0 adds Tasks, a small structured-concurrency API backed by bounded Go goroutines.
-
-# Structured Concurrency Lands in Vibescript
+---
+title: Structured Concurrency Lands in Vibescript
+date: '2026-06-06'
+tags:
+- ai
+- vibe coding
+- vibescript
+- go
+description: Vibescript v0.40.0 adds Tasks, a small structured-concurrency API backed
+  by bounded Go goroutines.
+url: "/structured-concurrency-lands-in-vibescript/"
+---
 
 [Vibescript v0.40.0](https://github.com/mgomes/vibescript/releases/tag/v0.40.0) is out. The main addition is `Tasks`, a small structured-concurrency API for scripts that need bounded fanout.
 
@@ -14,7 +21,7 @@ scores = Tasks.map(users, with: :score_user)
 
 That is the whole deal. `map` walks the list and calls `score_user` once for each user. Several of those calls are in flight at the same time and the block waits until every one has come back before moving on. What you get is an ordinary list lined up with the input: `scores[0]` is the score for `users[0]`, and so on down the line. No fibers, no threads, no second scheduler hidden inside the language.
 
-{{more}}
+<!--more-->
 
 ## Tasks
 

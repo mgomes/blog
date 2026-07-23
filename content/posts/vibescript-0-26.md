@@ -1,8 +1,14 @@
-Date: March 8, 2026
-Tags: ai, vibe coding, vibescript
-Summary: Vibescript v0.26.2 ships a working interpreter, a REPL, gradual typing, editor tooling, and a companion website.
-
-# Vibescript v0.26.2
+---
+title: Vibescript v0.26.2
+date: '2026-03-08'
+tags:
+- ai
+- vibe coding
+- vibescript
+description: Vibescript v0.26.2 ships a working interpreter, a REPL, gradual typing,
+  editor tooling, and a companion website.
+url: "/vibescript-v0-26-2/"
+---
 
 Back in November I [introduced Vibescript](/posts/introducing-vibescript) as an embeddable scripting language for constrained, AI-friendly environments. Four months later, it works end-to-end. Version 0.26.2 ships a fully functional interpreter, a rich REPL, gradual typing, editor tooling, and [a companion website](https://vibescript.mauriciogomes.com).
 

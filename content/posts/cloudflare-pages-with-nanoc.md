@@ -1,8 +1,11 @@
-Date: August 6, 2022
-Tags: ruby
-Summary: Use the Ruby Nanoc gem to publish Cloudflare Pages
-
-# Publish to Cloudflare Pages with Ruby Nanoc
+---
+title: Publish to Cloudflare Pages with Ruby Nanoc
+date: '2022-08-06'
+tags:
+- ruby
+description: Use the Ruby Nanoc gem to publish Cloudflare Pages
+url: "/publish-to-cloudflare-pages-with-ruby-nanoc/"
+---
 
 The Ruby [Nanoc gem](https://nanoc.app) is a fantastic gem for generating static websites. You get the benefits of partials, layouts, SCSS, helpers and other features without having to deploy an entire Ruby web framework. It all compiles down to plain ole' HTML and CSS.
 

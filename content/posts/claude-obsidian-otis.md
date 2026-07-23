@@ -1,8 +1,14 @@
-Date: August 9, 2025
-Tags: ai, obsidian, productivity
-Summary: How I turned Claude Code into a personalized knowledge assistant using Obsidian
-
-# Teaching Claude Code My Obsidian Vault
+---
+title: Teaching Claude Code My Obsidian Vault
+date: '2025-08-09'
+tags:
+- ai
+- obsidian
+- productivity
+description: How I turned Claude Code into a personalized knowledge assistant using
+  Obsidian
+url: "/teaching-claude-code-my-obsidian-vault/"
+---
 
 ## The Starting Point
 
