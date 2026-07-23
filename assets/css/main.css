@@ -132,6 +132,13 @@ h1 + .light {margin-top: -0.75em;margin-bottom: 1.5em}
   text-align: justify;
 }
 
+/* The body-level word-wrap: break-word invites emergency line breaks right
+   before justif's hyphen spans, dropping hyphens at line starts. justif
+   handles breaking itself on processed elements. */
+[data-justif] {
+  overflow-wrap: normal;
+}
+
 /* FOOTNOTES */
 .footnote-ref {
   font-size: 12px;
