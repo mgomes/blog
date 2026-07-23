@@ -14,7 +14,7 @@ Mario Arias runs a series called [Comparing Programming Languages](https://mario
 
 The program is naive recursive Fibonacci:
 
-```
+```javascript
 let fibonacci = fn(x) {
   if (x < 2) { return x; }
   else { fibonacci(x - 1) + fibonacci(x - 2); }

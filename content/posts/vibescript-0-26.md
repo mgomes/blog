@@ -18,7 +18,7 @@ Run `vibes repl` and you land in terminal UI with tab completion for built-ins, 
 
 A quick session:
 
-```
+```ruby
 vibes> scores = [3, 10, 7, 10, 5]
 => [3, 10, 7, 10, 5]
 vibes> scores.select { |s| s >= 7 }

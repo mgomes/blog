@@ -26,7 +26,7 @@ options iwlmvm power_scheme=3
 
 If this file doesn't exist, go ahead and create it. The missing line for me was line 2. There are two variants for `iwlwifi` cards, and you can find out which variant with this command:
 
-```
+```bash
 lsmod | grep '^iwl.vm'
 ```
 
