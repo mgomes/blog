@@ -1,0 +1,18 @@
+{{ define "main" }}
+    <div class="container">
+
+        <h1 id="{{ .Title | anchorize }}">{{ .Title }}</h1>
+
+        <p class="light">
+          {{ with .Date }}{{ .Format "2006-01-02" }}{{ end }}
+
+          {{ range (.GetTerms "tags") }}
+            ☼ <a class="light" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          {{ end }}
+        </p>
+
+        {{ with .Params.updated }}<p>{{ . }}</p>{{ end }}
+        {{ .Content }}
+
+    </div>
+{{ end }}
