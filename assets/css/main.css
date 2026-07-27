@@ -296,7 +296,10 @@ img {max-width: 100%;height: auto;}
 /* The masthead poster is a grayscale PNG with alpha, so inverting it in dark
    mode yields a clean photo negative. Scoped to the class on purpose: post
    images are photographs and screenshots and must not be touched. */
-.hero {filter: var(--hero-filter);}
+.hero {
+  filter: var(--hero-filter);
+  width: 80%;
+}
 
 /* CODE HIGHLIGHTING */
 
@@ -407,6 +410,9 @@ pre {
 
   .nav {float: none;display: block;margin: 0;width: 100%}
   .nav a {margin: 0 1em 0 0;color: var(--fg-muted);}
+
+  /* No room to give away here; the poster text stops being legible. */
+  .hero {width: 100%}
 
   .margin {width: 40%;}
   .margin.right {padding-left: 16px;}
