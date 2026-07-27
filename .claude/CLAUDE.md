@@ -24,6 +24,7 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just build` | production build into `public/` |
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
+| `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
 
 ## Deploy
 
