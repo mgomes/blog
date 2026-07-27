@@ -10,4 +10,4 @@ In the past I co-founded [Mav](https://hiremav.com) and worked at [Heroku](https
 
 I also make things for myself. [Vibescript](https://vibescript-lang.org) is my own little programming language. [Ohm](https://github.com/mgomes/ohm) is a Go web framework, and [Senna](https://github.com/mgomes/senna) is a Go background job library.
 
-I write about those side projects and how technology affects the human condition.
+I write about those side projects and how technology affects the human condition. My goal in life is to learn everything while doing every side quest.
