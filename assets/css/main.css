@@ -24,7 +24,7 @@
   --fg-muted: #ababab;                     /* .small, .light, mobile nav */
   --fg-quiet: #696969;                     /* .caption, blockquote */
   --rule-soft: rgba(0, 0, 0, 0.1);         /* mobile container divider */
-  --rule: #ababab;                         /* table body rows */
+  --rule: #d4d4d4;                         /* table body rows */
   --rule-strong: #ababab;                  /* hr, blockquote border, table header */
   --code-bg: #fafafa;
   --code-border: #e4e4e4;
@@ -192,10 +192,27 @@ table {
   box-sizing: border-box;
   font-size: 15px;
   line-height: 24px;
+  margin-bottom: 1.8rem;
 }
 
-tr {box-sizing: border-box;border-top: 1px solid var(--rule);padding: 0}
-th, td {box-sizing: border-box;border: 1px solid var(--rule);padding: 5px 12px 6px}
+/* Horizontal rules only. A full grid turns a three-row benchmark into a
+   spreadsheet; the columns read fine from alignment alone. */
+tr {box-sizing: border-box;padding: 0}
+
+th, td {
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  padding: 0.45em 1.4em 0.45em 0;
+  text-align: left;
+}
+
+th {
+  border-bottom: 1px solid var(--rule-strong);
+  font-weight: 600;
+}
+
+tr:last-child td {border-bottom: none;}
 
 /* Date and tags directly under a post title */
 h1 + .light {margin-top: 0;margin-bottom: 2.2em}
