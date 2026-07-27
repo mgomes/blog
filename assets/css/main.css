@@ -135,16 +135,16 @@ a:hover {
 }
 
 pre, code {
-  font: 16px / 1.7 MonoLisaCode, monospace !important;
+  font: 16px / 1.7 MonoLisaCode, monospace;
 }
 
 code {
-  font-family: MonoLisaCode, monospace;
-  font-weight: 700 !important;
-  font-size: 14px !important;
+  /* An em so chips scale with whatever they sit in, including headings. */
+  font-size: 0.875em;
   border: 1px solid var(--code-border);
-  background-color: var(--code-bg) !important;
-  padding: 0 6px;
+  border-radius: 3px;
+  background-color: var(--code-bg);
+  padding: 0.1em 0.35em;
 }
 
 pre {
@@ -152,10 +152,11 @@ pre {
 }
 
 pre code {
-  font-weight: normal !important;
-  font-size: 16px !important;
-  background: transparent !important;
-  border: none !important;
+  font-size: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .logo {
@@ -242,8 +243,6 @@ pre {
   margin: 0 -1em;
   overflow-x: auto;
 }
-
-pre, code {font: inherit;}
 
 /* LAYOUT */
 
