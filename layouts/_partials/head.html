@@ -25,7 +25,7 @@
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ site.Title }}" href="{{ "feed.rss" | absURL }}">
     <link rel="icon" href="/avatar.png" type="image/x-icon">
-    {{- $css := slice (resources.Get "css/main.css") (resources.Get "css/chroma.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
+    {{- $css := slice (resources.Get "css/main.css") (resources.Get "css/chroma.css") (resources.Get "css/chroma-dark.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
     {{- if .Params.math }}
     <link rel="stylesheet" href="/katex/katex.min.css">

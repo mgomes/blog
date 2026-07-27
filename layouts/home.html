@@ -1,6 +1,6 @@
 {{ define "main" }}
     <div class="container index">
-    <img src="/_Images/success_not_guaranteed.png" alt="{{ site.Title }}" />
+    <img class="hero" src="/_Images/success_not_guaranteed.png" alt="{{ site.Title }}" />
       <br/>
 
       {{ $paginator := .Paginate (where site.RegularPages "Section" "posts") }}

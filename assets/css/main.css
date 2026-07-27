@@ -35,6 +35,30 @@
   --hero-filter: none;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131417;
+    --fg: #e8e8e6;                         /* not pure white; less halation on OLED */
+    --fg-muted: #8e9299;
+    --fg-quiet: #a3a7ae;
+    --rule-soft: rgba(255, 255, 255, 0.12);
+    --rule: #2b2e34;
+    --rule-strong: #3d4148;
+    --code-bg: #1c1e22;
+    --code-border: #2a2d33;
+    --pre-bg: rgba(255, 255, 255, 0.05);
+    /* A more chromatic sky than the light pastel: any pale color composited
+       onto near-black desaturates toward steel gray, so the hue has to be
+       pushed to survive the blend and still read as a highlighter. */
+    --mark: rgba(56, 189, 248, 0.4);
+    /* The highlighter inverts rather than dims: hovering floods the line with
+       the same ink at full strength and flips the text dark. */
+    --mark-strong: rgba(56, 189, 248, 0.85);
+    --mark-fg: #0d0e10;
+    --hero-filter: invert(1);
+  }
+}
+
 body {
   /* The line-height is deliberately a rem length, not unitless: smaller text
      like .small inherits the same 27.2px leading rather than scaling down. */
@@ -176,6 +200,11 @@ h1 + .light {margin-top: -0.75em;margin-bottom: 1.5em}
 
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
+
+/* The masthead poster is a grayscale PNG with alpha, so inverting it in dark
+   mode yields a clean photo negative. Scoped to the class on purpose: post
+   images are photographs and screenshots and must not be touched. */
+.hero {filter: var(--hero-filter);}
 
 /* CODE HIGHLIGHTING */
 
