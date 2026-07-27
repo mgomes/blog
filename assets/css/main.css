@@ -21,8 +21,10 @@
 
   --bg: #fff;
   --fg: #000;
-  --fg-muted: #ababab;                     /* .small, .light, mobile nav */
-  --fg-quiet: #696969;                     /* .caption, blockquote */
+  /* 4.54:1 on white. The old #ababab was 2.3:1, which failed even the
+     large-text threshold and made post dates effectively unreadable. */
+  --fg-muted: #767676;                     /* .small, .light, mobile nav */
+  --fg-quiet: #565656;                     /* .caption, blockquote */
   --rule-soft: rgba(0, 0, 0, 0.1);         /* mobile container divider */
   --rule: #d4d4d4;                         /* table body rows */
   --rule-strong: #ababab;                  /* hr, blockquote border, table header */
@@ -132,6 +134,12 @@ a, a:visited {
 a:hover {
   background: var(--mark-strong);
   color: var(--mark-fg);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+  border-radius: 1px;
 }
 
 pre, code {
