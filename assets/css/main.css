@@ -378,6 +378,15 @@ h1 + .light {
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
 
+/* Each post's drunkard's-walk glyph field (tools/walkgen, `just walks`).
+   Rendered at 2x, displayed at half size for retina. Decorative only. */
+.walk img {
+  display: block;
+  width: 100%;
+  margin: 0 0 2.2em;
+  user-select: none;
+}
+
 /* The masthead poster is a grayscale PNG with alpha, so inverting it in dark
    mode yields a clean photo negative. Scoped to the class on purpose: post
    images are photographs and screenshots and must not be touched. */

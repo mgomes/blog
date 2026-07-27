@@ -11,6 +11,15 @@
           {{ end }}
         </p>
 
+        {{- if eq .Section "posts" }}
+        {{- $slug := .File.ContentBaseName }}
+        {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
+        <picture class="walk" aria-hidden="true">
+          <source media="(prefers-color-scheme: dark)" srcset="/_Images/walks/{{ $slug }}-dark.png">
+          <img src="/_Images/walks/{{ $slug }}-light.png" alt="" loading="lazy">
+        </picture>
+        {{- end }}
+        {{- end }}
         {{ with .Params.updated }}<p>{{ . }}</p>{{ end }}
         {{ .Content }}
 
