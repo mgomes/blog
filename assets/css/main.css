@@ -171,13 +171,17 @@ a:focus-visible {
   border-radius: 1px;
 }
 
+/* MonoLisaCode has a noticeably larger x-height than MonoLisaText, so at a
+   shared 16px the code read as the louder of the two even though the sizes
+   were equal. 13px settles it below the prose, where samples belong. */
 pre, code {
-  font: 16px / 1.7 MonoLisaCode, monospace;
+  font: 13px / 1.7 MonoLisaCode, monospace;
 }
 
 code {
-  /* An em so chips scale with whatever they sit in, including headings. */
-  font-size: 0.875em;
+  /* An em so chips scale with whatever they sit in, including headings.
+     0.8125em lands on 13px in body prose, matching the block samples. */
+  font-size: 0.8125em;
   border: 1px solid var(--code-border);
   border-radius: 3px;
   background-color: var(--code-bg);
@@ -299,6 +303,9 @@ img {max-width: 100%;height: auto;}
 pre {
   padding: 0.7em 1em;
   background: var(--pre-bg);
+  /* Matches the inline chips. Anything past ~4px starts reading as an app
+     card rather than a document, which fights the hard-edged mono. */
+  border-radius: 4px;
   margin: 0 -1em;
   overflow-x: auto;
 }
