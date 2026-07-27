@@ -35,9 +35,9 @@
      silently forces alpha to 1, so a translucent violet would render far
      heavier than the sky it is meant to match. Compositing by hand keeps the
      two pens the same weight. */
-  --mark: #daf3fc;                         /* sky: unvisited */
+  --mark: #e9f8fd;                         /* sky: unvisited */
   --mark-strong: #bfedfa;                  /* sky: hover flood */
-  --mark-visited: #d3c5fd;                 /* violet: visited */
+  --mark-visited: #e7e0fe;                 /* violet: visited */
   --mark-visited-strong: #bda8fb;          /* violet: hover flood */
   --mark-fg: #000;                         /* text color under a hover flood */
   --hero-filter: none;
@@ -165,6 +165,18 @@ a:visited:hover {
   text-decoration-color: var(--mark-visited-strong);
 }
 
+/* Navigation chrome never shows history: the violet ink is reserved for
+   links in post content and the post lists, where visited state is
+   information. Chrome links stay sky forever. */
+.site-header a:visited, .site-footer a:visited, .pagination a:visited {
+  text-decoration-color: var(--mark);
+}
+
+.site-header a:visited:hover, .site-footer a:visited:hover, .pagination a:visited:hover {
+  background: var(--mark-strong);
+  text-decoration-color: var(--mark-strong);
+}
+
 a:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
@@ -264,12 +276,18 @@ pre code {
 .subscribe-form input[type="submit"] {
   font: inherit;
   font-weight: 600;
-  color: var(--bg);
-  background: var(--fg);
-  border: 1px solid var(--fg);
+  /* The hover-flood pair, so the button reads as a pre-highlighted link:
+     the one thing on the page already inked in the site's accent. */
+  color: var(--mark-fg);
+  background: var(--mark-strong);
+  border: 1px solid var(--mark-strong);
   border-radius: 3px;
   padding: 0.45em 1em;
   cursor: pointer;
+}
+
+.subscribe-form input[type="submit"]:hover {
+  filter: brightness(0.94);
 }
 
 .small, .light {color: var(--fg-muted)}

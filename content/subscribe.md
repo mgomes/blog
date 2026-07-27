@@ -3,7 +3,7 @@ title: Subscribe
 url: /subscribe/
 ---
 
-Get new posts by email. No spam, nothing but the posts, unsubscribe whenever.
+Get new posts by email. Infrequent emails that are frequently unconventional. Unsubscribe whenever.
 
 <form class="subscribe-form" action="https://buttondown.com/api/emails/embed-subscribe/mgomes" method="post">
   <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required>
