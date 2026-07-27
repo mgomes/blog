@@ -222,8 +222,14 @@ th {
 
 tr:last-child td {border-bottom: none;}
 
-/* Date and tags directly under a post title */
-h1 + .light {margin-top: 0;margin-bottom: 2.2em}
+/* Date and tags directly under a post title. Scoped to h1 + so the post-list
+   dates on the home page keep the body size. Safe to resize: .light is
+   excluded from the justify selector, so justif never measures it. */
+h1 + .light {
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 2.5em;
+}
 
 /* PARAGRAPH JUSTIFICATION (justif picks up elements with text-align: justify) */
 .container p:not(.light), .container li, .container blockquote {
