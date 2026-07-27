@@ -78,7 +78,15 @@ Three things must move together, and nothing warns you if they drift:
 
 Changing the body font family, the body font size, or that selector without updating `init.js` makes justif silently measure the wrong thing. Headings are not justified, so heading sizes and `letter-spacing` are safe. Do not put `letter-spacing` on justified prose.
 
-Because justif runs after fonts load, the prose is hidden until it finishes, otherwise the browser's own justification paints first and every line visibly re-breaks. The `justif-pending` class is added by an inline script in `head.html` and cleared by `init.js`. It has two backstops: the class is only ever added by script, so no-JS renders normally, and a timer in `head.html` plus a `finally` in `init.js` clear it if justif never completes. Keep both.
+### The load flicker is known, and hiding the prose makes it worse
+
+Because justif runs after the fonts load, the browser paints its own naive justification first and the lines visibly re-break when justif lands. This was measured at roughly 40ms locally.
+
+Hiding the prose until justif finishes has been tried and reverted. It cannot work from the external stylesheet: the CSS bundle is a separate request, so the text paints unjustified before the hiding rule arrives, then blanks when it does, then reveals. Measured on production that was three visual states instead of two, and clearly worse.
+
+Inlining the rule in `head.html` fixes the ordering but not the real problem. The wait is on a font load of unbounded duration, so any reveal timer either fires early on a slow connection, giving blank then unjustified then justified, or is generous enough to blank the page for seconds. You cannot guarantee both no blank period and no unjustified paint.
+
+The font preloads in `head.html` are the part worth keeping. They shorten the window by getting `document.fonts.ready` to resolve sooner, which is the only lever that helps without a downside.
 
 ### Regression test
 

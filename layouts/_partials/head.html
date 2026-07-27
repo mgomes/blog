@@ -36,15 +36,5 @@
     {{- if .Params.math }}
     <link rel="stylesheet" href="/katex/katex.min.css">
     {{- end }}
-    {{/* Inline and before first paint on purpose: it has to beat the browser's
-         own justification to the screen. init.js clears the class once justif
-         has re-broken the lines; the timer is the backstop for a module that
-         fails to load, so the prose can never stay hidden. */}}
-    <script>
-      document.documentElement.classList.add('justif-pending');
-      setTimeout(function () {
-        document.documentElement.classList.remove('justif-pending');
-      }, 500);
-    </script>
     <script type="module" src="/js/justif/init.js"></script>
 </head>

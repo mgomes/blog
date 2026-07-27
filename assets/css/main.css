@@ -268,17 +268,6 @@ h1 + .light {
   text-align: justify;
 }
 
-/* Same selector as above, kept adjacent so the two stay in step. justif runs
-   after the webfonts load, so without this the browser paints its own naive
-   justification first and every line visibly re-breaks. The class is only ever
-   added by script and is removed on a timer as well as by init.js, so no-JS
-   and failed-JS both render normally. */
-.justif-pending .container p:not(.light),
-.justif-pending .container li,
-.justif-pending .container blockquote {
-  visibility: hidden;
-}
-
 /* The body-level word-wrap: break-word invites emergency line breaks right
    before justif's hyphen spans, dropping hyphens at line starts. justif
    handles breaking itself on processed elements. */
