@@ -19,7 +19,10 @@
 :root {
   color-scheme: light dark;
 
-  --bg: #fff;
+  /* Tufte's paper white rather than #fff: warm enough to kill the glare,
+     subtle enough that the opaque --mark* pre-composites (computed against
+     pure white) drift imperceptibly and did not need recompositing. */
+  --bg: #fffff8;
   --fg: #000;
   /* 4.54:1 on white. The old #ababab was 2.3:1, which failed even the
      large-text threshold and made post dates effectively unreadable. */
@@ -28,8 +31,8 @@
   --rule-soft: rgba(0, 0, 0, 0.1);         /* mobile container divider */
   --rule: #d4d4d4;                         /* table body rows */
   --rule-strong: #ababab;                  /* hr, blockquote border, table header */
-  --code-bg: #fafafa;
-  --code-border: #e4e4e4;
+  --code-bg: #fafaf2;                      /* warmed to sit on the paper */
+  --code-border: #e5e4da;
   --pre-bg: rgba(236, 236, 236, 0.37);
   /* Marker inks are opaque pre-composites over --bg, not rgba. :visited
      silently forces alpha to 1, so a translucent violet would render far
