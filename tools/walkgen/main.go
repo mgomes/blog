@@ -17,6 +17,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"golang.org/x/image/font"
@@ -33,8 +34,7 @@ const (
 	// Rendered at 2x and displayed at half size. The display width works
 	// out to gridW * advance / 2, which sits just inside the 648px column
 	// so the PNG is never resampled.
-	fontSize = 34
-	cellPx   = 24
+	cellPx = 24
 )
 
 var (
@@ -42,22 +42,30 @@ var (
 	darkInk  = color.NRGBA{R: 0x8e, G: 0x92, B: 0x99} // --fg-muted, dark
 )
 
-// The density ramp. Alpha carries the tonal range within a single ink so the
-// same PNG works over the paper and dark backgrounds.
+// The density ramp. Alpha and glyph size carry the tonal range within a
+// single ink so the same PNG works over the paper and dark backgrounds.
+// Small and large variants of each wave glyph are what give the field its
+// in-between tones; a single size per glyph read as three flat bands.
 type level struct {
 	glyph rune
 	alpha uint8
+	size  float64
 }
 
 var ramp = []level{
-	{'·', 100},
-	{'~', 170},
-	{'≈', 235},
-	{'█', 255},
+	{'·', 90, 24},
+	{'~', 140, 24},
+	{'~', 190, 34},
+	{'≈', 215, 24},
+	{'≈', 245, 34},
+	{'█', 255, 24},
+	{'█', 255, 34},
 }
 
-// Thresholds on blurred, normalized density; one fewer than ramp entries.
-var cuts = []float64{0.08, 0.62, 0.90}
+// Cumulative area cuts on the shaded value; one fewer than ramp entries.
+// Weighted so mist and small ripples carry most of the field and islands
+// stay rare.
+var cuts = []float64{0.30, 0.55, 0.72, 0.85, 0.94, 0.985}
 
 // lcg is a small deterministic PRNG (Numerical Recipes constants). Stability
 // matters more than quality here: the same slug must draw the same walk on
@@ -134,23 +142,39 @@ func blur(g [][]float64, passes int) [][]float64 {
 	return g
 }
 
-func quantize(g [][]float64) [][]int {
+// shade maps blurred density to ramp levels. Straight max-normalization put
+// nearly the whole field in one band, because a walk's density is peaky; the
+// equalized component spreads tones across the image, the raw component
+// keeps calm posts calmer than stormy ones, and a seeded dither roughens
+// region borders so they do not read as flat contours.
+func shade(g [][]float64, slug string) [][]int {
+	all := make([]float64, 0, gridW*gridH)
 	max := 0.0
 	for y := range gridH {
 		for x := range gridW {
+			all = append(all, g[y][x])
 			if g[y][x] > max {
 				max = g[y][x]
 			}
 		}
 	}
+	sort.Float64s(all)
+
+	h := fnv.New32a()
+	h.Write([]byte(slug + "/dither"))
+	rng := &lcg{s: h.Sum32()}
+
 	lv := make([][]int, gridH)
 	for y := range lv {
 		lv[y] = make([]int, gridW)
 		for x := range lv[y] {
-			v := 0.0
+			eq := float64(sort.SearchFloat64s(all, g[y][x])) / float64(len(all))
+			raw := 0.0
 			if max > 0 {
-				v = g[y][x] / max
+				raw = g[y][x] / max
 			}
+			v := 0.55*eq + 0.45*raw
+			v += (float64(rng.next()%1000)/1000 - 0.5) * 0.09
 			l := 0
 			for _, c := range cuts {
 				if v >= c {
@@ -163,16 +187,23 @@ func quantize(g [][]float64) [][]int {
 	return lv
 }
 
-func render(lv [][]int, ink color.NRGBA, face font.Face, xoff, baseline int) *image.NRGBA {
+type cellFace struct {
+	face font.Face
+	xoff int
+}
+
+func render(lv [][]int, ink color.NRGBA, faces map[float64]cellFace, baseline int) *image.NRGBA {
 	img := image.NewNRGBA(image.Rect(0, 0, gridW*cellPx, gridH*cellPx))
-	d := &font.Drawer{Dst: img, Face: face}
+	d := &font.Drawer{Dst: img}
 	for y := range gridH {
 		for x := range gridW {
 			l := ramp[lv[y][x]]
+			cf := faces[l.size]
 			c := ink
 			c.A = l.alpha
+			d.Face = cf.face
 			d.Src = image.NewUniform(c)
-			d.Dot = fixed.P(x*cellPx+xoff, y*cellPx+baseline)
+			d.Dot = fixed.P(x*cellPx+cf.xoff, y*cellPx+baseline)
 			d.DrawString(string(l.glyph))
 		}
 	}
@@ -203,7 +234,7 @@ func main() {
 	contentDir := flag.String("content", "content/posts", "directory of post markdown files")
 	outDir := flag.String("out", "static/_Images/walks", "output directory for PNGs")
 	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisaCodeUpright.ttf"), "TTF/OTF to rasterize with")
-	rampFlag := flag.String("ramp", "", "four glyphs for the density ramp, faint to peak (default ·~≈█)")
+	rampFlag := flag.String("ramp", "", "glyphs for the density ramp, faint to peak (default ··~~≈≈██ sizes vary)")
 	flag.Parse()
 
 	if *rampFlag != "" {
@@ -221,19 +252,22 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	face, err := opentype.NewFace(parsed, &opentype.FaceOptions{Size: fontSize, DPI: 72, Hinting: font.HintingFull})
-	if err != nil {
-		log.Fatal(err)
-	}
+	faces := map[float64]cellFace{}
 	for i, l := range ramp {
+		if _, ok := faces[l.size]; ok {
+			continue
+		}
+		face, err := opentype.NewFace(parsed, &opentype.FaceOptions{Size: l.size, DPI: 72, Hinting: font.HintingFull})
+		if err != nil {
+			log.Fatal(err)
+		}
 		if _, ok := face.GlyphAdvance(l.glyph); !ok {
 			log.Fatalf("%s has no glyph for %q (ramp level %d)", fontName, l.glyph, i)
 		}
+		adv, _ := face.GlyphAdvance('M')
+		// Center each glyph horizontally in its fixed cell.
+		faces[l.size] = cellFace{face: face, xoff: (cellPx - adv.Ceil()) / 2}
 	}
-	adv, _ := face.GlyphAdvance('M')
-	// Center each glyph horizontally in its fixed cell; the cell is a bit
-	// wider than the advance so the lattice keeps seams, like the reference.
-	xoff := (cellPx - adv.Ceil()) / 2
 	baseline := cellPx - cellPx/6
 
 	if err := os.MkdirAll(*outDir, 0o755); err != nil {
@@ -251,9 +285,9 @@ func main() {
 		if strings.HasPrefix(slug, "_") {
 			continue
 		}
-		lv := quantize(blur(walk(slug), 2))
-		light := render(lv, lightInk, face, xoff, baseline)
-		dark := render(lv, darkInk, face, xoff, baseline)
+		lv := shade(blur(walk(slug), 2), slug)
+		light := render(lv, lightInk, faces, baseline)
+		dark := render(lv, darkInk, faces, baseline)
 		if err := writePNG(filepath.Join(*outDir, slug+"-light.png"), light); err != nil {
 			log.Fatal(err)
 		}
