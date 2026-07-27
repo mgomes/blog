@@ -4,7 +4,7 @@
 //
 // The look is a full-bleed fabric: a long walk's visit counts are blurred
 // into smooth density, then every cell gets a glyph from a ramp, so valleys
-// read as faint dots, the mid field as a sea of tildes, and the walk's// favorite places as heavy waves merging into solid islands.
+// read as faint dots, the mid field as a sea of tildes, and the walk's// favorite places as square island chips, discrete like stones on a chart.
 package main
 
 import (
@@ -58,8 +58,8 @@ var ramp = []level{
 	{'~', 190, 34},
 	{'≈', 215, 24},
 	{'≈', 245, 34},
-	{'█', 255, 24},
-	{'█', 255, 34},
+	{'■', 255, 24},
+	{'■', 255, 34},
 }
 
 // Cumulative area cuts on the shaded value; one fewer than ramp entries.
@@ -234,7 +234,7 @@ func main() {
 	contentDir := flag.String("content", "content/posts", "directory of post markdown files")
 	outDir := flag.String("out", "static/_Images/walks", "output directory for PNGs")
 	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisaCodeUpright.ttf"), "TTF/OTF to rasterize with")
-	rampFlag := flag.String("ramp", "", "glyphs for the density ramp, faint to peak (default ··~~≈≈██ sizes vary)")
+	rampFlag := flag.String("ramp", "", "glyphs for the density ramp, faint to peak (default ··~~≈≈■■ sizes vary)")
 	flag.Parse()
 
 	if *rampFlag != "" {
