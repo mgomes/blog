@@ -200,13 +200,77 @@ pre code {
   padding: 0;
 }
 
+/* HEADER & FOOTER. Masthead in the frantic.im mold: site name left, quiet
+   nav right, hairline rules fencing the page top and bottom. Flex-wrap does
+   the mobile work the old float layout needed a media query for. */
+.site-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5em 2em;
+  flex-wrap: wrap;
+  padding-bottom: 1.1em;
+  border-bottom: 1px solid var(--rule);
+}
+
 .logo {
-  float: left;
+  font-weight: 700;
   text-decoration: none;
 }
 
-.nav {float: right;}
-.nav a {margin: 0 0 0 2em}
+.nav {
+  display: flex;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.site-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5em 2em;
+  flex-wrap: wrap;
+  margin-top: 4em;
+  padding-top: 1.1em;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.5em;
+  flex-wrap: wrap;
+}
+
+/* SUBSCRIBE FORM (Buttondown embed on /subscribe/) */
+.subscribe-form {
+  display: flex;
+  gap: 0.75em;
+  flex-wrap: wrap;
+  margin: 1.8rem 0;
+}
+
+.subscribe-form input[type="email"] {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  padding: 0.45em 0.7em;
+  min-width: 260px;
+}
+
+.subscribe-form input[type="submit"] {
+  font: inherit;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--fg);
+  border: 1px solid var(--fg);
+  border-radius: 3px;
+  padding: 0.45em 1em;
+  cursor: pointer;
+}
 
 .small, .light {color: var(--fg-muted)}
 
@@ -406,10 +470,11 @@ pre {
 
   body {padding: 0.4em;}
 
-  .container {margin: 1em 0 2em;padding-top:0.5em;border-top:1px solid var(--rule-soft);min-width: auto}
+  /* The old mobile-only divider is redundant now that .site-header carries
+     its own border-bottom at every width. */
+  .container {margin: 1em 0 2em;min-width: auto}
 
-  .nav {float: none;display: block;margin: 0;width: 100%}
-  .nav a {margin: 0 1em 0 0;color: var(--fg-muted);}
+  .nav {gap: 1em 1.5em;}
 
   /* No room to give away here; the poster text stops being legible. */
   .hero {width: 100%}
