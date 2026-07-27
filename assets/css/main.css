@@ -40,7 +40,7 @@
      two pens the same weight. */
   --mark: #e9f8fd;                         /* sky: unvisited */
   --mark-strong: #bfedfa;                  /* sky: hover flood */
-  --mark-visited: #e7e0fe;                 /* violet: visited */
+  --mark-visited: #f3eefe;                 /* violet: visited */
   --mark-visited-strong: #bda8fb;          /* violet: hover flood */
   --mark-fg: #000;                         /* text color under a hover flood */
   --hero-filter: none;
