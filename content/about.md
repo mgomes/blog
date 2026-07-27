@@ -1,12 +1,13 @@
 ---
-title: About
+title: Mauricio Gomes
 url: /about/
+description: Mauricio Gomes is a software engineer in Detroit, building an agent platform at R1 and side projects like Vibescript.
 ---
 
-I'm Mauricio Gomes, a software engineer based out of Detroit. My goal in life is to learn everything while doing every side quest.
+I'm a software engineer based in Detroit. I work at [R1](https://www.r1rcm.com/the-revenue-operating-system-a-new-architecture-for-healthcare-revenue-cycle), building the platform that powers clinical agents. I love learning, sweating the little UX details, and thinking about how it all intersects with people.
 
-These days most of my energy goes into [Vibescript](https://vibescript-lang.org), an embedded programming language that is closing in on 1.0. Before that I shipped web tools, Ruby gems, and a small pile of programs that exist mostly because I wondered how something worked.
+In the past I co-founded [Mav](https://hiremav.com) and worked at [Heroku](https://www.heroku.com), where I built internal tooling, [inference and agent endpoints](https://www.heroku.com/ai/managed-inference-and-agents/), and a [vibe-coding product](https://www.heroku.com/blog/turn-ideas-into-apps-heroku-vibes-pilot/).
 
-This blog is where I write about whatever I'm poking at: programming languages, AI tooling, performance rabbit holes, and the occasional internet mystery. The name is a promise about the process, not the outcome.
+I also make things for myself. [Vibescript](https://vibescript-lang.org) is my own little programming language. [Ohm](https://github.com/mgomes/ohm) is a Go web framework, and [Senna](https://github.com/mgomes/senna) is a Go background job library.
 
-For what I'm up to right now, see the [now](/now/) page. If you'd like new posts by email, [subscribe](/subscribe/).
+I write about those side projects and how technology affects the human condition.
