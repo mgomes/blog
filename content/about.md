@@ -8,6 +8,6 @@ I'm a software engineer based in Detroit. I work at [R1](https://www.r1rcm.com/t
 
 In the past I co-founded [Mav](https://hiremav.com) and worked at [Heroku](https://www.heroku.com), where I built internal tooling, [inference and agent endpoints](https://www.heroku.com/ai/managed-inference-and-agents/), and a [vibe-coding product](https://www.heroku.com/blog/turn-ideas-into-apps-heroku-vibes-pilot/).
 
-I also make things for myself. [Vibescript](https://vibescript-lang.org) is my own little programming language. [Ohm](https://github.com/mgomes/ohm) is a Go web framework, and [Senna](https://github.com/mgomes/senna) is a Go background job library.
+I also make things on my own time. [Vibescript](https://vibescript-lang.org) is my own little programming language. [Ohm](https://github.com/mgomes/ohm) is a Go web framework, and [Senna](https://github.com/mgomes/senna) is a Go background job library.
 
 I write about those side projects and how technology affects the human condition. My goal in life is to learn everything while doing every side quest.
