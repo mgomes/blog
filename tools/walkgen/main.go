@@ -1,6 +1,11 @@
 // walkgen renders a deterministic drunkard's-walk glyph field for each post,
 // as transparent PNGs in light and dark ink. The walk is seeded from the
 // post's filename slug, so a post's art never changes between runs.
+//
+// The look is a full-bleed fabric: a long walk's visit counts are blurred
+// into smooth density, then every cell gets a glyph from a ramp, so valleys
+// read as faint dots, the mid field as a lattice of pluses, and the walk's
+// favorite places as hashes merging into solid blocks.
 package main
 
 import (
@@ -22,22 +27,38 @@ import (
 )
 
 const (
-	gridW = 56
-	gridH = 14
-	steps = 1600
+	gridW = 54
+	gridH = 27
+	steps = 45000
 
-	fontSize = 28 // rendered at 2x for retina; displayed at half size
-	lineH    = 30
+	// Rendered at 2x and displayed at half size. The display width works
+	// out to gridW * advance / 2, which sits just inside the 648px column
+	// so the PNG is never resampled.
+	fontSize = 34
+	cellPx   = 24
 )
-
-// Density ramp from empty to peak. The top two levels get the accent ink.
-var ramp = []rune(" ·:+*#@")
 
 var (
-	lightInk = color.NRGBA{R: 0x76, G: 0x76, B: 0x76, A: 0xff} // --fg-muted, light
-	darkInk  = color.NRGBA{R: 0x8e, G: 0x92, B: 0x99, A: 0xff} // --fg-muted, dark
-	accent   = color.NRGBA{R: 0x33, G: 0xa4, B: 0xd6, A: 0xff} // the sky flood
+	lightInk = color.NRGBA{R: 0x76, G: 0x76, B: 0x76} // --fg-muted, light
+	darkInk  = color.NRGBA{R: 0x8e, G: 0x92, B: 0x99} // --fg-muted, dark
 )
+
+// The density ramp. Alpha carries the tonal range within a single ink so the
+// same PNG works over the paper and dark backgrounds.
+type level struct {
+	glyph rune
+	alpha uint8
+}
+
+var ramp = []level{
+	{'·', 100},
+	{'+', 170},
+	{'#', 235},
+	{'■', 255},
+}
+
+// Thresholds on blurred, normalized density; one fewer than ramp entries.
+var cuts = []float64{0.08, 0.62, 0.90}
 
 // lcg is a small deterministic PRNG (Numerical Recipes constants). Stability
 // matters more than quality here: the same slug must draw the same walk on
@@ -49,14 +70,16 @@ func (r *lcg) next() uint32 {
 	return r.s >> 16
 }
 
-func walk(slug string) [gridH][gridW]int {
+func walk(slug string) [][]float64 {
 	h := fnv.New32a()
 	h.Write([]byte(slug))
 	rng := &lcg{s: h.Sum32()}
 
-	var visits [gridH][gridW]int
+	visits := make([][]float64, gridH)
+	for y := range visits {
+		visits[y] = make([]float64, gridW)
+	}
 	x, y := gridW/2, gridH/2
-	visits[y][x]++
 
 	for range steps {
 		dx, dy := 0, 0
@@ -85,50 +108,73 @@ func walk(slug string) [gridH][gridW]int {
 	return visits
 }
 
-func levels(visits [gridH][gridW]int) [gridH][gridW]int {
-	max := 0
+// blur runs a 3x3 box blur with edge clamping, smoothing walk speckle into
+// the continents that give the field its shape.
+func blur(g [][]float64, passes int) [][]float64 {
+	for range passes {
+		out := make([][]float64, gridH)
+		for y := range out {
+			out[y] = make([]float64, gridW)
+			for x := range out[y] {
+				sum, n := 0.0, 0
+				for dy := -1; dy <= 1; dy++ {
+					for dx := -1; dx <= 1; dx++ {
+						yy, xx := y+dy, x+dx
+						if yy < 0 || yy >= gridH || xx < 0 || xx >= gridW {
+							continue
+						}
+						sum += g[yy][xx]
+						n++
+					}
+				}
+				out[y][x] = sum / float64(n)
+			}
+		}
+		g = out
+	}
+	return g
+}
+
+func quantize(g [][]float64) [][]int {
+	max := 0.0
 	for y := range gridH {
 		for x := range gridW {
-			if visits[y][x] > max {
-				max = visits[y][x]
+			if g[y][x] > max {
+				max = g[y][x]
 			}
 		}
 	}
-	var lv [gridH][gridW]int
-	if max == 0 {
-		return lv
-	}
-	top := len(ramp) - 1
-	for y := range gridH {
-		for x := range gridW {
-			if v := visits[y][x]; v > 0 {
-				l := (v*top + max - 1) / max
-				if l < 1 {
-					l = 1
-				}
-				lv[y][x] = l
+	lv := make([][]int, gridH)
+	for y := range lv {
+		lv[y] = make([]int, gridW)
+		for x := range lv[y] {
+			v := 0.0
+			if max > 0 {
+				v = g[y][x] / max
 			}
+			l := 0
+			for _, c := range cuts {
+				if v >= c {
+					l++
+				}
+			}
+			lv[y][x] = l
 		}
 	}
 	return lv
 }
 
-func render(lv [gridH][gridW]int, ink color.NRGBA, face font.Face, advPx, ascent int) *image.NRGBA {
-	img := image.NewNRGBA(image.Rect(0, 0, gridW*advPx, gridH*lineH))
+func render(lv [][]int, ink color.NRGBA, face font.Face, xoff, baseline int) *image.NRGBA {
+	img := image.NewNRGBA(image.Rect(0, 0, gridW*cellPx, gridH*cellPx))
 	d := &font.Drawer{Dst: img, Face: face}
 	for y := range gridH {
 		for x := range gridW {
-			l := lv[y][x]
-			if l == 0 {
-				continue
-			}
-			if l >= len(ramp)-2 {
-				d.Src = image.NewUniform(accent)
-			} else {
-				d.Src = image.NewUniform(ink)
-			}
-			d.Dot = fixed.P(x*advPx, y*lineH+ascent)
-			d.DrawString(string(ramp[l]))
+			l := ramp[lv[y][x]]
+			c := ink
+			c.A = l.alpha
+			d.Src = image.NewUniform(c)
+			d.Dot = fixed.P(x*cellPx+xoff, y*cellPx+baseline)
+			d.DrawString(string(l.glyph))
 		}
 	}
 	return img
@@ -143,12 +189,25 @@ func writePNG(path string, img *image.NRGBA) error {
 	return png.Encode(f, img)
 }
 
+func loadFont(path string) ([]byte, string) {
+	if path != "" {
+		if b, err := os.ReadFile(path); err == nil {
+			return b, path
+		}
+		log.Printf("cannot read %s; falling back to Go Mono", path)
+	}
+	return gomono.TTF, "Go Mono (embedded)"
+}
+
 func main() {
+	home, _ := os.UserHomeDir()
 	contentDir := flag.String("content", "content/posts", "directory of post markdown files")
 	outDir := flag.String("out", "static/_Images/walks", "output directory for PNGs")
+	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisaCodeUpright.ttf"), "TTF/OTF to rasterize with")
 	flag.Parse()
 
-	parsed, err := opentype.Parse(gomono.TTF)
+	ttf, fontName := loadFont(*fontPath)
+	parsed, err := opentype.Parse(ttf)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -156,9 +215,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	for i, l := range ramp {
+		if _, ok := face.GlyphAdvance(l.glyph); !ok {
+			log.Fatalf("%s has no glyph for %q (ramp level %d)", fontName, l.glyph, i)
+		}
+	}
 	adv, _ := face.GlyphAdvance('M')
-	advPx := adv.Ceil()
-	ascent := face.Metrics().Ascent.Ceil()
+	// Center each glyph horizontally in its fixed cell; the cell is a bit
+	// wider than the advance so the lattice keeps seams, like the reference.
+	xoff := (cellPx - adv.Ceil()) / 2
+	baseline := cellPx - cellPx/6
 
 	if err := os.MkdirAll(*outDir, 0o755); err != nil {
 		log.Fatal(err)
@@ -175,9 +241,9 @@ func main() {
 		if strings.HasPrefix(slug, "_") {
 			continue
 		}
-		lv := levels(walk(slug))
-		light := render(lv, lightInk, face, advPx, ascent)
-		dark := render(lv, darkInk, face, advPx, ascent)
+		lv := quantize(blur(walk(slug), 2))
+		light := render(lv, lightInk, face, xoff, baseline)
+		dark := render(lv, darkInk, face, xoff, baseline)
 		if err := writePNG(filepath.Join(*outDir, slug+"-light.png"), light); err != nil {
 			log.Fatal(err)
 		}
@@ -186,5 +252,5 @@ func main() {
 		}
 		n++
 	}
-	fmt.Printf("generated %d walks in %s\n", n, *outDir)
+	fmt.Printf("generated %d walks in %s with %s\n", n, *outDir, fontName)
 }
