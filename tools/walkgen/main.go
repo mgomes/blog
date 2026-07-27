@@ -4,8 +4,7 @@
 //
 // The look is a full-bleed fabric: a long walk's visit counts are blurred
 // into smooth density, then every cell gets a glyph from a ramp, so valleys
-// read as faint dots, the mid field as a lattice of pluses, and the walk's
-// favorite places as hashes merging into solid blocks.
+// read as faint dots, the mid field as a sea of tildes, and the walk's// favorite places as heavy waves merging into solid islands.
 package main
 
 import (
@@ -52,9 +51,9 @@ type level struct {
 
 var ramp = []level{
 	{'·', 100},
-	{'+', 170},
-	{'#', 235},
-	{'■', 255},
+	{'~', 170},
+	{'≈', 235},
+	{'█', 255},
 }
 
 // Thresholds on blurred, normalized density; one fewer than ramp entries.
@@ -204,7 +203,18 @@ func main() {
 	contentDir := flag.String("content", "content/posts", "directory of post markdown files")
 	outDir := flag.String("out", "static/_Images/walks", "output directory for PNGs")
 	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisaCodeUpright.ttf"), "TTF/OTF to rasterize with")
+	rampFlag := flag.String("ramp", "", "four glyphs for the density ramp, faint to peak (default ·~≈█)")
 	flag.Parse()
+
+	if *rampFlag != "" {
+		runes := []rune(*rampFlag)
+		if len(runes) != len(ramp) {
+			log.Fatalf("-ramp needs exactly %d glyphs, got %d", len(ramp), len(runes))
+		}
+		for i, r := range runes {
+			ramp[i].glyph = r
+		}
+	}
 
 	ttf, fontName := loadFont(*fontPath)
 	parsed, err := opentype.Parse(ttf)
