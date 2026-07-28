@@ -9,6 +9,9 @@
           {{ range (.GetTerms "tags") }}
             ☼ <a class="light" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
           {{ end }}
+          {{- if eq .Section "posts" }}
+          <br>By {{ site.Params.author }}
+          {{- end }}
         </p>
 
         {{- if eq .Section "posts" }}
