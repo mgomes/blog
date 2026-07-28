@@ -19,7 +19,10 @@
 :root {
   color-scheme: light dark;
 
-  --bg: #fff;
+  /* Tufte's paper white rather than #fff: warm enough to kill the glare,
+     subtle enough that the opaque --mark* pre-composites (computed against
+     pure white) drift imperceptibly and did not need recompositing. */
+  --bg: #fffff8;
   --fg: #000;
   /* 4.54:1 on white. The old #ababab was 2.3:1, which failed even the
      large-text threshold and made post dates effectively unreadable. */
@@ -28,16 +31,16 @@
   --rule-soft: rgba(0, 0, 0, 0.1);         /* mobile container divider */
   --rule: #d4d4d4;                         /* table body rows */
   --rule-strong: #ababab;                  /* hr, blockquote border, table header */
-  --code-bg: #fafafa;
-  --code-border: #e4e4e4;
+  --code-bg: #fafaf2;                      /* warmed to sit on the paper */
+  --code-border: #e5e4da;
   --pre-bg: rgba(236, 236, 236, 0.37);
   /* Marker inks are opaque pre-composites over --bg, not rgba. :visited
      silently forces alpha to 1, so a translucent violet would render far
      heavier than the sky it is meant to match. Compositing by hand keeps the
      two pens the same weight. */
-  --mark: #daf3fc;                         /* sky: unvisited */
+  --mark: #e9f8fd;                         /* sky: unvisited */
   --mark-strong: #bfedfa;                  /* sky: hover flood */
-  --mark-visited: #d3c5fd;                 /* violet: visited */
+  --mark-visited: #f3eefe;                 /* violet: visited */
   --mark-visited-strong: #bda8fb;          /* violet: hover flood */
   --mark-fg: #000;                         /* text color under a hover flood */
   --hero-filter: none;
@@ -165,6 +168,18 @@ a:visited:hover {
   text-decoration-color: var(--mark-visited-strong);
 }
 
+/* Navigation chrome never shows history: the violet ink is reserved for
+   links in post content and the post lists, where visited state is
+   information. Chrome links stay sky forever. */
+.site-header a:visited, .site-footer a:visited, .pagination a:visited {
+  text-decoration-color: var(--mark);
+}
+
+.site-header a:visited:hover, .site-footer a:visited:hover, .pagination a:visited:hover {
+  background: var(--mark-strong);
+  text-decoration-color: var(--mark-strong);
+}
+
 a:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
@@ -200,13 +215,83 @@ pre code {
   padding: 0;
 }
 
+/* HEADER & FOOTER. Masthead in the frantic.im mold: site name left, quiet
+   nav right, hairline rules fencing the page top and bottom. Flex-wrap does
+   the mobile work the old float layout needed a media query for. */
+.site-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5em 2em;
+  flex-wrap: wrap;
+  padding-bottom: 1.1em;
+  border-bottom: 1px solid var(--rule);
+}
+
 .logo {
-  float: left;
+  font-weight: 700;
   text-decoration: none;
 }
 
-.nav {float: right;}
-.nav a {margin: 0 0 0 2em}
+.nav {
+  display: flex;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.site-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5em 2em;
+  flex-wrap: wrap;
+  margin-top: 4em;
+  padding-top: 1.1em;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.5em;
+  flex-wrap: wrap;
+}
+
+/* SUBSCRIBE FORM (Buttondown embed on /subscribe/) */
+.subscribe-form {
+  display: flex;
+  gap: 0.75em;
+  flex-wrap: wrap;
+  margin: 1.8rem 0;
+}
+
+.subscribe-form input[type="email"] {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  padding: 0.45em 0.7em;
+  min-width: 260px;
+}
+
+.subscribe-form input[type="submit"] {
+  font: inherit;
+  font-weight: 600;
+  /* The hover-flood pair, so the button reads as a pre-highlighted link:
+     the one thing on the page already inked in the site's accent. */
+  color: var(--mark-fg);
+  background: var(--mark-strong);
+  border: 1px solid var(--mark-strong);
+  border-radius: 3px;
+  padding: 0.45em 1em;
+  cursor: pointer;
+}
+
+.subscribe-form input[type="submit"]:hover {
+  filter: brightness(0.94);
+}
 
 .small, .light {color: var(--fg-muted)}
 
@@ -292,6 +377,16 @@ h1 + .light {
 
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
+
+/* Each post's drunkard's-walk glyph field (tools/walkgen, `just walks`).
+   Rendered at 2x, displayed at half size for retina. Decorative only. */
+.walk img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 2.2em;
+  user-select: none;
+}
 
 /* The masthead poster is a grayscale PNG with alpha, so inverting it in dark
    mode yields a clean photo negative. Scoped to the class on purpose: post
@@ -406,10 +501,11 @@ pre {
 
   body {padding: 0.4em;}
 
-  .container {margin: 1em 0 2em;padding-top:0.5em;border-top:1px solid var(--rule-soft);min-width: auto}
+  /* The old mobile-only divider is redundant now that .site-header carries
+     its own border-bottom at every width. */
+  .container {margin: 1em 0 2em;min-width: auto}
 
-  .nav {float: none;display: block;margin: 0;width: 100%}
-  .nav a {margin: 0 1em 0 0;color: var(--fg-muted);}
+  .nav {gap: 1em 1.5em;}
 
   /* No room to give away here; the poster text stops being legible. */
   .hero {width: 100%}

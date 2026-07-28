@@ -12,6 +12,10 @@ build:
 draft name:
     hugo new posts/{{name}}.md
 
+# Regenerate every post's drunkard's-walk art (run after adding a post)
+walks:
+    cd tools/walkgen && go run . -content ../../content/posts -out ../../static/_Images/walks
+
 # Regenerate Chroma syntax highlighting for both color schemes
 chroma:
     #!/usr/bin/env bash
