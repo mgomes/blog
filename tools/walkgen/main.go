@@ -56,8 +56,8 @@ var ramp = []level{
 	{'·', 90, 24},
 	{'~', 140, 24},
 	{'~', 190, 34},
-	{'≈', 215, 24},
-	{'≈', 245, 34},
+	{'+', 215, 24},
+	{'+', 245, 34},
 	{'■', 255, 24},
 	{'■', 255, 34},
 }
@@ -233,7 +233,7 @@ func main() {
 	home, _ := os.UserHomeDir()
 	contentDir := flag.String("content", "content/posts", "directory of post markdown files")
 	outDir := flag.String("out", "static/_Images/walks", "output directory for PNGs")
-	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisaCodeUpright.ttf"), "TTF/OTF to rasterize with")
+	fontPath := flag.String("font", filepath.Join(home, "Library/Fonts/MonoLisa-Light.ttf"), "TTF/OTF to rasterize with")
 	rampFlag := flag.String("ramp", "", "glyphs for the density ramp, faint to peak (default ··~~≈≈■■ sizes vary)")
 	flag.Parse()
 
