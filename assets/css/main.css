@@ -144,8 +144,8 @@ ul, ol {
 a, a:visited {
   color: var(--fg);
   text-decoration: underline;
-  text-decoration-thickness: 0.7em;
-  text-underline-offset: -0.31em;
+  text-decoration-thickness: 0.55em;
+  text-underline-offset: -0.24em;
   text-decoration-skip-ink: none;
   text-decoration-color: var(--mark);
 }
