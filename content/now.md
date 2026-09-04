@@ -12,7 +12,7 @@ Nine release candidates took [Vibescript](https://vibescript-lang.org) toward 1.
 
 ## Rip
 
-I've been having an unreasonable amount of fun building [Rip](https://ripeditor.com), a fast, local editor for reviewing code. AI can write code faster than I can read it, so I'm working on the human side of the loop: files that open instantly, diffs that stay readable, live Markdown, and pull request review inside the editor.
+I've been having so much fun building [Rip](https://ripeditor.com), a fast, local editor for reviewing code. AI can write code faster than I can read it, so I'm working on the human side of the loop: files that open instantly, diffs that stay readable, live Markdown, and pull request review inside the editor.
 
 ## Thinking
 
