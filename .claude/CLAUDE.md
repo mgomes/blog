@@ -7,10 +7,11 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 ## Layout
 
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
-- `content/now.md`, `content/_index.md` — standalone pages
-- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/`
+- `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
+- `content/_index.md` — home hero copy: the `tagline` param and the blurb body
+- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/`; `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
-- `static/` — fonts, KaTeX, the vendored justif bundle, images under `_Images/`
+- `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, images under `_Images/`
 
 Drafts are `draft: true` in frontmatter, not a separate directory. `just serve` shows them.
 
@@ -48,22 +49,31 @@ Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.t
 
 `assets/css/main.css` is the whole design. Every color is a `:root` custom property, and dark mode is a `prefers-color-scheme` block that redeclares those tokens. There is no theme toggle and no theme JS. Add colors as tokens, not literals, or dark mode silently misses them.
 
-Type is MonoLisa throughout: `MonoLisaText` for prose, `MonoLisaCode` for code, self-hosted and subset by `unicode-range`.
+The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), a lime accent (`#d4ff2b`), a faint lime halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
+
+- **On paper the lime is a highlighter.** It bands under the hero word (`--hero-band`), underlines links 2px thick, and floods a link on hover (`--link-hover-bg`).
+- **In the dark the lime is ink.** The hero word is set in it (`--hero-ink`), underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
+- The marker square (`.marker`) gets an ink outline on paper (`--marker-ring`) and none in the dark, so both modes share one mark.
+
+Prose sits one step below the ink (`--prose`), while titles, links and code chips use `--fg` and h2+ and `strong` use `--fg-strong`, which is white in the dark and ink on paper.
+
+There is no visited-link color. The previous design had one; this one has a single link treatment, and chrome links (masthead, nav, footer, meta, post rows) opt out of the underline with `text-decoration: none` plus a hover that resets `background`.
+
+Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and `InterTight` for the masthead, titles, headings, list titles and the pill button. Everything is self-hosted from `static/fonts/`; nothing loads from a third-party host. Inter Tight is the Google Fonts variable file (SIL OFL, license alongside it), instanced to weights 500–800 and subset to Latin plus Greek with fonttools so "Computing π in Go" keeps its pi.
+
+The hero copy lives in `content/_index.md`. The h1 itself is hardcoded in `home.html` because the highlight span needs the last word split out.
+
+### Layout notes
+
+- `body` is a flex column so the footer pins to the bottom of short pages. `.main` is the 680px reading column; the home page adds `.main-wide` for 900px.
+- The halo is a `radial-gradient` on `body`, sized in px vertically on purpose. A percentage would scale with document height, so a long post would get a glow reaching halfway down the page.
+- Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero meta line in block flow so its marker square stops wrapping onto a line of its own).
 
 ### Syntax highlighting is generated
 
 Never hand-edit `chroma.css` or `chroma-dark.css`. Run `just chroma`.
 
 Each sheet is scoped to its own `prefers-color-scheme` query rather than layered light-then-dark. That is load-bearing: the two Chroma styles **do not emit the same selector set**. `github` emits `.bp`, `.na`, `.nb`, `.p` and `github-dark` does not, so an unscoped light sheet leaks near-black punctuation into every dark code block. The recipe also strips only the wrapper's own background, because the token backgrounds on `.err`, `.hl`, `.gd` and `.gi` are meaningful.
-
-### `:visited` is heavily constrained
-
-Browsers restrict `:visited` styling for privacy, and two limits shape the link treatment:
-
-- **Only color properties apply.** `color`, `background-color`, `border-*-color`, `outline-color`, and `text-decoration-color` work. **`box-shadow` does not.** The highlighter is built from `text-decoration` for exactly this reason; an earlier border-plus-inset-shadow version could only ever recolor half of itself.
-- **Alpha is forced to 1.** An `rgba()` at 50% renders fully opaque on a visited link. That is why the `--mark*` tokens are opaque pre-composites against `--bg` rather than translucent colors. If you retune them, composite by hand or the visited state will come out roughly twice as heavy as the unvisited one.
-
-Hover recolors the ink *and* the background together. Setting only the background leaves the resting-colored marker band sitting on top of the flood as a stripe.
 
 ## justif (the sharp edge)
 
@@ -102,6 +112,6 @@ The known failure mode produces gaps around 72px.
 
 ## Verifying visual work
 
-`just serve`, then drive Chrome DevTools MCP. `emulate` takes `colorScheme: "dark" | "light"` and a `viewport` string, which is the only sane way to check both schemes and the 600 / 1060 / 1200px breakpoints.
+`just serve`, then drive Chrome DevTools MCP. `emulate` takes `colorScheme: "dark" | "light"` and a `viewport` string, which is the only sane way to check both schemes and the 720 / 900px breakpoints. If the MCP browser profile is locked by another session, headless Chrome through puppeteer-core with its own `userDataDir` and `emulateMediaFeatures` does the same job.
 
-`getComputedStyle` **lies about `:visited`** by design, always reporting the unvisited style. Verify visited links by screenshot, and remember the browser needs real history for the URL, so localhost and production have separate visit state.
+Hover is where the two modes diverge most (lime flood on paper, lime text in the dark), so check a prose link, a post row, the pager and the Subscribe pill in both schemes.
