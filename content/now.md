@@ -8,7 +8,7 @@ updated: Updated September 4th, 2026, from my home in Michigan (USA).
 
 ## Vibescript
 
-Nine release candidates took [Vibescript](https://vibescript-lang.org) toward 1.0. Then we abandoned that trail. We decided the language needed to get smaller so applications could control it more predictably. We reset the version line and started simplifying before another run at 1.0. I'll write more about that decision soon.
+Nine release candidates took [Vibescript](https://vibescript-lang.org) toward 1.0. Then I abandoned that trail. I decided the language needed to get smaller so applications could control it more predictably. I reset the version line and started simplifying before another run at 1.0. I'll write more about that decision soon.
 
 ## Rip
 
