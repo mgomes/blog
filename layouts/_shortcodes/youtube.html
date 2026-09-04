@@ -1,0 +1,4 @@
+{{- /* Hugo's built-in youtube shortcode, minus its inline styles, so the
+      embed can sit in the site's framed .embed box. */ -}}
+{{- $id := .Get "id" | default (.Get 0) -}}
+<div class="embed"><iframe src="https://www.youtube.com/embed/{{ $id }}" title="{{ .Get "title" | default "YouTube video" }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>

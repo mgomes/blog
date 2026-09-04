@@ -14,61 +14,81 @@
 @font-face{font-family:MonoLisaCode;font-style:normal;font-weight:1 900;font-display:swap;src:url(/fonts/0-MonoLisaCode-normal.woff2) format("woff2");unicode-range:U+0020-007F}
 @font-face{font-family:MonoLisaCode;font-style:italic;font-weight:1 900;font-display:swap;src:url(/fonts/1-MonoLisaCode-italic.woff2) format("woff2");unicode-range:U+0020-007F}
 @font-face{font-family:MonoLisaCode;font-style:normal;font-weight:1 900;font-display:swap;src:url(/fonts/6-MonoLisaCode-normal.woff2) format("woff2");unicode-range:U+2200-22FF}
-@font-face{font-family:MonoLisaCode;font-style:italic;font-weight:1 900;font-display:swap;src:url(/fonts/7-MonoLisaCode-italic.woff2) format("woff2");unicode-range:U+2200-22FF}
+
+/* Inter Tight (SIL OFL, see /fonts/InterTight-OFL.txt) is the display face:
+   masthead, titles, headings. One variable file per style, instanced to the
+   500-800 weight span the site actually uses and subset to Latin plus Greek
+   so "Computing π in Go" keeps its pi. Prose stays MonoLisaText. */
+@font-face{font-family:InterTight;font-style:normal;font-weight:500 800;font-display:swap;src:url(/fonts/InterTight-normal.woff2) format("woff2")}
+@font-face{font-family:InterTight;font-style:italic;font-weight:500 800;font-display:swap;src:url(/fonts/InterTight-italic.woff2) format("woff2")}
 
 :root {
   color-scheme: light dark;
 
-  /* Tufte's paper white rather than #fff: warm enough to kill the glare,
-     subtle enough that the opaque --mark* pre-composites (computed against
-     pure white) drift imperceptibly and did not need recompositing. */
-  --bg: #fffff8;
-  --fg: #000;
-  /* 4.54:1 on white. The old #ababab was 2.3:1, which failed even the
-     large-text threshold and made post dates effectively unreadable. */
-  --fg-muted: #767676;                     /* .small, .light, mobile nav */
-  --fg-quiet: #565656;                     /* .caption, blockquote */
-  --rule-soft: rgba(0, 0, 0, 0.1);         /* mobile container divider */
-  --rule: #d4d4d4;                         /* table body rows */
-  --rule-strong: #ababab;                  /* hr, blockquote border, table header */
-  --code-bg: #fafaf2;                      /* warmed to sit on the paper */
-  --code-border: #e5e4da;
-  --pre-bg: rgba(236, 236, 236, 0.37);
-  /* Marker inks are opaque pre-composites over --bg, not rgba. :visited
-     silently forces alpha to 1, so a translucent violet would render far
-     heavier than the sky it is meant to match. Compositing by hand keeps the
-     two pens the same weight. */
-  --mark: #e9f8fd;                         /* sky: unvisited */
-  --mark-strong: #bfedfa;                  /* sky: hover flood */
-  --mark-visited: #f3eefe;                 /* violet: visited */
-  --mark-visited-strong: #bda8fb;          /* violet: hover flood */
-  --mark-fg: #000;                         /* text color under a hover flood */
-  --hero-filter: none;
+  --bg: #fbfbf7;
+  --glow: #f0f4d6;                         /* lime-tinted halo behind the masthead */
+  --fg: #141517;                           /* ink: titles, links, chips, masthead */
+  --fg-strong: #141517;                    /* h2+, strong: ink here, white in dark */
+  --prose: #2a2c30;                        /* body copy sits a step below the ink */
+  --fg-quiet: #565656;                     /* blurb, blockquote */
+  --fg-muted: #767676;                     /* dates, meta, footer */
+  --nav-fg: #565656;
+  --rule: #dcdcd6;
+  --rule-strong: #b9b9b1;                  /* hr, table header */
+  --row-hover: #f0f0ea;
+  --code-bg: #f3f3ee;
+  --code-border: #e3e3dc;
+  --embed-a: #ecece6;                      /* stripes behind a loading embed */
+  --embed-b: #f3f3ee;
+  --accent: #d4ff2b;
+  --on-accent: #141517;                    /* text on a lime fill, in both modes */
+  --marker-ring: #141517;                  /* the square gets an ink outline on paper only */
+  --pill-bg: #141517;
+  --pill-fg: #fbfbf7;
+  /* On paper the lime is a highlighter: it bands under the hero word,
+     underlines links and floods them on hover. Text stays ink. */
+  --hero-band: linear-gradient(transparent 62%, var(--accent) 62%);
+  --hero-ink: currentColor;
+  --link-underline: 2px;
+  --link-hover-bg: var(--accent);
+  --link-hover-fg: var(--fg);
+  --pager-fg: var(--fg);
+  --pager-underline: var(--accent);
+  --pager-hover-bg: var(--accent);
+  --pager-hover-underline: var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #131417;
-    --fg: #e8e8e6;                         /* not pure white; less halation on OLED */
-    --fg-muted: #8e9299;
+    --bg: #141517;
+    --glow: #24261c;
+    --fg: #ececea;                         /* not pure white; less halation on OLED */
+    --fg-strong: #fff;
+    --prose: #d1d3cf;
     --fg-quiet: #a3a7ae;
-    --rule-soft: rgba(255, 255, 255, 0.12);
+    --fg-muted: #8e9299;
+    --nav-fg: #c3c5c0;
     --rule: #2b2e34;
     --rule-strong: #3d4148;
+    --row-hover: #1c1e22;
     --code-bg: #1c1e22;
     --code-border: #2a2d33;
-    --pre-bg: rgba(255, 255, 255, 0.05);
-    /* More chromatic than the light pastels: any pale color composited onto
-       near-black desaturates toward steel gray, so both hues get pushed to
-       survive the blend and still read as ink. */
-    --mark: #225871;
-    /* The highlighter inverts rather than dims: hovering floods the line with
-       the same ink at full strength and flips the text dark. */
-    --mark-strong: #33a4d6;
-    --mark-visited: #564a7d;
-    --mark-visited-strong: #9179d8;
-    --mark-fg: #0d0e10;
-    --hero-filter: invert(1);
+    --embed-a: #1c1e22;
+    --embed-b: #202227;
+    --marker-ring: transparent;
+    --pill-bg: #ececea;
+    --pill-fg: #141517;
+    /* In the dark the lime is ink instead: it colors the hero word and link
+       hovers rather than flooding them. A lime flood on near-black glares. */
+    --hero-band: none;
+    --hero-ink: var(--accent);
+    --link-underline: 1px;
+    --link-hover-bg: transparent;
+    --link-hover-fg: var(--accent);
+    --pager-fg: var(--accent);
+    --pager-underline: transparent;
+    --pager-hover-bg: transparent;
+    --pager-hover-underline: var(--accent);
   }
 }
 
@@ -77,113 +97,358 @@ body {
      like .small inherits the same 27.2px leading rather than scaling down. */
   font: 400 16px / 1.7rem 'MonoLisaText', system-ui, -apple-system, sans-serif;
   color: var(--fg);
-  background: var(--bg);
-  padding: 3em 4em 5em;
+  /* The halo is sized in px vertically on purpose. A percentage would scale
+     with the document, so a long post would get a glow reaching halfway down
+     the page while a short one got a sliver. */
+  background: var(--bg) radial-gradient(ellipse 70% 480px at 50% 0, var(--glow) 0%, transparent 100%) no-repeat;
+  margin: 0;
+  padding: 32px 64px 48px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   word-wrap: break-word; /* for long words & urls */
 }
 
-.container {
-  max-width: 648px;
-  min-width: 320px;
-  margin: 4em 4em 2em 222px;
+/* One centered column. The home page runs wider for the post list; every
+   other page is the 680px reading measure. flex: 1 pins the footer to the
+   bottom of short pages. */
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding-top: 96px;
+  box-sizing: border-box;
 }
 
-/* Headings are the one place tracking is safe: justif only measures the
-   justified prose selectors, and headings are not among them. */
+.main-wide {
+  max-width: 900px;
+  padding-top: 128px;
+}
+
+/* HEADINGS. Inter Tight throughout, and tracking is safe here: justif only
+   measures the justified prose selectors, and headings are not among them. */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.4;
+  font-family: InterTight, system-ui, -apple-system, sans-serif;
+  color: var(--fg-strong);
   text-wrap: balance;
 }
 
-h1 {
-  font-size: 28px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.35em;
+.title, .hero h1 {
+  color: var(--fg);
+}
+
+.title {
+  margin: 0 0 20px;
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.045em;
 }
 
 h2 {
-  font-size: 20px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin: 2.6em 0 0.5em;
+  margin: 2.4em 0 0.6em;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
 h3 {
-  font-size: 16px;
-  margin: 2.2em 0 0.4em;
+  margin: 2.2em 0 0.5em;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
 h4, h5, h6 {
-  font-size: 16px;
-  font-weight: 600;
-  font-style: italic;
   margin: 1.8em 0 0.4em;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0 0 1.8rem;
+}
+
+ul, ol {
+  margin: 0 0 1.8rem;
 }
 
 strong, b {
   font-weight: 600;
+  color: var(--fg-strong);
 }
 
-p {
-  margin-bottom: 1.8rem;
-}
-
-ul, ol {
-  margin-bottom: 1.8rem;
-}
-
-/* The highlighter is one text-decoration layer rather than a border plus an
-   inset box-shadow. Browsers only let :visited restyle a short list of color
-   properties, and box-shadow is not on it, so the two-layer version could
-   never fully recolor: the border went violet while the shadow stayed sky.
-   text-decoration-color is restylable, and a negative offset pulls the ink up
-   over the baseline, which the old construction could not do at all.
-   Sized in em so the ink scales with the 14px meta line and the nav. */
-a, a:visited {
+/* LINKS. The lime underline is the default; chrome links (masthead, nav,
+   footer, meta, post rows) opt out below. There is no visited color: the
+   design has one link treatment and history is not part of it. */
+a {
   color: var(--fg);
   text-decoration: underline;
-  text-decoration-thickness: 0.55em;
-  text-underline-offset: -0.24em;
-  text-decoration-skip-ink: none;
-  text-decoration-color: var(--mark);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: var(--link-underline);
+  text-underline-offset: 4px;
 }
 
-a:visited {
-  text-decoration-color: var(--mark-visited);
-}
-
-/* The flood has to recolor the ink as well as the background. Otherwise the
-   marker band keeps its resting color and sits on top of the flood as a
-   second, darker stripe through the middle of the text. */
 a:hover {
-  background: var(--mark-strong);
-  text-decoration-color: var(--mark-strong);
-  color: var(--mark-fg);
-}
-
-a:visited:hover {
-  background: var(--mark-visited-strong);
-  text-decoration-color: var(--mark-visited-strong);
-}
-
-/* Navigation chrome never shows history: the violet ink is reserved for
-   links in post content and the post lists, where visited state is
-   information. Chrome links stay sky forever. */
-.site-header a:visited, .site-footer a:visited, .pagination a:visited {
-  text-decoration-color: var(--mark);
-}
-
-.site-header a:visited:hover, .site-footer a:visited:hover, .pagination a:visited:hover {
-  background: var(--mark-strong);
-  text-decoration-color: var(--mark-strong);
+  background: var(--link-hover-bg);
+  color: var(--link-hover-fg);
 }
 
 a:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
   border-radius: 1px;
+}
+
+/* MASTHEAD. Portrait and name left, quiet nav right, Subscribe as a pill. */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 600 16px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.logo:hover {
+  background: none;
+  color: var(--fg-strong);
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px 36px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.nav a {
+  color: var(--nav-fg);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: none;
+  color: var(--fg-strong);
+}
+
+.pill, .nav .pill {
+  font: 600 14px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  border-radius: 999px;
+  padding: 11px 20px;
+  text-decoration: none;
+}
+
+.pill:hover, .nav .pill:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* META LINE. The lime marker square, then date and tags in tracked caps. */
+.meta {
+  margin: 0 0 24px;
+  font: 500 12px / 1 MonoLisaCode, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.meta a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.meta a:hover {
+  background: none;
+  color: var(--fg-strong);
+}
+
+.marker {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  outline: 1px solid var(--marker-ring);
+  display: inline-block;
+  flex: none;
+}
+
+.byline {
+  margin: 0 0 40px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+/* HOME HERO */
+.hero {
+  text-align: center;
+}
+
+.hero .meta {
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  margin: 0 0 28px;
+  font-size: clamp(44px, 7.5vw, 96px);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+
+.hl {
+  background: var(--hero-band);
+  color: var(--hero-ink);
+}
+
+.blurb {
+  margin: 0 auto 104px;
+  max-width: 620px;
+  color: var(--fg-quiet);
+  font-size: 17px;
+  text-wrap: pretty;
+}
+
+.blurb p {
+  margin: 0;
+}
+
+/* POST LIST. Each row is one link: date, title, first tag. */
+.posts {
+  border-top: 1px solid var(--rule);
+}
+
+.post-row {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 24px;
+  align-items: baseline;
+  padding: 22px 8px;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 6px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.post-row:hover {
+  background: var(--row-hover);
+  color: var(--fg);
+}
+
+.post-date, .post-tag {
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+.post-title {
+  font: 600 24px / 1.25 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.pager {
+  margin: 32px 8px 0;
+  font-size: 13px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  color: var(--fg-muted);
+}
+
+.pager a {
+  color: var(--pager-fg);
+  text-decoration-color: var(--pager-underline);
+  text-decoration-thickness: 2px;
+}
+
+.pager a:hover {
+  background: var(--pager-hover-bg);
+  text-decoration-color: var(--pager-hover-underline);
+  color: var(--pager-fg);
+}
+
+/* ARCHIVE AND TAG PAGES reuse the rows under year headings. */
+.archive .year {
+  margin: 48px 8px 12px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.archive .post-title {
+  font-size: 20px;
+}
+
+/* Each post's drunkard's-walk glyph field (tools/walkgen, `just walks`).
+   Rendered at 2x, displayed at half size for retina. Decorative only. */
+.walk img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0 40px;
+  user-select: none;
+}
+
+/* PROSE. The reading column, one step below the ink. */
+.container {
+  color: var(--prose);
+}
+
+.small, .light {color: var(--fg-muted)}
+
+.small {font-size: 12px}
+
+.caption {
+  display: block;
+  color: var(--fg-quiet);
+}
+
+blockquote {
+  margin: 0 0 1.8rem;
+  padding: 0 0 0 1em;
+  border-left: 2px solid var(--accent);
+  color: var(--fg-quiet);
+  font-style: italic;
+}
+
+hr {
+  width: 200px;
+  margin: 1.5em auto;
+  border: none;
+  border-top: 1px solid var(--rule-strong);
+  display: block;
 }
 
 /* MonoLisaCode has a noticeably larger x-height than MonoLisaText, so at a
@@ -201,10 +466,17 @@ code {
   border-radius: 3px;
   background-color: var(--code-bg);
   padding: 0.1em 0.35em;
+  color: var(--fg);
 }
 
 pre {
-  margin-bottom: 1.8rem;
+  margin: 0 0 1.8rem;
+  padding: 0.9em 1.1em;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  /* Between the 3px chips and the 8px embed frame. */
+  border-radius: 6px;
+  overflow-x: auto;
 }
 
 pre code {
@@ -213,101 +485,28 @@ pre code {
   border: none;
   border-radius: 0;
   padding: 0;
+  color: inherit;
 }
 
-/* HEADER & FOOTER. Masthead in the frantic.im mold: site name left, quiet
-   nav right, hairline rules fencing the page top and bottom. Flex-wrap does
-   the mobile work the old float layout needed a media query for. */
-.site-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5em 2em;
-  flex-wrap: wrap;
-  padding-bottom: 1.1em;
-  border-bottom: 1px solid var(--rule);
+/* Video embeds (the youtube shortcode) sit in a hairline frame. The stripes
+   show while the iframe is still loading. */
+.embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  margin: 0 0 1.8rem;
+  background: repeating-linear-gradient(135deg, var(--embed-a) 0 8px, var(--embed-b) 8px 16px);
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.logo {
-  font-weight: 700;
-  text-decoration: none;
+.embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
-
-.nav {
-  display: flex;
-  gap: 2em;
-  flex-wrap: wrap;
-}
-
-.site-footer {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5em 2em;
-  flex-wrap: wrap;
-  margin-top: 4em;
-  padding-top: 1.1em;
-  border-top: 1px solid var(--rule);
-  font-size: 14px;
-  color: var(--fg-muted);
-}
-
-.footer-nav {
-  display: flex;
-  gap: 1.5em;
-  flex-wrap: wrap;
-}
-
-/* SUBSCRIBE FORM (Buttondown embed on /subscribe/) */
-.subscribe-form {
-  display: flex;
-  gap: 0.75em;
-  flex-wrap: wrap;
-  margin: 1.8rem 0;
-}
-
-.subscribe-form input[type="email"] {
-  font: inherit;
-  color: var(--fg);
-  background: var(--bg);
-  border: 1px solid var(--rule-strong);
-  border-radius: 3px;
-  padding: 0.45em 0.7em;
-  min-width: 260px;
-}
-
-.subscribe-form input[type="submit"] {
-  font: inherit;
-  font-weight: 600;
-  /* The hover-flood pair, so the button reads as a pre-highlighted link:
-     the one thing on the page already inked in the site's accent. */
-  color: var(--mark-fg);
-  background: var(--mark-strong);
-  border: 1px solid var(--mark-strong);
-  border-radius: 3px;
-  padding: 0.45em 1em;
-  cursor: pointer;
-}
-
-.subscribe-form input[type="submit"]:hover {
-  filter: brightness(0.94);
-}
-
-.small, .light {color: var(--fg-muted)}
-
-.small {font-size: 12px}
-
-hr {
-  width: 200px;
-  margin: 1.5em auto;
-  border: none;
-  border-top: 1px solid var(--rule-strong);
-  display: block;
-}
-
-.caption, blockquote {color: var(--fg-quiet)}
-
-blockquote {font-style: italic;margin:0;padding: 0 0 0 1em;border-left: 1px solid var(--rule-strong)}
 
 table {
   word-break: normal;
@@ -335,18 +534,10 @@ th, td {
 th {
   border-bottom: 1px solid var(--rule-strong);
   font-weight: 600;
+  color: var(--fg-strong);
 }
 
 tr:last-child td {border-bottom: none;}
-
-/* Date and tags directly under a post title. Scoped to h1 + so the post-list
-   dates on the home page keep the body size. Safe to resize: .light is
-   excluded from the justify selector, so justif never measures it. */
-h1 + .light {
-  font-size: 14px;
-  margin-top: 0;
-  margin-bottom: 2.5em;
-}
 
 /* PARAGRAPH JUSTIFICATION (justif picks up elements with text-align: justify) */
 .container p:not(.light), .container li, .container blockquote {
@@ -372,145 +563,122 @@ h1 + .light {
 /* MATHS */
 .katex {font-size: 1.2em}
 
-/* IMAGE CAPTION */
-.caption {display: block;}
-
 /* IMAGE SIZE */
 img {max-width: 100%;height: auto;}
 
-/* Each post's drunkard's-walk glyph field (tools/walkgen, `just walks`).
-   Rendered at 2x, displayed at half size for retina. Decorative only. */
-.walk img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 0 0 2.2em;
-  user-select: none;
+/* SUBSCRIBE FORM (Buttondown embed on /subscribe/). The button is the same
+   pill as the nav's Subscribe, so the page and the link that led here agree. */
+.subscribe-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 1.8rem;
 }
 
-/* The masthead poster is a grayscale PNG with alpha, so inverting it in dark
-   mode yields a clean photo negative. Scoped to the class on purpose: post
-   images are photographs and screenshots and must not be touched. */
-.hero {
-  filter: var(--hero-filter);
-  width: 80%;
+.subscribe-form input[type="email"] {
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 9px 18px;
+  min-width: 260px;
 }
 
-/* CODE HIGHLIGHTING */
-
-pre {
-  padding: 0.7em 1em;
-  background: var(--pre-bg);
-  /* Matches the inline chips. Anything past ~4px starts reading as an app
-     card rather than a document, which fights the hard-edged mono. */
-  border-radius: 4px;
-  margin: 0 -1em;
-  overflow-x: auto;
+.subscribe-form input[type="email"]:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
 }
 
-/* LAYOUT */
-
-.container {position: relative;}
-
-.margin {
-  position: absolute;
-  box-sizing: border-box;
-  width: 29.3333%;
-  overflow: auto;
+.subscribe-form input[type="submit"] {
+  font: 600 14px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  color: var(--pill-fg);
+  background: var(--pill-bg);
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 20px;
+  cursor: pointer;
 }
 
-.margin p {font-style: italic;}
-
-.left.margin {
-  left: -29.3333%;
-  padding-right: 30px;
-  text-align: right;
+.subscribe-form input[type="submit"]:hover {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-.right.margin {
-  right: -29.3333%;
-  padding-left: 30px;
+/* FOOTER */
+.site-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+  margin-top: 96px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--fg-muted);
 }
 
-.wide {
-  width: 158.6666667%;
-  margin-left: -29.3333333%;
-  overflow: auto; /* collapse internal margins */
+.footer-nav {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-.wide.left, .wide.right {width: 129.3333333%;float: none;}
-.wide.left {margin: 0 0 0 -29.3333333%}
-.wide.right {margin: 0 -29.3333333% 0 0}
-
-.margin p {margin-top: 2px}
-.margin h1, .margin h2, .margin h3 {margin-top:0}
-
-.column {
-  box-sizing: border-box;
-  float: left;
+.footer-nav a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.column.two {
-  width: 50%;
-  padding-right: 12px;
+.footer-nav a:hover {
+  background: none;
+  color: var(--fg-strong);
 }
 
-.column.three {
-  width: 33%;
-  padding-right: 24px;
+/* NARROW SCREENS */
+@media screen and (max-width: 900px) {
+  /* A tighter date column so titles stop wrapping before the phone layout
+     takes over and stacks them. */
+  .post-row {grid-template-columns: 120px 1fr auto;}
 }
 
-.column.two + .column.two {
-  padding: 0 0 0 12px;
-}
+@media screen and (max-width: 720px) {
+  body {padding: 20px 20px 40px;}
 
-.clear {width: 100%;clear: both;}
+  .nav {gap: 10px 20px;}
 
-.archive h2.margin,
-.archive h3.margin {margin: 0}
+  .main {padding-top: 56px;}
 
-.archive h2.margin.left {left: -45%;}
+  .main-wide {padding-top: 64px;}
 
-/* MESSY RESPONSIVE BUSINESS */
+  /* The tagline no longer fits one line. As a flex row the marker square
+     would wrap onto a line of its own, so let the text flow around it. */
+  .hero .meta {
+    display: block;
+    line-height: 1.7;
+  }
 
-@media screen and (max-width: 1200px) {
-  .container {margin-left: 140px}
-}
+  .hero .marker {
+    vertical-align: middle;
+    margin: 0 8px 0 0;
+  }
 
-@media screen and (max-width: 1060px) {
-  .container {margin: 2em 16px 16px}
-  .archive h2.margin.left {left: auto}
+  .hero h1 {margin-bottom: 20px;}
 
-  .margin,
-  .margin.right,
-  .margin.left {position: relative;display: block;top: auto;left: auto;right: auto;bottom: auto;}
+  .blurb {margin-bottom: 56px; font-size: 16px;}
 
-  .margin.right {float: right;}
-  .margin.left {text-align: left;float: left;}
+  /* Title on its own line, date and tag paired beneath it. */
+  .post-row {
+    grid-template-columns: 1fr auto;
+    gap: 6px 16px;
+    padding: 18px 8px;
+  }
 
-  .wide, .wide.left, .wide.right {width: 100%;margin: 0}
+  .post-title {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    font-size: 21px;
+  }
 
-  .archive .margin {display: block;width: 100%}
-}
-
-@media screen and (max-width: 800px) {
-  .index .margin {display: block;width: 100%}
-}
-
-@media screen and (max-width: 600px) {
-
-  body {padding: 0.4em;}
-
-  /* The old mobile-only divider is redundant now that .site-header carries
-     its own border-bottom at every width. */
-  .container {margin: 1em 0 2em;min-width: auto}
-
-  .nav {gap: 1em 1.5em;}
-
-  /* No room to give away here; the poster text stops being legible. */
-  .hero {width: 100%}
-
-  .margin {width: 40%;}
-  .margin.right {padding-left: 16px;}
-  .margin.left {padding-right: 16px;}
+  .site-footer {margin-top: 64px;}
 }
