@@ -1,34 +1,31 @@
 {{ define "main" }}
-    <div class="container index">
-    <img class="hero" src="/_Images/success_not_guaranteed.png" alt="{{ site.Title }}" />
-      <br/>
+    <section class="hero">
+      <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Params.tagline }}</p>
+      <div class="tearout">
+        <span class="tearout-paper"></span>
+        <div class="tearout-ad">
+          <div class="tearout-copy">{{ .Content }}</div>
+          <h1 class="tearout-title"><span class="marker"></span>{{ site.Title }}</h1>
+        </div>
+      </div>
+    </section>
 
-      {{ $paginator := .Paginate (where site.RegularPages "Section" "posts") }}
+    {{ $paginator := .Paginate (where site.RegularPages "Section" "posts") }}
+    <div class="posts">
       {{ range $paginator.Pages }}
-      <p>
-        <span class="light margin left">{{ .Date.Format "2006-01-02" }}</span>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      </p>
-      {{ end }}
-
-      <br /><br />
-
-      {{ if gt $paginator.TotalPages 1 }}
-      <p class="pagination">
-
-        {{ if $paginator.HasPrev }}
-        <span class="margin left">
-          <a href="{{ $paginator.Prev.URL }}">← Newer posts</a>
-        </span>
-        {{ end }}
-
-        <span class="light" style="margin-right:30px">page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-
-        {{ if $paginator.HasNext }}
-        <a href="{{ $paginator.Next.URL }}">Older posts →</a>
-        {{ end }}
-
-      </p>
+      <a class="post-row" href="{{ .RelPermalink }}">
+        <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+        <span class="post-title">{{ .Title }}</span>
+        <span class="post-tag">{{ with .Params.tags }}{{ index . 0 }}{{ end }}</span>
+      </a>
       {{ end }}
     </div>
+
+    {{ if gt $paginator.TotalPages 1 }}
+    <p class="pager">
+      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}">← Newer posts</a>{{ end }}
+      <span>page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}">Older posts →</a>{{ end }}
+    </p>
+    {{ end }}
 {{ end }}

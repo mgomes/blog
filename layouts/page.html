@@ -1,33 +1,30 @@
 {{ define "main" }}
-    <div class="container">
+    {{- $post := eq .Section "posts" }}
+    <article>
+      {{- if $post }}
+      <p class="meta"><span class="marker"></span>{{ .Date.Format "2006-01-02" }}{{ range (.GetTerms "tags") }} · <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</p>
+      {{- end }}
 
-        <h1 id="{{ .Title | anchorize }}">{{ .Title }}</h1>
+      <h1 class="title" id="{{ .Title | anchorize }}">{{ .Title }}</h1>
 
-        <p class="light">
-          {{ with .Date }}{{ .Format "2006-01-02" }}{{ end }}
+      {{- if $post }}
+      <p class="byline">By {{ site.Params.author }} · {{ .ReadingTime }} min read</p>
+      {{- $slug := .File.ContentBaseName }}
+      {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
+      {{- $cfg := imageConfig (printf "static/_Images/walks/%s-light.png" $slug) }}
+      {{- /* Rendered at 2x; explicit half-size dimensions keep the display
+            at exactly natural/2 so the glyphs are never resampled. */}}
+      <picture class="walk" aria-hidden="true">
+        <source media="(prefers-color-scheme: dark)" srcset="/_Images/walks/{{ $slug }}-dark.png">
+        <img src="/_Images/walks/{{ $slug }}-light.png" alt="" width="{{ div $cfg.Width 2 }}" height="{{ div $cfg.Height 2 }}" loading="lazy">
+      </picture>
+      {{- end }}
+      {{- else }}
+      {{- with .Params.updated }}<p class="byline">{{ . }}</p>{{ end }}
+      {{- end }}
 
-          {{ range (.GetTerms "tags") }}
-            ☼ <a class="light" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-          {{ end }}
-          {{- if eq .Section "posts" }}
-          <br>By {{ site.Params.author }}
-          {{- end }}
-        </p>
-
-        {{- if eq .Section "posts" }}
-        {{- $slug := .File.ContentBaseName }}
-        {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
-        {{- $cfg := imageConfig (printf "static/_Images/walks/%s-light.png" $slug) }}
-        {{- /* Rendered at 2x; explicit half-size dimensions keep the display
-              at exactly natural/2 so the glyphs are never resampled. */}}
-        <picture class="walk" aria-hidden="true">
-          <source media="(prefers-color-scheme: dark)" srcset="/_Images/walks/{{ $slug }}-dark.png">
-          <img src="/_Images/walks/{{ $slug }}-light.png" alt="" width="{{ div $cfg.Width 2 }}" height="{{ div $cfg.Height 2 }}" loading="lazy">
-        </picture>
-        {{- end }}
-        {{- end }}
-        {{ with .Params.updated }}<p>{{ . }}</p>{{ end }}
+      <div class="container">
         {{ .Content }}
-
-    </div>
+      </div>
+    </article>
 {{ end }}

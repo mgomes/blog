@@ -1,9 +1,13 @@
 {{ define "main" }}
-    <div class="container">
-      <h1>{{ .Title }}</h1>
-      {{ range .Pages }}
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      <br />
-      {{ end }}
+    <h1 class="title">{{ .Title }}</h1>
+    <div class="archive">
+      <div class="posts">
+        {{ range .Pages }}
+        <a class="post-row" href="{{ .RelPermalink }}">
+          <span class="post-date">{{ len .Pages }} {{ cond (eq (len .Pages) 1) "post" "posts" }}</span>
+          <span class="post-title">{{ .Title }}</span>
+        </a>
+        {{ end }}
+      </div>
     </div>
 {{ end }}
