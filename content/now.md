@@ -8,7 +8,7 @@ updated: Updated September 4th, 2026, from my home in Michigan (USA).
 
 ## Vibescript
 
-[Vibescript](https://vibescript-lang.org) is nine release candidates into the road to 1.0. Every one of them was supposed to be the last. It is genuinely close now: what remains is a final round of performance work and bug triage before I call it done.
+Nine release candidates took [Vibescript](https://vibescript-lang.org) toward 1.0. Then we abandoned that trail. We decided the language needed to get smaller so applications could control it more predictably. We reset the version line and started simplifying before another run at 1.0. I'll write more about that decision soon.
 
 ## Rip
 
