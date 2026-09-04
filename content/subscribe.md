@@ -1,14 +1,13 @@
 ---
 title: Subscribe
 url: /subscribe/
-description: A newsletter published by Mauricio Gomes. It features infrequent emails that are frequently unconventional, about tech and humanity.
+description: Follow Mauricio Gomes's blog by RSS. The feed carries the full text of every post.
 ---
 
-Get new posts by email. Infrequent emails that are frequently unconventional, about tech and humanity. Unsubscribe whenever.
+New posts go out on the [RSS feed](/feed.rss). It carries the full text of every post, so you can read everything from your feed reader without clicking through. Paste this address into any reader:
 
-<form class="subscribe-form" action="https://buttondown.com/api/emails/embed-subscribe/mgomes" method="post">
-  <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required>
-  <input type="submit" value="Subscribe">
-</form>
+```
+https://mauriciogomes.com/feed.rss
+```
 
-Prefer a feed reader? Grab the [RSS feed](/feed.rss) instead. It carries the full text of every post.
+There is no email list. Posts are infrequent and frequently unconventional, about tech and humanity.
