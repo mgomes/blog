@@ -8,7 +8,7 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
 - `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
-- `content/_index.md` — home hero copy: the `tagline` param and the blurb body
+- `content/_index.md` — home hero copy: the `tagline` param and the wanted-ad body (the `**WANTED:**` label is part of the markdown)
 - `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/`; `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
 - `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, images under `_Images/`
@@ -51,8 +51,8 @@ Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.t
 
 The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), a lime accent (`#d4ff2b`), a faint lime halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
 
-- **On paper the lime is a highlighter.** It bands under the hero word (`--hero-band`), underlines links 2px thick, and floods a link on hover (`--link-hover-bg`).
-- **In the dark the lime is ink.** The hero word is set in it (`--hero-ink`), underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
+- **On paper the lime is a highlighter.** It underlines links 2px thick and floods a link on hover (`--link-hover-bg`).
+- **In the dark the lime is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
 - The marker square (`.marker`) gets an ink outline on paper (`--marker-ring`) and none in the dark, so both modes share one mark.
 
 Prose sits one step below the ink (`--prose`), while titles, links and code chips use `--fg` and h2+ and `strong` use `--fg-strong`, which is white in the dark and ink on paper.
@@ -61,7 +61,7 @@ There is no visited-link color. The previous design had one; this one has a sing
 
 Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and `InterTight` for the masthead, titles, headings, list titles and the pill button. Everything is self-hosted from `static/fonts/`; nothing loads from a third-party host. Inter Tight is the Google Fonts variable file (SIL OFL, license alongside it), instanced to weights 500–800 and subset to Latin plus Greek with fonttools so "Computing π in Go" keeps its pi.
 
-The hero copy lives in `content/_index.md`. The h1 itself is hardcoded in `home.html` because the highlight span needs the last word split out.
+The home hero is a wanted ad torn out of a newspaper: a ragged scrap of newsprint (`.tearout-paper`, a `clip-path` polygon in `--tear`) with the ad's 3px rule box on top, both tilted the same 1.2 degrees. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
 
 ### Layout notes
 

@@ -45,10 +45,9 @@
   --marker-ring: #141517;                  /* the square gets an ink outline on paper only */
   --pill-bg: #141517;
   --pill-fg: #fbfbf7;
-  /* On paper the lime is a highlighter: it bands under the hero word,
-     underlines links and floods them on hover. Text stays ink. */
-  --hero-band: linear-gradient(transparent 62%, var(--accent) 62%);
-  --hero-ink: currentColor;
+  --tear: #dcdcd6;                         /* the torn newsprint behind the wanted ad */
+  /* On paper the lime is a highlighter: it underlines links and floods
+     them on hover. Text stays ink. */
   --link-underline: 2px;
   --link-hover-bg: var(--accent);
   --link-hover-fg: var(--fg);
@@ -78,10 +77,9 @@
     --marker-ring: transparent;
     --pill-bg: #ececea;
     --pill-fg: #141517;
-    /* In the dark the lime is ink instead: it colors the hero word and link
-       hovers rather than flooding them. A lime flood on near-black glares. */
-    --hero-band: none;
-    --hero-ink: var(--accent);
+    --tear: #2b2e34;
+    /* In the dark the lime is ink instead: it colors link hovers rather
+       than flooding them. A lime flood on near-black glares. */
     --link-underline: 1px;
     --link-hover-bg: transparent;
     --link-hover-fg: var(--accent);
@@ -124,7 +122,7 @@ body {
 
 .main-wide {
   max-width: 900px;
-  padding-top: 128px;
+  padding-top: 112px;
 }
 
 /* HEADINGS. Inter Tight throughout, and tracking is safe here: justif only
@@ -135,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
-.title, .hero h1 {
+.title {
   color: var(--fg);
 }
 
@@ -319,29 +317,70 @@ a:focus-visible {
   margin-bottom: 28px;
 }
 
-.hero h1 {
-  margin: 0 0 28px;
-  font-size: clamp(44px, 7.5vw, 96px);
-  font-weight: 800;
-  line-height: 0.94;
-  letter-spacing: -0.05em;
+/* THE WANTED AD. A classified torn out of a newspaper: a ragged scrap of
+   newsprint (the clip-path) with the ad's rule box pasted on it, both tilted
+   the same 1.2 degrees so they read as one object. Native text-align:
+   justify does the typesetting here on purpose; the wide word gaps are part
+   of the classified look, and this sits outside .container so justif leaves
+   it alone. */
+.tearout {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto 96px;
+  padding: 26px 30px 30px;
+  text-align: left;
 }
 
-.hl {
-  background: var(--hero-band);
-  color: var(--hero-ink);
+.tearout-paper {
+  position: absolute;
+  inset: 0;
+  background: var(--tear);
+  clip-path: polygon(0% 9%, 3% 4%, 8% 6%, 14% 2%, 22% 5%, 29% 0%, 37% 3%, 45% 0%, 52% 3%, 60% 1%, 68% 4%, 75% 0%, 83% 3%, 91% 1%, 96% 4%, 100% 9%, 99.4% 30%, 100% 48%, 99% 66%, 100% 84%, 98% 93%, 93% 99%, 85% 96%, 77% 100%, 69% 97%, 61% 100%, 53% 98%, 46% 100%, 38% 96%, 31% 99%, 23% 97%, 15% 100%, 8% 98%, 2% 100%, 0% 92%, 0.6% 74%, 0% 55%, 0.6% 36%);
+  transform: rotate(-1.2deg);
 }
 
-.blurb {
-  margin: 0 auto 104px;
-  max-width: 620px;
-  color: var(--fg-quiet);
-  font-size: 17px;
+.tearout-ad {
+  position: relative;
+  border: 3px solid var(--fg);
+  border-radius: 1px 2px 1px 3px;
+  padding: 28px 34px 30px;
+  transform: rotate(-1.2deg);
+  color: var(--fg);
+}
+
+.tearout-copy p {
+  margin: 0;
+  font: 400 19px / 1.55 MonoLisaText, system-ui, -apple-system, sans-serif;
+  text-align: justify;
   text-wrap: pretty;
 }
 
-.blurb p {
-  margin: 0;
+/* The WANTED: label. Markdown leaves a space after the strong, so the
+   margin is smaller than the mockup's to land on the same gap. */
+.tearout-copy strong {
+  font: 800 17px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.08em;
+  margin-right: 0.25em;
+  color: var(--fg);
+}
+
+.tearout-title {
+  margin: 22px 0 0;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tearout-title .marker {
+  width: 10px;
+  height: 10px;
+  outline: none;
 }
 
 /* POST LIST. Each row is one link: date, title, first tag. */
@@ -663,7 +702,27 @@ img {max-width: 100%;height: auto;}
     margin: 0 8px 0 0;
   }
 
-  .hero h1 {margin-bottom: 20px;}
+  .tearout {
+    margin-bottom: 56px;
+    padding: 18px 14px 20px;
+  }
+
+  .tearout-ad {padding: 20px 20px 22px;}
+
+  /* The column is narrow enough that justified text alone opens rivers,
+     so let the browser hyphenate like a real classified would. */
+  .tearout-copy p {
+    font-size: 17px;
+    hyphens: auto;
+  }
+
+  .tearout-title {
+    font-size: 20px;
+    line-height: 1.15;
+    align-items: flex-start;
+  }
+
+  .tearout-title .marker {margin-top: 0.2em;}
 
   .blurb {margin-bottom: 56px; font-size: 16px;}
 
