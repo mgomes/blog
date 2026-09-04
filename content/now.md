@@ -1,18 +1,18 @@
 ---
 title: What I'm Doing Now
 url: "/now/"
-updated: Updated July 27th, 2026, from my home in Michigan (USA).
+updated: Updated September 4th, 2026, from my home in Michigan (USA).
 ---
 
 (This is a [now](https://nownownow.com/about) page.)
 
 ## Vibescript
 
-[Vibescript](https://vibescript-lang.org) is nine release candidates into the road to 1.0. Every one of them was supposed to be the last. It is genuinely close now: what remains is a final round of performance work and bug triage before I call it done.
+Nine release candidates took [Vibescript](https://vibescript-lang.org) toward 1.0. Then I abandoned that trail. I decided the language needed to get smaller so applications could control it more predictably. I reset the version line and started simplifying before another run at 1.0. I'll write more about that decision soon.
 
-## Ressik
+## Rip
 
-I started a new side project called [Ressik](https://github.com/mgomes/ressik), a terminal-native backup program written in Go. It makes encrypted, deduplicated snapshots locally, with cloud destinations planned. It is still barely working, so keep your real backups somewhere else for now.
+I've been having so much fun building [Rip](https://ripeditor.com), a fast, local editor for reviewing code. AI can write code faster than I can read it, so I'm working on the human side of the loop: files that open instantly, diffs that stay readable, live Markdown, and pull request review inside the editor.
 
 ## Thinking
 
