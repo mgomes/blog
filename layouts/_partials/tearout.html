@@ -1,0 +1,10 @@
+{{- /* The wanted ad torn out of a newspaper. It is the home hero and, at a
+     larger size, the site's OpenGraph card. Copy comes from content/_index.md
+     and the sign-off is the site title. */ -}}
+{{ partial "tearout-clip.html" . }}
+<div class="tearout">
+  <div class="tearout-ad">
+    <div class="tearout-copy">{{ .Content }}</div>
+    <h1 class="tearout-title"><span class="marker"></span>{{ site.Title }}</h1>
+  </div>
+</div>

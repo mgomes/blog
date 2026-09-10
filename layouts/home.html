@@ -1,13 +1,7 @@
 {{ define "main" }}
     <section class="hero">
       <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Params.tagline }}</p>
-      <div class="tearout">
-        <span class="tearout-paper"></span>
-        <div class="tearout-ad">
-          <div class="tearout-copy">{{ .Content }}</div>
-          <h1 class="tearout-title"><span class="marker"></span>{{ site.Title }}</h1>
-        </div>
-      </div>
+      {{ partial "tearout.html" . }}
     </section>
 
     {{ $paginator := .Paginate (where site.RegularPages "Section" "posts") }}

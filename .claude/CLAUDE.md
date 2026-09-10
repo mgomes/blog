@@ -9,9 +9,9 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
 - `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
 - `content/_index.md` — home hero copy: the `tagline` param and the wanted-ad body (the `**WANTED:**` label is part of the markdown)
-- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/`; `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box
+- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box. `home.og.html`, `posts/page.og.html` and `home.ogmanifest.json` only exist for the `just og` build (see OpenGraph cards below)
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
-- `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, images under `_Images/`
+- `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, `favicon.svg` and its PNG renders, the OpenGraph cards (`og-card.png`, `og/<slug>.png`), images under `_Images/`
 
 Drafts are `draft: true` in frontmatter, not a separate directory. `just serve` shows them.
 
@@ -25,7 +25,9 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just build` | production build into `public/` |
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
+| `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
+| `just og` | regenerate the OpenGraph cards and favicon PNGs (run after adding a post, after `just walks`) |
 
 ## Deploy
 
@@ -61,13 +63,21 @@ There is no visited-link color. The previous design had one; this one has a sing
 
 Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and `InterTight` for the masthead, titles, headings, list titles and the pill button. Everything is self-hosted from `static/fonts/`; nothing loads from a third-party host. Inter Tight is the Google Fonts variable file (SIL OFL, license alongside it), instanced to weights 500–800 and subset to Latin plus Greek with fonttools so "Computing π in Go" keeps its pi.
 
-The home hero is a wanted ad torn out of a newspaper: a ragged scrap of newsprint (`.tearout-paper`, a `clip-path` polygon in `--tear`) with the ad's 3px rule box on top, both tilted the same 1.2 degrees. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
+The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout.html`). The scrap is `.tearout` itself, painted in `--tear` and clipped by an SVG `clipPath` in `tearout-clip.html`, which `just tear` (`tools/tearout/trace.py`) traces from the original tear-out PNG kept alongside it, in bounding-box units. Do not hand-edit the path; rerun the trace. The clip cuts the whole object, so the tear takes the ad's top-left corner with it, exactly as in that image, and the ad's 3px rule box sits inside with roughly the image's margins. The whole thing tilts 1.2 degrees. Because the clip stretches to the ad, a taller-than-wide ad (phones) makes the top-left lump run deeper; the 720px breakpoint pads the first line clear of it. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
 
 ### Layout notes
 
 - `body` is a flex column so the footer pins to the bottom of short pages. `.main` is the 680px reading column; the home page adds `.main-wide` for 900px.
 - The halo is a `radial-gradient` on `body`, sized in px vertically on purpose. A percentage would scale with document height, so a long post would get a glow reaching halfway down the page.
 - Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero meta line in block flow so its marker square stops wrapping onto a line of its own).
+
+### OpenGraph cards and favicon are generated
+
+`just og` runs `tools/ogcard/render.py`: it builds the site again with `tools/ogcard/og.toml` merged in, which adds an `og` output format so the home page and every post also render as a 1200x630 card page, serves that build locally, and screenshots each card with headless Google Chrome into `static/og-card.png` (site) and `static/og/<slug>.png` (posts). The PNGs are committed. `head.html` uses a post's own card when its file exists and falls back to the site card. Run it after adding a post, once `just walks` has made the post's walk art, since the post card shows that art behind the tear-out.
+
+The card pages load `assets/css/og.css` after a copy of `main.css` with its dark block stripped (`_partials/og-css.html`), because headless Chrome follows the Mac's color scheme and has no switch for it; the build fails loudly if that block's shape changes. Chrome writes the screenshot and then lingers, so the script kills it once the file lands.
+
+The favicon is `static/favicon.svg` (the lime marker square on an ink ground). `just og` also renders `favicon.png` and `apple-touch-icon.png` from it.
 
 ### Syntax highlighting is generated
 
