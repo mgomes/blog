@@ -24,11 +24,32 @@ body {display: block;}
   justify-content: center;
 }
 
-.og-stage .meta {
-  justify-content: center;
-  margin: 0 0 36px;
-  font-size: 14px;
+/* SITE CARD. The author sits above the ad the way the masthead does, at a
+   size that survives a preview's downscale; the mono meta line would not. */
+.og-byline {
+  margin: 0 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font: 700 32px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--fg);
 }
+
+.og-byline img {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.og-byline-place {
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+
+.og-stage .meta {font-size: 14px;}
 
 /* The tear-out at card scale: wider and larger, same proportions. A fixed
    width, so a short title gets the same scrap as a long one. */
@@ -67,7 +88,6 @@ body {display: block;}
 }
 
 .og-post .tearout-ad .meta {
-  justify-content: flex-start;
   margin: 0 0 22px;
   color: var(--fg-quiet);
 }

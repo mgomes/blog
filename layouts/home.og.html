@@ -10,7 +10,7 @@
 </head>
 <body class="og">
   <main class="og-stage">
-    <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Params.tagline }}</p>
+    <p class="og-byline"><img src="/avatar-portrait.png" alt="" width="64" height="64">{{ site.Params.author }}<span class="og-byline-place"> · {{ .Params.tagline }}</span></p>
     {{ partial "tearout.html" . }}
   </main>
 </body>
