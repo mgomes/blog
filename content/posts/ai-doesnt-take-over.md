@@ -5,7 +5,7 @@ tags:
 - ai
 - automation
 description: "We could hand AI control one sensible decision at a time. What happens when we can no longer take it back?"
-draft: true
+draft: false
 ---
 
 A company gives AI access to its source code because its engineers ship faster. Then production systems, because it handles outages better. Then purchasing, because it negotiates better deals. Then budgeting, because its forecasts improve.
