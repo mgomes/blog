@@ -1,0 +1,27 @@
+{{- /* A post's OpenGraph card: its meta line, title and the site name set
+     inside the tear-out, over the post's drunkard's-walk art as the page the
+     ad was torn from. `just og` renders it into static/og/<slug>.png. */ -}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  {{ partial "og-css.html" . }}
+</head>
+<body class="og">
+  <main class="og-stage og-post">
+    {{- $slug := .File.ContentBaseName }}
+    {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
+    <img class="og-walk" src="/_Images/walks/{{ $slug }}-light.png" alt="">
+    {{- end }}
+    {{ partial "tearout-clip.html" . }}
+    <div class="tearout">
+      <div class="tearout-ad">
+        <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Date.Format "2006-01-02" }}{{ with .Params.tags }} · {{ index . 0 }}{{ end }}</p>
+        <h1 class="og-title{{ if gt (len .Title) 40 }} og-title-long{{ end }}">{{ .Title }}</h1>
+        <p class="tearout-title"><span class="marker"></span>{{ site.Title }}</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

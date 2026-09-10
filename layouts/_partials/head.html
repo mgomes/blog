@@ -5,9 +5,16 @@
     {{- $desc := .Description | default site.Params.description }}
     {{- $ogTitle := site.Title }}
     {{- if not .IsHome }}{{ with .Title }}{{ $ogTitle = printf "%s - %s" . site.Title }}{{ end }}{{ end }}
+    {{- /* Posts get their own card from `just og` when one has been rendered;
+         everything else shares the site card. */}}
+    {{- $card := "og-card.png" }}
+    {{- if eq .Section "posts" }}{{ with .File }}
+    {{- $own := printf "og/%s.png" .ContentBaseName }}
+    {{- if fileExists (printf "static/%s" $own) }}{{ $card = $own }}{{ end }}
+    {{- end }}{{ end }}
     <meta name="description" content="{{ $desc }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ "og-card.png" | absURL }}">
+    <meta name="twitter:image" content="{{ $card | absURL }}">
     <meta name="twitter:title" content="{{ $ogTitle }}">
     <meta name="twitter:description" content="{{ $desc }}">
 
@@ -21,7 +28,9 @@
     {{- end }}
     <meta property="og:title" content="{{ $ogTitle }}">
     <meta property="og:description" content="{{ $desc }}">
-    <meta property="og:image" content="{{ "og-card.png" | absURL }}">
+    <meta property="og:image" content="{{ $card | absURL }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     {{/* The Latin-basic subsets justif blocks on. Preloading them shortens the
          window where the prose is hidden waiting for document.fonts.ready.

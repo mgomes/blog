@@ -1,0 +1,17 @@
+{{- /* The site's OpenGraph card: the home hero on a 1200x630 stage. Only the
+     `just og` build produces this page (tools/ogcard/og.toml enables the
+     output format), and render.py screenshots it into static/og-card.png. */ -}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ site.Title }}</title>
+  {{ partial "og-css.html" . }}
+</head>
+<body class="og">
+  <main class="og-stage">
+    <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Params.tagline }}</p>
+    {{ partial "tearout.html" . }}
+  </main>
+</body>
+</html>

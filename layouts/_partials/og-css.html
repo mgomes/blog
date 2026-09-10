@@ -1,0 +1,13 @@
+{{- /* Stylesheets for the OpenGraph card pages. The site's main.css comes
+     through with its dark-scheme block removed, so a card renders on paper
+     whatever scheme the rendering machine runs; headless Chrome follows the
+     OS and offers no switch for it. The tokens stay single-sourced in
+     main.css. Then og.css pins the 1200x630 stage. Chroma is left out; the
+     cards have no code. */ -}}
+{{- $main := (resources.Get "css/main.css").Content }}
+{{- $light := replaceRE `(?s)\n@media \(prefers-color-scheme: dark\) \{.*?\n\}\n` "\n" $main }}
+{{- if in $light "prefers-color-scheme" }}
+  {{- errorf "og-css.html: could not strip the dark block from main.css; its shape changed" }}
+{{- end }}
+{{- $css := slice (resources.FromString "css/og-main.css" $light) (resources.Get "css/og.css") | resources.Concat "css/og-bundle.css" | minify }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">

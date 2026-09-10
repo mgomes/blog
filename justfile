@@ -16,6 +16,10 @@ draft name:
 tear:
     uv run tools/tearout/trace.py
 
+# Regenerate the OpenGraph cards (site + one per post) and the favicon PNGs
+og:
+    python3 tools/ogcard/render.py
+
 # Regenerate every post's drunkard's-walk art (run after adding a post)
 walks:
     cd tools/walkgen && go run . -content ../../content/posts -out ../../static/_Images/walks

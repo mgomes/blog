@@ -1,0 +1,7 @@
+{{- /* Which card pages the `just og` build produced and what to name their
+     screenshots. The home card keeps its old name so nothing else moves. */ -}}
+{{- $cards := slice (dict "name" "og-card" "url" "/og.html") -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+{{- $cards = $cards | append (dict "name" (printf "og/%s" .File.ContentBaseName) "url" (printf "%sog.html" .RelPermalink)) -}}
+{{- end -}}
+{{- $cards | jsonify -}}

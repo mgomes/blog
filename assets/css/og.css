@@ -1,0 +1,95 @@
+/* OPENGRAPH CARDS. Loaded after the site bundle on the card pages that
+   `just og` renders (see tools/ogcard), so the tokens, fonts, meta line and
+   tear-out rules all carry over. This only pins the 1200x630 stage and sizes
+   the type for it. */
+html,
+body {
+  width: 1200px;
+  height: 630px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {display: block;}
+
+.og-stage {
+  position: relative;
+  width: 1200px;
+  height: 630px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.og-stage .meta {
+  justify-content: center;
+  margin: 0 0 36px;
+  font-size: 14px;
+}
+
+/* The tear-out at card scale: wider and larger, same proportions. A fixed
+   width, so a short title gets the same scrap as a long one. */
+.og-stage .tearout {
+  width: 940px;
+  margin: 0;
+  padding: 24px 28px 26px 32px;
+}
+
+.og-stage .tearout-ad {padding: 36px 46px 38px;}
+
+.og-stage .tearout-copy p {font-size: 27px;}
+
+.og-stage .tearout-copy strong {font-size: 24px;}
+
+.og-stage .tearout-title {
+  margin-top: 28px;
+  font-size: 40px;
+}
+
+.og-stage .tearout-title .marker {
+  width: 14px;
+  height: 14px;
+}
+
+/* POST CARDS. The walk art sits behind the scrap as the page it came from,
+   faded so the ad stays the subject. */
+.og-walk {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1200px;
+  transform: translateY(-50%);
+  opacity: 0.45;
+}
+
+.og-post .tearout-ad .meta {
+  justify-content: flex-start;
+  margin: 0 0 22px;
+  color: var(--fg-quiet);
+}
+
+.og-title {
+  margin: 0;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.og-title-long {font-size: 54px;}
+
+.og-post .tearout-title {
+  margin-top: 34px;
+  font-size: 19px;
+  letter-spacing: 0.12em;
+}
+
+.og-post .tearout-title .marker {
+  width: 9px;
+  height: 9px;
+}
