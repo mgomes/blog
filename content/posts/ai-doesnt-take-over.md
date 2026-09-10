@@ -26,7 +26,7 @@ Eventually:
 
 > “Turning it off would break half the economy.”
 
-Nothing adversarial has happened.
+Nothing adversarial has happened. You may even recognize the first two steps: code suggestions, then pair programming, then OpenClaw.
 
 The same logic could reach well beyond companies. Governments could delegate tax administration, logistics, and infrastructure management. Individuals could hand over scheduling, shopping, investing, finding medical care, and planning what to learn. Each of us would have good reasons to let the system handle one more thing.
 
