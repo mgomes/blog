@@ -57,16 +57,26 @@ def serve(root):
 
 
 def shoot(url, out, size, profile, transparent=False):
-    """Screenshot url into out. Chrome on macOS writes the file and then
-    lingers, so the process is killed as soon as it reports the write."""
+    """Screenshot url into out, giving Chrome a second try: now and then a
+    launch never gets as far as rendering."""
+    for attempt in (1, 2):
+        try:
+            return shoot_once(url, out, size, profile, transparent)
+        except RuntimeError:
+            if attempt == 2:
+                raise
+
+
+def shoot_once(url, out, size, profile, transparent):
+    """Chrome on macOS writes the file and then lingers, so the process is
+    killed as soon as it reports the write."""
     out.parent.mkdir(parents=True, exist_ok=True)
+    w, h = (size, size) if isinstance(size, int) else size
     args = [
         str(CHROME), "--headless", "--disable-gpu", "--hide-scrollbars",
-        "--no-first-run", "--no-default-browser-check", "--force-light-mode",
-        f"--user-data-dir={profile}", f"--window-size={size},{size if isinstance(size, int) else size}",
+        "--no-first-run", "--no-default-browser-check",
+        f"--user-data-dir={profile}", f"--window-size={w},{h}",
     ]
-    w, h = (size, size) if isinstance(size, int) else size
-    args[-1] = f"--window-size={w},{h}"
     if transparent:
         args.append("--default-background-color=00000000")
     args += ["--virtual-time-budget=5000", f"--screenshot={out}", url]
