@@ -34,6 +34,7 @@ body {display: block;}
    width, so a short title gets the same scrap as a long one. */
 .og-stage .tearout {
   width: 940px;
+  max-width: none;
   margin: 0;
   padding: 24px 28px 26px 32px;
 }
