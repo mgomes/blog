@@ -9,7 +9,7 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
 - `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
 - `content/_index.md` — home hero copy: the `tagline` param and the wanted-ad body (the `**WANTED:**` label is part of the markdown)
-- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/`; `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box
+- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
 - `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, images under `_Images/`
 
@@ -25,6 +25,7 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just build` | production build into `public/` |
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
+| `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
 
 ## Deploy
@@ -61,7 +62,7 @@ There is no visited-link color. The previous design had one; this one has a sing
 
 Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and `InterTight` for the masthead, titles, headings, list titles and the pill button. Everything is self-hosted from `static/fonts/`; nothing loads from a third-party host. Inter Tight is the Google Fonts variable file (SIL OFL, license alongside it), instanced to weights 500–800 and subset to Latin plus Greek with fonttools so "Computing π in Go" keeps its pi.
 
-The home hero is a wanted ad torn out of a newspaper: a ragged scrap of newsprint (`.tearout-paper`, a `clip-path` polygon in `--tear`) with the ad's 3px rule box on top, both tilted the same 1.2 degrees. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
+The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout.html`). The scrap is `.tearout` itself, painted in `--tear` and clipped by an SVG `clipPath` in `tearout-clip.html`, which `just tear` (`tools/tearout/trace.py`) traces from the original tear-out PNG kept alongside it, in bounding-box units. Do not hand-edit the path; rerun the trace. The clip cuts the whole object, so the tear takes the ad's top-left corner with it, exactly as in that image, and the ad's 3px rule box sits inside with roughly the image's margins. The whole thing tilts 1.2 degrees. Because the clip stretches to the ad, a taller-than-wide ad (phones) makes the top-left lump run deeper; the 720px breakpoint pads the first line clear of it. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
 
 ### Layout notes
 

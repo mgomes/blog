@@ -317,25 +317,22 @@ a:focus-visible {
   margin-bottom: 28px;
 }
 
-/* THE WANTED AD. A classified torn out of a newspaper: a ragged scrap of
-   newsprint (the clip-path) with the ad's rule box pasted on it, both tilted
-   the same 1.2 degrees so they read as one object. Native text-align:
-   justify does the typesetting here on purpose; the wide word gaps are part
-   of the classified look, and this sits outside .container so justif leaves
-   it alone. */
+/* THE WANTED AD. A classified torn out of a newspaper. The scrap's outline
+   is the clip path in _partials/tearout-clip.html, traced from the original
+   tear-out image, and it clips the whole object so the tear takes the box's
+   top-left corner with it, as it does in that image. The scrap and the ad
+   tilt together 1.2 degrees. Native text-align: justify does the
+   typesetting here on purpose; the wide word gaps are part of the
+   classified look, and this sits outside .container so justif leaves it
+   alone. */
 .tearout {
   position: relative;
   max-width: 720px;
   margin: 0 auto 96px;
-  padding: 26px 30px 30px;
+  padding: 18px 22px 20px 26px;
   text-align: left;
-}
-
-.tearout-paper {
-  position: absolute;
-  inset: 0;
   background: var(--tear);
-  clip-path: polygon(0% 9%, 3% 4%, 8% 6%, 14% 2%, 22% 5%, 29% 0%, 37% 3%, 45% 0%, 52% 3%, 60% 1%, 68% 4%, 75% 0%, 83% 3%, 91% 1%, 96% 4%, 100% 9%, 99.4% 30%, 100% 48%, 99% 66%, 100% 84%, 98% 93%, 93% 99%, 85% 96%, 77% 100%, 69% 97%, 61% 100%, 53% 98%, 46% 100%, 38% 96%, 31% 99%, 23% 97%, 15% 100%, 8% 98%, 2% 100%, 0% 92%, 0.6% 74%, 0% 55%, 0.6% 36%);
+  clip-path: url(#tear);
   transform: rotate(-1.2deg);
 }
 
@@ -344,7 +341,6 @@ a:focus-visible {
   border: 3px solid var(--fg);
   border-radius: 1px 2px 1px 3px;
   padding: 28px 34px 30px;
-  transform: rotate(-1.2deg);
   color: var(--fg);
 }
 
@@ -663,12 +659,14 @@ img {max-width: 100%;height: auto;}
     margin: 0 8px 0 0;
   }
 
+  /* Taller than wide here, so the clip's torn top-left lump stretches
+     deeper. Both paddings grow to keep the first line clear of it. */
   .tearout {
     margin-bottom: 56px;
-    padding: 18px 14px 20px;
+    padding: 26px 14px 20px;
   }
 
-  .tearout-ad {padding: 20px 20px 22px;}
+  .tearout-ad {padding: 26px 20px 22px;}
 
   /* The column is narrow enough that justified text alone opens rivers,
      so let the browser hyphenate like a real classified would. */
