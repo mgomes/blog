@@ -33,7 +33,9 @@
     <link rel="preload" href="/fonts/InterTight-normal.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="alternate" type="application/rss+xml" title="RSS Feed for {{ site.Title }}" href="{{ "feed.rss" | absURL }}">
-    <link rel="icon" href="/avatar.png" type="image/x-icon">
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     {{- $css := slice (resources.Get "css/main.css") (resources.Get "css/chroma.css") (resources.Get "css/chroma-dark.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}">
     {{- if .Params.math }}
