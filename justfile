@@ -12,6 +12,10 @@ build:
 draft name:
     hugo new posts/{{name}}.md
 
+# Redraw the note glyph library into static/glyphs.svg
+glyphs:
+    uv run tools/glyphs/draw.py
+
 # Retrace the home hero's torn-paper clip path from tools/tearout's image
 tear:
     uv run tools/tearout/trace.py
