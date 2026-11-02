@@ -32,7 +32,7 @@ WORKERS = 4
 # transparency. The ground color repeats favicon.svg's on purpose; it is the
 # only place outside that file that knows it.
 ICONS = {
-    "apple-touch-icon.png": (180, False, '<body style="margin:0;background:#141517">'
+    "apple-touch-icon.png": (180, False, '<body style="margin:0;background:#1f3fb4">'
                              '<img src="/favicon.svg" style="display:block;width:180px;height:180px"></body>'),
     "favicon.png": (64, True, '<body style="margin:0"><img src="/favicon.svg" style="display:block;width:64px;height:64px"></body>'),
 }

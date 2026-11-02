@@ -1,0 +1,7 @@
+{{- with .Paginator }}{{ if gt .TotalPages 1 }}
+    <p class="pager">
+      {{ if .HasPrev }}<a href="{{ .Prev.URL }}">← Newer</a>{{ end }}
+      <span>page {{ .PageNumber }} of {{ .TotalPages }}</span>
+      {{ if .HasNext }}<a href="{{ .Next.URL }}">Older →</a>{{ end }}
+    </p>
+{{- end }}{{ end }}

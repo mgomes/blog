@@ -1,0 +1,3 @@
+{{- /* The verb a note is filed under, for meta lines, cards and the feed. */ -}}
+{{- $labels := dict "film" "Watched" "tv" "Binged" "book" "Read" "music" "Listened" "note" "Note" -}}
+{{- return (index $labels (.Params.medium | default "note")) -}}

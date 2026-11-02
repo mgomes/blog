@@ -7,10 +7,12 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 ## Layout
 
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
+- `content/notes/` — short entries (films, shows, books, records, plain notes), served under `/notes/<slug>/`. See Notes below
 - `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
 - `content/_index.md` — home hero copy: the `tagline` param and the wanted-ad body (the `**WANTED:**` label is part of the markdown)
-- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box. `home.og.html`, `posts/page.og.html` and `home.ogmanifest.json` only exist for the `just og` build (see OpenGraph cards below)
+- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box. `home.og.html`, `posts/page.og.html` and `home.ogmanifest.json` only exist for the `just og` build (see OpenGraph cards below). `_partials/stream.html` and `card.html` are the home and notes card grid; `note-object.html` draws a note's object
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
+- `static/glyphs.svg` — the generated glyph sprite notes print on their objects (`just glyphs`)
 - `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, `favicon.svg` and its PNG renders, the OpenGraph cards (`og-card.png`, `og/<slug>.png`), images under `_Images/`
 
 Drafts are `draft: true` in frontmatter, not a separate directory. `just serve` shows them.
@@ -24,6 +26,9 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just` / `just serve` | dev server on :1313 with drafts and future-dated posts |
 | `just build` | production build into `public/` |
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
+| `just note <medium> <slug>` | scaffold a note (`film`, `tv`, `book`, `music`, or `note`) from `archetypes/notes.md` |
+| `just glyphs` | redraw the glyph sprite from `tools/glyphs/draw.py` |
+| `just cover [--force] [slug…]` | fetch film/TV art from TMDB into `assets/covers/` (key from `TMDB_API_KEY`, else 1Password's `Private/Themoviedb` "API Key" via `op`); no slug fetches every film or tv note missing art |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
 | `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
@@ -51,11 +56,13 @@ Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.t
 
 `assets/css/main.css` is the whole design. Every color is a `:root` custom property, and dark mode is a `prefers-color-scheme` block that redeclares those tokens. There is no theme toggle and no theme JS. Add colors as tokens, not literals, or dark mode silently misses them.
 
-The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), a lime accent (`#d4ff2b`), a faint lime halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
+The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), an ink-blue accent (`#1f3fb4`, lifted to periwinkle `#8ea6ff` in the dark), a faint blue halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
 
-- **On paper the lime is a highlighter.** It underlines links 2px thick and floods a link on hover (`--link-hover-bg`).
-- **In the dark the lime is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
-- The marker square (`.marker`) gets an ink outline on paper (`--marker-ring`) and none in the dark, so both modes share one mark.
+- **On paper the blue is a marker.** It underlines links 2px thick and floods a link on hover (`--link-hover-bg`), turning the text paper-white (`--on-accent`).
+- **In the dark the blue is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
+- The accent was lime until November 2026. Dark blue can't do the two jobs lime did with one value (a flood needs light text on it, and dark blue vanishes on near-black), which is why `--accent` and `--on-accent` are redeclared in the dark block.
+
+Safari 26 ignores `theme-color` and tints its toolbar from a fixed element at the page's top edge, so `baseof.html` opens with an 8px `.tint` strip in `--tint` (the ink blue in both modes). It has to be a real element at least about 6px tall; pseudo-elements and thinner strips are ignored.
 
 Prose sits one step below the ink (`--prose`), while titles, links and code chips use `--fg` and h2+ and `strong` use `--fg-strong`, which is white in the dark and ink on paper.
 
@@ -65,11 +72,27 @@ Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and
 
 The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout.html`). The scrap is `.tearout` itself, painted in `--tear` and clipped by an SVG `clipPath` in `tearout-clip.html`, which `just tear` (`tools/tearout/trace.py`) traces from the original tear-out PNG kept alongside it, in bounding-box units. Do not hand-edit the path; rerun the trace. The clip cuts the whole object, so the tear takes the ad's top-left corner with it, exactly as in that image, and the ad's 3px rule box sits inside with roughly the image's margins. The whole thing tilts 1.2 degrees. Because the clip stretches to the ad, a taller-than-wide ad (phones) makes the top-left lump run deeper; the 720px breakpoint pads the first line clear of it. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
 
+Above the ad sits a newspaper folio (`.folio` in `home.html`): the tagline left, CLASSIFIEDS in the middle, and the date right, between a hairline and a double rule. The date is the build date, kept current by the nightly deploy. Hugo's `now` is in the build machine's zone (UTC on Cloudflare), so the template moves it into the site's `timeZone` by borrowing the location from a zoneless `time.AsTime`; `time.Format` alone does not convert.
+
+### Notes and the stream
+
+The home page is a masonry grid of cards mixing posts and notes, newest first, 12 to a page. Post cards lead with their walk art. A note's `medium` picks the object its card shows: `film` is a frame of 35mm film, `tv` a portable set with rabbit ears, `book` a paperback with a spine crease and page edge, `music` a sleeve with the record half out. Plain notes (`medium: note`, title optional) have no object; the card is a scrap of the hero's newsprint, clipped to the same `#tear` path, carrying the whole note.
+
+`medium`, not `kind`: Hugo reserves `kind` in front matter and fails the build on it.
+
+Object art follows the Love, Death & Robots title cards: a flat field in one of seven `--swatch-*` colors printed with one to three glyphs (`glyphs: [rocket, eye, skull]`, `color: red`). With no glyphs the medium's own glyph is used; with no color one is picked from a hash of the title. Unknown media, colors and glyph names fail the build. The glyphs are drawn with shapely booleans in `tools/glyphs/draw.py`, so a cut-out is a real hole; add one there and rerun `just glyphs` rather than editing the sprite. `uv run tools/glyphs/draw.py --sheet <file.html>` writes a contact sheet.
+
+A note with art in `assets/covers/<slug>.*` shows that instead of its glyphs, cropped to the object's shape and resized to 180 and 360px wide. `just cover` (`tools/covers/fetch.py`) fetches it from TMDB: posters for films, a backdrop still for TV (it fills the CRT better). It searches by title and year, pins the match as `tmdb: <id>` in the note, and fetches a pinned id directly, so a wrong match is fixed by editing the id and rerunning with `--force`. Note pages with a `tmdb` id and art carry the credit TMDB's terms require. Books and records aren't on TMDB; drop their art in by hand, then touch the note or restart `just serve`, since the dev server doesn't notice a new file it only finds through `resources.GetMatch`. The script writes atomically for the same reason: a half-written note gets rendered with its front matter as body and stays that way.
+
+Objects are sized in em, so one `font-size` scales the whole thing (6px on a card, 12px on the note's page). The swatches hold in both modes; the dark plastics (`--film`, `--tv-body`, `--vinyl`) are lifted in the dark block so they don't sink into the card.
+
+Masonry is `assets/js/stream.js`, inlined right after the grid so it runs before first paint: each card spans as many 1px rows as it is tall, which keeps reading order left to right. Browsers with `display: grid-lanes` skip it.
+
 ### Layout notes
 
 - `body` is a flex column so the footer pins to the bottom of short pages. `.main` is the 680px reading column; the home page adds `.main-wide` for 900px.
 - The halo is a `radial-gradient` on `body`, sized in px vertically on purpose. A percentage would scale with document height, so a long post would get a glow reaching halfway down the page.
-- Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero meta line in block flow so its marker square stops wrapping onto a line of its own).
+- Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero folio restacked with the section on top and place and date beneath).
 
 ### OpenGraph cards and favicon are generated
 
@@ -77,7 +100,7 @@ The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout
 
 The card pages load `assets/css/og.css` after a copy of `main.css` with its dark block stripped (`_partials/og-css.html`), because headless Chrome follows the Mac's color scheme and has no switch for it; the build fails loudly if that block's shape changes. Chrome writes the screenshot and then lingers, so the script kills it once the file lands.
 
-The favicon is `static/favicon.svg` (the lime marker square on an ink ground). `just og` also renders `favicon.png` and `apple-touch-icon.png` from it.
+The favicon is `static/favicon.svg` (the marker square in paper on an ink-blue ground). `just og` also renders `favicon.png` and `apple-touch-icon.png` from it.
 
 ### Syntax highlighting is generated
 
@@ -124,4 +147,4 @@ The known failure mode produces gaps around 72px.
 
 `just serve`, then drive Chrome DevTools MCP. `emulate` takes `colorScheme: "dark" | "light"` and a `viewport` string, which is the only sane way to check both schemes and the 720 / 900px breakpoints. If the MCP browser profile is locked by another session, headless Chrome through puppeteer-core with its own `userDataDir` and `emulateMediaFeatures` does the same job.
 
-Hover is where the two modes diverge most (lime flood on paper, lime text in the dark), so check a prose link, a post row, the pager and the Subscribe pill in both schemes.
+Hover is where the two modes diverge most (blue flood with paper text on paper, periwinkle text in the dark), so check a prose link, a post row, the pager and the Subscribe pill in both schemes.

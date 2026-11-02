@@ -1,0 +1,41 @@
+{{- /* One tile in the stream. Posts lead with their walk art, media notes
+     with their object, and plain notes are a scrap of newsprint carrying
+     the whole note (its links stay live, so only the date is the permalink). */ -}}
+{{- $label := partial "note-label.html" . -}}
+{{- if eq .Section "posts" }}
+      <a class="card card-post" href="{{ .RelPermalink }}">
+        {{- $slug := .File.ContentBaseName }}
+        {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
+        <picture class="card-art" aria-hidden="true">
+          <source media="(prefers-color-scheme: dark)" srcset="/_Images/walks/{{ $slug }}-dark.png">
+          <img src="/_Images/walks/{{ $slug }}-light.png" alt="" width="648" height="324" loading="lazy">
+        </picture>
+        {{- end }}
+        <span class="card-meta">{{ .Date.Format "2006-01-02" }}{{ with .Params.tags }} · {{ index . 0 }}{{ end }}</span>
+        <span class="card-title"><span>{{ .Title }}</span></span>
+        {{- with .Description }}
+        <span class="card-blurb">{{ . }}</span>
+        {{- end }}
+      </a>
+{{- else if eq (.Params.medium | default "note") "note" }}
+      <article class="card card-note">
+        {{- with .Title }}
+        <h2 class="card-title"><a href="{{ $.RelPermalink }}">{{ . }}</a></h2>
+        {{- end }}
+        <div class="card-text">{{ .Content }}</div>
+        <a class="card-meta" href="{{ .RelPermalink }}"><span class="marker"></span>{{ .Date.Format "2006-01-02" }}</a>
+      </article>
+{{- else }}
+      <a class="card card-media card-{{ .Params.medium }}" href="{{ .RelPermalink }}">
+        {{ partial "note-object.html" (dict "page" . "size" "card") }}
+        <span class="card-body">
+          <span class="card-label"><span class="marker"></span>{{ $label }}</span>
+          <span class="card-title"><span>{{ .Title }}</span></span>
+          {{- with .Params.creator }}
+          <span class="card-creator">{{ . }}{{ with $.Params.year }} · {{ . }}{{ end }}</span>
+          {{- end }}
+          {{- partial "rating.html" . }}
+          <span class="card-meta">{{ .Date.Format "2006-01-02" }}</span>
+        </span>
+      </a>
+{{- end }}
