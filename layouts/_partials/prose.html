@@ -1,0 +1,20 @@
+{{- /* A page's rendered body, without what TinyDesk keeps in a document but
+     not in the piece: ghosted text, the shelf of cut snippets below its fold
+     marker, and the alternative takes' data. TinyDesk writes all of it as
+     HTML comments, but a paragraph that opens with one would parse as a raw
+     HTML block and lose its Markdown, so the marks come out of the source
+     before it renders rather than out of the HTML after. Pages without marks
+     get Hugo's own .Content untouched.
+
+     The marks are matched anywhere, code blocks included, so a post that
+     quotes TinyDesk's format verbatim loses those lines too. */ -}}
+{{- $html := .Content -}}
+{{- $raw := .RawContent -}}
+{{- if or (strings.Contains $raw "<!--td:") (strings.Contains $raw "<!-- tinydesk:") -}}
+  {{- $md := replaceRE `(?s)<!-- tinydesk:variants.*?-->` "" $raw -}}
+  {{- $md = replaceRE `(?s)<!-- tinydesk:overflow -->.*` "" $md -}}
+  {{- $md = replaceRE `(?s)<!--td:ghost-->.*?<!--/td:ghost-->` "" $md -}}
+  {{- $md = replaceRE `<!--/?td:v[^>]*-->` "" $md -}}
+  {{- $html = .RenderString (dict "display" "block") $md -}}
+{{- end -}}
+{{- return $html -}}

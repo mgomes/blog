@@ -21,7 +21,7 @@
       {{- end }}
 
       <div class="container">
-        {{ .Content }}
+        {{ partial "prose.html" . }}
       </div>
       {{- /* TMDB's terms ask for credit wherever its art is shown. */}}
       {{- with .Params.tmdb }}{{ if resources.GetMatch (printf "covers/%s.*" $.File.ContentBaseName) }}

@@ -22,7 +22,7 @@
         {{- with .Title }}
         <h2 class="card-title"><a href="{{ $.RelPermalink }}">{{ . }}</a></h2>
         {{- end }}
-        <div class="card-text">{{ .Content }}</div>
+        <div class="card-text">{{ partial "prose.html" . }}</div>
         <a class="card-meta" href="{{ .RelPermalink }}"><span class="marker"></span>{{ .Date.Format "2006-01-02" }}</a>
       </article>
 {{- else }}

@@ -8,7 +8,10 @@
       <h1 class="title" id="{{ .Title | anchorize }}">{{ .Title }}</h1>
 
       {{- if $post }}
-      <p class="byline">By {{ site.Params.author }} · {{ .ReadingTime }} min read</p>
+      {{- /* Hugo's reading time counts text the prose partial drops, so it's
+            recounted from what is published, at Hugo's 213 words a minute. */}}
+      {{- $words := partial "prose.html" . | plainify | countwords }}
+      <p class="byline">By {{ site.Params.author }} · {{ math.Max 1 (math.Ceil (div (float $words) 213)) }} min read</p>
       {{- $slug := .File.ContentBaseName }}
       {{- if fileExists (printf "static/_Images/walks/%s-light.png" $slug) }}
       {{- $cfg := imageConfig (printf "static/_Images/walks/%s-light.png" $slug) }}
@@ -24,7 +27,7 @@
       {{- end }}
 
       <div class="container">
-        {{ .Content }}
+        {{ partial "prose.html" . }}
       </div>
     </article>
 {{ end }}

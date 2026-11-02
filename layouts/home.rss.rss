@@ -15,11 +15,11 @@
   {{- /* Notes file under their verb ("Watched: Alien"), and an untitled
         note borrows its opening words. */}}
   {{- $title := .Title }}
-  {{- $body := string .Content }}
+  {{- $body := string (partial "prose.html" .) }}
   {{- if eq .Section "notes" }}
   {{- $medium := .Params.medium | default "note" }}
   {{- if eq $medium "note" }}
-  {{- $title = .Title | default (.Summary | plainify | truncate 60) }}
+  {{- $title = .Title | default ($body | plainify | htmlUnescape | truncate 60) }}
   {{- else }}
   {{- $title = printf "%s: %s" (partial "note-label.html" .) .Title }}
   {{- with .Params.creator }}

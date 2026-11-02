@@ -44,6 +44,12 @@ The `blot` remote is the dead Blot repo. Never push to it.
 
 First person, conversational, grounded. Explain with plain analogies, be honest about uncertainty, and do not over-embellish or hype. **No em-dashes**, and no ` -- ` dash-asides. Rephrase into commas, parentheses, or separate sentences.
 
+## Writing in TinyDesk
+
+Posts and notes can be written in TinyDesk (Mauricio's Markdown app) with `content/` opened as a folder. TinyDesk stores its drafting marks as HTML comments: alternative takes (`<!--td:v id-->…<!--/td:v-->`), ghosted text (`<!--td:ghost-->…<!--/td:ghost-->`), and a shelf of cut snippets plus the takes' data below `<!-- tinydesk:overflow -->`.
+
+`_partials/prose.html` is the page body everywhere it's shown (pages, plain-note cards, the feed, the reading time): it drops ghosts and the shelf, the same text TinyDesk leaves out of its own word count, and unwraps takes. It strips them from the Markdown before rendering, because a paragraph that opens with a mark would otherwise parse as a raw HTML block and lose its Markdown. Pages without marks get `.Content` untouched. Use the partial, not `.Content`, anywhere new that shows a page's text.
+
 ## Math
 
 Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.toml`) and `layouts/_markup/render-passthrough.html`.
