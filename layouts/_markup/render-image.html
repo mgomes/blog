@@ -1,0 +1,14 @@
+{{- /* TinyDesk saves pasted images to images/ beside the document and links
+     them relatively, which resolves to nothing under a post's /slug/ URL.
+     A relative path that names one of the page's resources, or its
+     section's (content/posts/images/ belongs to the posts section), links
+     to where Hugo publishes it. Everything else passes through as written. */ -}}
+{{- $src := .Destination -}}
+{{- $u := urls.Parse $src -}}
+{{- if and (not $u.Scheme) (not (strings.HasPrefix $u.Path "/")) $u.Path -}}
+  {{- with or (.Page.Resources.Get $u.Path) (.Page.CurrentSection.Resources.Get $u.Path) -}}
+    {{- $src = .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }}>
+{{- /**/ -}}

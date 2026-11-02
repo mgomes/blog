@@ -50,6 +50,8 @@ Posts and notes can be written in TinyDesk (Mauricio's Markdown app) with `conte
 
 `_partials/prose.html` is the page body everywhere it's shown (pages, plain-note cards, the feed, the reading time): it drops ghosts and the shelf, the same text TinyDesk leaves out of its own word count, and unwraps takes. It strips them from the Markdown before rendering, because a paragraph that opens with a mark would otherwise parse as a raw HTML block and lose its Markdown. Pages without marks get `.Content` untouched. Use the partial, not `.Content`, anywhere new that shows a page's text.
 
+TinyDesk pastes images into `images/` beside the document and links them relatively. `_markup/render-image.html` resolves those against the page's section, so `content/posts/images/` publishes under `/archives/images/` (the posts section's URL) and `content/notes/images/` under `/notes/images/`.
+
 ## Math
 
 Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.toml`) and `layouts/_markup/render-passthrough.html`.
