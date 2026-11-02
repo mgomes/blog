@@ -177,8 +177,10 @@ def tv():
 
 def note():
     return U(
-        rot(E(9, 24.5, 4.4, 3.2), -20, 9, 24.5), rot(E(23, 21.5, 4.4, 3.2), -20, 23, 21.5),
-        R(11.2, 7, 2.4, 17.5), R(25.2, 4, 2.4, 17.5),
+        # Each head is flush with its stem's right edge, and the stem stops at
+        # the head's rightmost point, so the join shows no step.
+        rot(E(9.32, 24.5, 4.4, 3.2), -20, 9.32, 24.5), rot(E(23.32, 21.5, 4.4, 3.2), -20, 23.32, 21.5),
+        R(11.2, 7, 2.4, 16.77), R(25.2, 4, 2.4, 16.77),
         P((11.2, 6.5), (27.6, 3.2), (27.6, 8.4), (11.2, 11.7)),
     )
 
