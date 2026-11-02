@@ -120,12 +120,15 @@ def fetch(slug, key, force=False):
     if not art:
         raise Miss(f"TMDB {kind} {item['id']} has no artwork")
 
-    COVERS.mkdir(parents=True, exist_ok=True)
-    for old in COVERS.glob(f"{slug}.*"):
-        old.unlink()
-    out = COVERS / f"{slug}{pathlib.PurePosixPath(art).suffix or '.jpg'}"
+    # Download first, so a failed refetch leaves the current cover in place.
     with urllib.request.urlopen(f"{IMAGES}{art}", timeout=30) as r:
-        write(out, r.read())
+        data = r.read()
+    COVERS.mkdir(parents=True, exist_ok=True)
+    out = COVERS / f"{slug}{pathlib.PurePosixPath(art).suffix or '.jpg'}"
+    write(out, data)
+    for old in COVERS.glob(f"{slug}.*"):
+        if old != out:
+            old.unlink()
     if str(item["id"]) != fm.get("tmdb"):
         pin(path, text, item["id"])
     else:
