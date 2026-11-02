@@ -2,6 +2,7 @@
 <html lang="en">
   {{ partial "head.html" . }}
   <body>
+    <div class="tint" aria-hidden="true"></div>
     {{ partial "header.html" . }}
     <main class="main{{ if .IsHome }} main-wide{{ end }}">
       {{ block "main" . }}{{ end }}

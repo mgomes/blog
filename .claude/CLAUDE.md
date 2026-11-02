@@ -61,6 +61,8 @@ The look is the "studio" direction from the September 2026 mockups: one centered
 - **In the dark the blue is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
 - The accent was lime until November 2026. Dark blue can't do the two jobs lime did with one value (a flood needs light text on it, and dark blue vanishes on near-black), which is why `--accent` and `--on-accent` are redeclared in the dark block.
 
+Safari 26 ignores `theme-color` and tints its toolbar from a fixed element at the page's top edge, so `baseof.html` opens with an 8px `.tint` strip in `--tint` (the ink blue in both modes). It has to be a real element at least about 6px tall; pseudo-elements and thinner strips are ignored.
+
 Prose sits one step below the ink (`--prose`), while titles, links and code chips use `--fg` and h2+ and `strong` use `--fg-strong`, which is white in the dark and ink on paper.
 
 There is no visited-link color. The previous design had one; this one has a single link treatment, and chrome links (masthead, nav, footer, meta, post rows) opt out of the underline with `text-decoration: none` plus a hover that resets `background`.

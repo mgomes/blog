@@ -42,6 +42,7 @@
   --embed-b: #f3f3ee;
   --accent: #1f3fb4;
   --on-accent: #fbfbf7;                    /* text on an accent fill */
+  --tint: #1f3fb4;                         /* the strip Safari tints its toolbar from, both modes */
   --pill-bg: #141517;
   --pill-fg: #fbfbf7;
   --tear: #dcdcd6;                         /* the torn newsprint behind the wanted ad */
@@ -232,6 +233,20 @@ a:focus-visible {
   outline: 2px solid var(--fg);
   outline-offset: 2px;
   border-radius: 1px;
+}
+
+/* SAFARI TINT. Safari 26 ignores theme-color and colors its toolbar from
+   a fixed element at the top edge. It only counts a real element (not a
+   pseudo-element) at least about 6px tall, so this is an 8px div. */
+.tint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: var(--tint);
+  z-index: 1000;
+  pointer-events: none;
 }
 
 /* MASTHEAD. Portrait and name left, quiet nav right, Subscribe as a pill. */
