@@ -833,10 +833,11 @@ a.card:hover .obj-film {transform: rotate(0);}
 /* A record sleeve with the disc half out. Hover pulls it a little further. */
 /* The disc's center sits past the sleeve's edge so half the label
    shows: the padding has to exceed half the disc's width. */
-.obj-music {padding-right: 40%;}
-
+/* The sleeve is sized against the object, not padded off it: percentage
+   padding resolves against the grid column, which is wider on phones. */
 .obj-music .field, .obj-music .cover {
   position: relative;
+  width: 60%;
   aspect-ratio: 1;
   border-radius: 0.2em;
   box-shadow: 0 0.6em 1.4em -0.6em rgba(0, 0, 0, 0.5);
@@ -882,6 +883,9 @@ a.card:hover .disc {transform: translateX(8%) rotate(40deg);}
 }
 
 .note-music .note-head {grid-template-columns: 280px 1fr;}
+
+/* The record is taller than its sleeve; clear what it overhangs. */
+.note-head .obj-music {margin-block: 1.8em;}
 
 .note-head .title {margin-bottom: 12px;}
 
@@ -1151,7 +1155,7 @@ img {max-width: 100%;height: auto;}
 
   .stream {--gap: 22px;}
 
-  .note-head {
+  .note-head, .note-music .note-head {
     grid-template-columns: 1fr;
     gap: 28px;
   }
