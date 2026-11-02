@@ -17,9 +17,13 @@ note medium name:
     hugo new notes/{{name}}.md
     sed -i '' 's/^medium: note$/medium: {{medium}}/' content/notes/{{name}}.md
 
-# Fetch film and TV cover art from TMDB (needs TMDB_API_KEY):
-# `just cover` for every note missing art, `just cover alien`, `just cover --force alien`
+# Fetch film and TV cover art from TMDB: `just cover` for every note missing
+# art, `just cover alien`, `just cover --force alien`. The key comes from
+# TMDB_API_KEY, or 1Password's Themoviedb item when that is unset.
 cover *args:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    export TMDB_API_KEY="${TMDB_API_KEY:-$(op read 'op://Private/Themoviedb/API Key')}"
     uv run tools/covers/fetch.py {{args}}
 
 # Redraw the note glyph library into static/glyphs.svg

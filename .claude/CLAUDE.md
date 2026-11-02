@@ -28,7 +28,7 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
 | `just note <medium> <slug>` | scaffold a note (`film`, `tv`, `book`, `music`, or `note`) from `archetypes/notes.md` |
 | `just glyphs` | redraw the glyph sprite from `tools/glyphs/draw.py` |
-| `just cover [--force] [slug…]` | fetch film/TV art from TMDB into `assets/covers/` (needs `TMDB_API_KEY`); no slug fetches every film or tv note missing art |
+| `just cover [--force] [slug…]` | fetch film/TV art from TMDB into `assets/covers/` (key from `TMDB_API_KEY`, else 1Password's `Private/Themoviedb` "API Key" via `op`); no slug fetches every film or tv note missing art |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
 | `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |

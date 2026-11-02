@@ -4,8 +4,8 @@
 # ///
 """Fetch cover art for film and TV notes from TMDB into assets/covers/.
 
-`just cover <slug>` fetches one note's art, `just covers` every film or tv
-note that has none yet. Films get their poster, which fills the frame of
+`just cover <slug>` fetches one note's art; `just cover` alone fetches every
+film or tv note that has none yet. Films get their poster, which fills the frame of
 film; shows get a backdrop, since a landscape still suits the TV's screen
 better than a portrait poster (falling back to the poster when there is no
 backdrop). Hugo resizes whatever lands in assets/covers/<slug>.* for the
@@ -17,7 +17,8 @@ the note as `tmdb: <id>`. If the search picked the wrong thing, correct that
 id and rerun with --force; a pinned id is fetched directly.
 
 Needs TMDB_API_KEY in the environment, either the v3 API key or the v4 read
-access token, both at https://www.themoviedb.org/settings/api.
+access token, both at https://www.themoviedb.org/settings/api. `just cover`
+fills it from the 1Password item Private/Themoviedb when it is unset.
 """
 
 import json
