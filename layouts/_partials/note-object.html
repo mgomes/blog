@@ -1,8 +1,15 @@
 {{- /* The physical object a note is drawn as: a frame of film, a TV, a
-     paperback, or a record sleeve. Its art is a flat color field printed
-     with one to three glyphs from static/glyphs.svg, in the manner of the
-     Love, Death & Robots title cards. Unknown media, colors and glyphs fail
-     the build so a typo cannot ship a blank cover. */ -}}
+     paperback, or a record sleeve. Takes the note as "page" and "size",
+     either "card" or "page".
+
+     Its art is the note's cover when assets/covers/<slug>.* exists (`just
+     cover` fetches film and TV art from TMDB), resized for where it shows.
+     Otherwise it is a flat color field printed with one to three glyphs
+     from static/glyphs.svg, in the manner of the Love, Death & Robots title
+     cards. Unknown media, colors and glyphs fail the build either way, so a
+     typo cannot ship a blank cover. */ -}}
+{{- $size := .size -}}
+{{- with .page -}}
 {{- $medium := .Params.medium -}}
 {{- $colors := slice "lime" "ink" "red" "cobalt" "tangerine" "paper" "pink" -}}
 {{- $color := .Params.color | default (index $colors (mod (hash.FNV32a .Title) (len $colors))) -}}
@@ -18,6 +25,12 @@
   {{- $field = printf `%s<svg class="glyph" aria-hidden="true"><use href="%s#%s"/></svg>` $field $sheet . -}}
 {{- end -}}
 {{- $field = printf `<span class="field" data-color="%s" data-count="%d">%s</span>` $color (len $glyphs) $field | safeHTML -}}
+{{- with resources.GetMatch (printf "covers/%s.*" .File.ContentBaseName) -}}
+  {{- /* Rendered at 2x the widest the object gets in each place. */ -}}
+  {{- $sm := .Resize "180x jpg q82" -}}
+  {{- $lg := .Resize "360x jpg q82" -}}
+  {{- $field = printf `<img class="cover" src="%s" srcset="%s 180w, %s 360w" sizes="%s" alt="" loading="lazy">` $sm.RelPermalink $sm.RelPermalink $lg.RelPermalink (cond (eq $size "page") "180px" "90px") | safeHTML -}}
+{{- end -}}
 {{- if eq $medium "film" -}}
 <span class="obj obj-film">{{ $field }}</span>
 {{- else if eq $medium "tv" -}}
@@ -28,4 +41,5 @@
 <span class="obj obj-music"><span class="disc"></span>{{ $field }}</span>
 {{- else -}}
 {{ errorf "%s: medium %q has no object; want film, tv, book, music, or note" .File.Path $medium }}
+{{- end -}}
 {{- end -}}

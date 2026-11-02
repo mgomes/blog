@@ -9,7 +9,7 @@
       {{- end }}
       {{- else }}
       <div class="note-head">
-        {{ partial "note-object.html" . }}
+        {{ partial "note-object.html" (dict "page" . "size" "page") }}
         <div>
           <h1 class="title">{{ .Title }}</h1>
           {{- with .Params.creator }}
@@ -23,5 +23,9 @@
       <div class="container">
         {{ .Content }}
       </div>
+      {{- /* TMDB's terms ask for credit wherever its art is shown. */}}
+      {{- with .Params.tmdb }}{{ if resources.GetMatch (printf "covers/%s.*" $.File.ContentBaseName) }}
+      <p class="note-credit">{{ cond (eq $medium "tv") "Still" "Poster" }} from <a href="https://www.themoviedb.org/{{ cond (eq $medium "tv") "tv" "movie" }}/{{ . }}">TMDB</a>. This site uses the TMDB API but is not endorsed or certified by TMDB.</p>
+      {{- end }}{{ end }}
     </article>
 {{ end }}

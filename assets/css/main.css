@@ -720,6 +720,15 @@ a.card:hover .card-title > span,
 .field[data-color="paper"] {--field-bg: var(--swatch-paper); --field-fg: var(--swatch-ink);}
 .field[data-color="pink"] {--field-bg: var(--swatch-pink); --field-fg: var(--swatch-ink);}
 
+/* Fetched or hand-dropped cover art takes the field's place and shape. */
+.cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--film);
+}
+
 .glyph {
   width: 25%;
   aspect-ratio: 1;
@@ -768,7 +777,7 @@ a.card:hover .obj-film {transform: rotate(0);}
   overflow: hidden;
 }
 
-.tv-screen .field {aspect-ratio: 4 / 3;}
+.tv-screen .field, .tv-screen .cover {aspect-ratio: 4 / 3;}
 
 .tv-screen::after {
   content: "";
@@ -810,7 +819,7 @@ a.card:hover .obj-film {transform: rotate(0);}
               0 0.8em 1.6em -0.6em rgba(0, 0, 0, 0.45);
 }
 
-.obj-book .field {border-radius: inherit;}
+.obj-book .field, .obj-book .cover {border-radius: inherit;}
 
 .obj-book::after {
   content: "";
@@ -826,7 +835,8 @@ a.card:hover .obj-film {transform: rotate(0);}
    shows: the padding has to exceed half the disc's width. */
 .obj-music {padding-right: 40%;}
 
-.obj-music .field {
+.obj-music .field, .obj-music .cover {
+  position: relative;
   aspect-ratio: 1;
   border-radius: 0.2em;
   box-shadow: 0 0.6em 1.4em -0.6em rgba(0, 0, 0, 0.5);
@@ -874,6 +884,13 @@ a.card:hover .disc {transform: translateX(8%) rotate(40deg);}
 .note-music .note-head {grid-template-columns: 280px 1fr;}
 
 .note-head .title {margin-bottom: 12px;}
+
+.note-credit {
+  margin: 40px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
 
 .note-creator {
   margin: 0;

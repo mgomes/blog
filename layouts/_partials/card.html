@@ -27,7 +27,7 @@
       </article>
 {{- else }}
       <a class="card card-media card-{{ .Params.medium }}" href="{{ .RelPermalink }}">
-        {{ partial "note-object.html" . }}
+        {{ partial "note-object.html" (dict "page" . "size" "card") }}
         <span class="card-body">
           <span class="card-label"><span class="marker"></span>{{ $label }}</span>
           <span class="card-title"><span>{{ .Title }}</span></span>

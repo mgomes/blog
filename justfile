@@ -17,6 +17,11 @@ note medium name:
     hugo new notes/{{name}}.md
     sed -i '' 's/^medium: note$/medium: {{medium}}/' content/notes/{{name}}.md
 
+# Fetch film and TV cover art from TMDB (needs TMDB_API_KEY):
+# `just cover` for every note missing art, `just cover alien`, `just cover --force alien`
+cover *args:
+    uv run tools/covers/fetch.py {{args}}
+
 # Redraw the note glyph library into static/glyphs.svg
 glyphs:
     uv run tools/glyphs/draw.py

@@ -28,6 +28,7 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
 | `just note <medium> <slug>` | scaffold a note (`film`, `tv`, `book`, `music`, or `note`) from `archetypes/notes.md` |
 | `just glyphs` | redraw the glyph sprite from `tools/glyphs/draw.py` |
+| `just cover [--force] [slug…]` | fetch film/TV art from TMDB into `assets/covers/` (needs `TMDB_API_KEY`); no slug fetches every film or tv note missing art |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
 | `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
@@ -80,6 +81,8 @@ The home page is a masonry grid of cards mixing posts and notes, newest first, 1
 `medium`, not `kind`: Hugo reserves `kind` in front matter and fails the build on it.
 
 Object art follows the Love, Death & Robots title cards: a flat field in one of seven `--swatch-*` colors printed with one to three glyphs (`glyphs: [rocket, eye, skull]`, `color: red`). With no glyphs the medium's own glyph is used; with no color one is picked from a hash of the title. Unknown media, colors and glyph names fail the build. The glyphs are drawn with shapely booleans in `tools/glyphs/draw.py`, so a cut-out is a real hole; add one there and rerun `just glyphs` rather than editing the sprite. `uv run tools/glyphs/draw.py --sheet <file.html>` writes a contact sheet.
+
+A note with art in `assets/covers/<slug>.*` shows that instead of its glyphs, cropped to the object's shape and resized to 180 and 360px wide. `just cover` (`tools/covers/fetch.py`) fetches it from TMDB: posters for films, a backdrop still for TV (it fills the CRT better). It searches by title and year, pins the match as `tmdb: <id>` in the note, and fetches a pinned id directly, so a wrong match is fixed by editing the id and rerunning with `--force`. Note pages with a `tmdb` id and art carry the credit TMDB's terms require. Books and records aren't on TMDB; drop their art in by hand, then touch the note or restart `just serve`, since the dev server doesn't notice a new file it only finds through `resources.GetMatch`. The script writes atomically for the same reason: a half-written note gets rendered with its front matter as body and stays that way.
 
 Objects are sized in em, so one `font-size` scales the whole thing (6px on a card, 12px on the note's page). The swatches hold in both modes; the dark plastics (`--film`, `--tv-body`, `--vinyl`) are lifted in the dark block so they don't sink into the card.
 
