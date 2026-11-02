@@ -1,0 +1,9 @@
+{{- /* The card grid on the home and notes pages. Takes a slice of pages. */ -}}
+    <div class="stream">
+      {{- range . }}
+      {{- partial "card.html" . }}
+      {{- end }}
+    </div>
+    {{- with resources.Get "js/stream.js" | minify }}
+    <script>{{ .Content | safeJS }}</script>
+    {{- end }}

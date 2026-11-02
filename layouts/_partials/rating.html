@@ -1,0 +1,6 @@
+{{- /* Up to five marker squares, filled lime for the rating. */ -}}
+{{- with .Params.rating }}
+<span class="rating" role="img" aria-label="{{ . }} out of 5">
+  {{- range seq 5 }}<span class="marker{{ if le . (int $.Params.rating) }} on{{ end }}"></span>{{ end -}}
+</span>
+{{- end }}

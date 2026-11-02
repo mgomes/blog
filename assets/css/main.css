@@ -55,6 +55,26 @@
   --pager-underline: var(--accent);
   --pager-hover-bg: var(--accent);
   --pager-hover-underline: var(--accent);
+  /* Cards in the stream sit on the paper as cut stock with a soft drop. */
+  --card-bg: #fff;
+  --card-shadow: 0 1px 2px rgba(20, 21, 23, 0.06), 0 10px 24px -14px rgba(20, 21, 23, 0.28);
+  --hole: var(--card-bg);                  /* film sprockets punch through to the card */
+  /* Objects are physical things. The swatches (the color fields notes
+     print their glyphs on) hold in both modes; the dark plastics lift a
+     little in the dark block so they don't sink into the card. */
+  --film: #111214;
+  --tv-body: #2b2723;
+  --tv-knob: #8d867c;
+  --page-edge: #f1ede2;
+  --vinyl: #121314;
+  --vinyl-groove: #26282b;
+  --swatch-lime: #d4ff2b;
+  --swatch-ink: #141517;
+  --swatch-red: #ff4127;
+  --swatch-cobalt: #2a46ff;
+  --swatch-tangerine: #ff9d1a;
+  --swatch-paper: #ebe7da;
+  --swatch-pink: #ff9ccf;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,6 +107,13 @@
     --pager-underline: transparent;
     --pager-hover-bg: transparent;
     --pager-hover-underline: var(--accent);
+    /* Shadows vanish on near-black, so cards get a hairline instead. */
+    --card-bg: #1b1d21;
+    --card-shadow: 0 0 0 1px var(--rule);
+    --film: #2c2f35;
+    --tv-body: #3b3631;
+    --vinyl: #2c2f35;
+    --vinyl-groove: #3c4047;
   }
 }
 
@@ -456,6 +483,364 @@ a:focus-visible {
   user-select: none;
 }
 
+/* THE STREAM. Posts and notes share one card grid on the home and notes
+   pages. assets/js/stream.js turns it into masonry by spanning each card
+   over 1px rows; without it (or with native grid-lanes) this is the
+   fallback, a plain top-aligned grid. */
+.stream {
+  --gap: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+
+.stream.is-masonry {
+  grid-auto-rows: 1px;
+  row-gap: 0;
+}
+
+@supports (display: grid-lanes) {
+  .stream {display: grid-lanes;}
+}
+
+.card {
+  display: block;
+  padding: 18px 18px 16px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 3px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+a.card:hover {
+  background: var(--card-bg);
+  color: var(--fg);
+}
+
+/* Hovering a card marks its title the way a prose link is marked: a lime
+   flood on paper, lime text in the dark. */
+.card-title {
+  display: block;
+  margin: 8px 0 0;
+  font: 600 20px / 1.2 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--fg);
+}
+
+.card-title > span {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+a.card:hover .card-title > span,
+.card-title a:hover {
+  background: var(--link-hover-bg);
+  color: var(--link-hover-fg);
+}
+
+.card-meta, .card-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 11px / 1.4 MonoLisaCode, monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.card-label {color: var(--fg);}
+
+.card-media .card-meta {margin-top: 10px;}
+
+.card-blurb {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--fg-quiet);
+}
+
+.card-creator {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-quiet);
+}
+
+/* Posts lead with their walk art, bled to the card's edges. */
+.card-art img {
+  display: block;
+  width: calc(100% + 36px);
+  max-width: none;
+  margin: -18px -18px 16px;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Media notes put their object beside the words. */
+.card-media {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.card-media .obj {font-size: 6px;}
+
+.card-music {grid-template-columns: 136px 1fr;}
+
+/* Plain notes are a scrap of the hero's newsprint, clipped to the same
+   torn edge, and tilted a little either way so a run of them looks dropped
+   on the table rather than tiled. */
+.card-note {
+  padding: 30px 24px 20px 30px;
+  background: var(--tear);
+  box-shadow: none;
+  clip-path: url(#tear);
+  transform: rotate(-0.8deg);
+}
+
+.card-note:nth-child(even) {transform: rotate(0.7deg);}
+
+.card-note .card-title {margin: 0 0 8px;}
+
+.card-note .card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-text p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--prose);
+}
+
+.card-note .card-meta {text-decoration: none;}
+
+.card-note .card-meta:hover {
+  background: none;
+  color: var(--fg-strong);
+}
+
+.rating {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.rating .marker {
+  width: 7px;
+  height: 7px;
+  background: transparent;
+  outline: 1px solid var(--fg-muted);
+}
+
+.rating .marker.on {
+  background: var(--accent);
+  outline-color: var(--marker-ring);
+}
+
+/* OBJECTS. Each is drawn in em so one font-size scales the whole thing:
+   6px on a card, 13px at the head of a note's page. The art inside is a
+   field of flat color printed with glyphs from static/glyphs.svg. */
+.obj {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  line-height: 0;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: var(--field-bg);
+  color: var(--field-fg);
+}
+
+.field[data-color="lime"] {--field-bg: var(--swatch-lime); --field-fg: var(--swatch-ink);}
+.field[data-color="ink"] {--field-bg: var(--swatch-ink); --field-fg: var(--swatch-lime);}
+.field[data-color="red"] {--field-bg: var(--swatch-red); --field-fg: var(--swatch-ink);}
+.field[data-color="cobalt"] {--field-bg: var(--swatch-cobalt); --field-fg: var(--swatch-paper);}
+.field[data-color="tangerine"] {--field-bg: var(--swatch-tangerine); --field-fg: var(--swatch-ink);}
+.field[data-color="paper"] {--field-bg: var(--swatch-paper); --field-fg: var(--swatch-ink);}
+.field[data-color="pink"] {--field-bg: var(--swatch-pink); --field-fg: var(--swatch-ink);}
+
+.glyph {
+  width: 25%;
+  aspect-ratio: 1;
+  fill: currentColor;
+  flex: none;
+}
+
+.field[data-count="1"] .glyph {width: 46%;}
+.field[data-count="2"] .glyph {width: 32%;}
+
+/* A frame of 35mm film: sprocket holes punched down both edges. */
+.obj-film {
+  padding: 1em 1.9em;
+  background: var(--film);
+  border-radius: 0.3em;
+  transform: rotate(-2deg);
+  transition: transform 0.2s ease;
+}
+
+.obj-film::before, .obj-film::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.8em;
+  background: repeating-linear-gradient(to bottom, transparent 0 0.5em, var(--hole) 0.5em 1.3em, transparent 1.3em 1.8em);
+}
+
+.obj-film::before {left: 0.55em;}
+.obj-film::after {right: 0.55em;}
+
+a.card:hover .obj-film {transform: rotate(0);}
+
+/* A portable TV: rabbit ears, a rounded CRT with scanlines, knobs. */
+.obj-tv {
+  margin-top: 2.6em;
+  padding: 1.1em 3.6em 1.1em 1.1em;
+  background: var(--tv-body);
+  border-radius: 1.4em;
+}
+
+.tv-screen {
+  display: block;
+  position: relative;
+  border-radius: 1.6em / 1.2em;
+  overflow: hidden;
+}
+
+.tv-screen .field {aspect-ratio: 4 / 3;}
+
+.tv-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0 1px, transparent 1px 0.45em),
+              radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.22), transparent 55%);
+  pointer-events: none;
+}
+
+.tv-knobs {
+  position: absolute;
+  top: 1.4em;
+  right: 0.9em;
+  width: 1.8em;
+  height: 6.8em;
+  background: radial-gradient(circle at 50% 0.9em, var(--tv-knob) 0.75em, transparent 0.8em),
+              radial-gradient(circle at 50% 3.2em, var(--tv-knob) 0.75em, transparent 0.8em),
+              repeating-linear-gradient(to bottom, transparent 0 0.35em, rgba(0, 0, 0, 0.4) 0.35em 0.6em) 0 5em / 100% 1.8em no-repeat;
+}
+
+.tv-ears {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 6.4em;
+  height: 2.6em;
+  transform: translateX(-50%);
+  background: linear-gradient(to top right, transparent calc(50% - 0.18em), var(--tv-body) calc(50% - 0.18em) calc(50% + 0.18em), transparent calc(50% + 0.18em)) left / 50% 100% no-repeat,
+              linear-gradient(to top left, transparent calc(50% - 0.18em), var(--tv-body) calc(50% - 0.18em) calc(50% + 0.18em), transparent calc(50% + 0.18em)) right / 50% 100% no-repeat;
+}
+
+/* A paperback: a creased spine on the left, the page block peeking out. */
+.obj-book {
+  margin-right: 0.5em;
+  border-radius: 0.2em 0.5em 0.5em 0.2em;
+  box-shadow: 0.35em 0.3em 0 -0.05em var(--page-edge),
+              0.45em 0.4em 0 -0.05em rgba(0, 0, 0, 0.18),
+              0 0.8em 1.6em -0.6em rgba(0, 0, 0, 0.45);
+}
+
+.obj-book .field {border-radius: inherit;}
+
+.obj-book::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 0, rgba(255, 255, 255, 0.2) 0.5em, rgba(0, 0, 0, 0.14) 0.95em, transparent 1.6em);
+  pointer-events: none;
+}
+
+/* A record sleeve with the disc half out. Hover pulls it a little further. */
+/* The disc's center sits past the sleeve's edge so half the lime label
+   shows: the padding has to exceed half the disc's width. */
+.obj-music {padding-right: 40%;}
+
+.obj-music .field {
+  aspect-ratio: 1;
+  border-radius: 0.2em;
+  box-shadow: 0 0.6em 1.4em -0.6em rgba(0, 0, 0, 0.5);
+}
+
+.disc {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 74%;
+  translate: 0 -50%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--vinyl) 0 4%, var(--accent) 4.5% 30%, var(--vinyl) 31%),
+              var(--vinyl);
+  transition: transform 0.25s ease;
+}
+
+.disc::after {
+  content: "";
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 0.35em, var(--vinyl-groove) 0.35em 0.45em);
+  -webkit-mask: radial-gradient(circle, transparent 33%, #000 34%);
+  mask: radial-gradient(circle, transparent 33%, #000 34%);
+}
+
+a.card:hover .disc {transform: translateX(8%) rotate(40deg);}
+
+/* A NOTE'S PAGE. The object at its 13px size beside the title. */
+.note-head {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 36px;
+  align-items: center;
+  margin-bottom: 44px;
+}
+
+.note-head .obj {
+  font-size: 12px;
+  --hole: var(--bg);
+}
+
+.note-music .note-head {grid-template-columns: 280px 1fr;}
+
+.note-head .title {margin-bottom: 12px;}
+
+.note-creator {
+  margin: 0;
+  font-size: 15px;
+  color: var(--fg-quiet);
+}
+
+.note-head .rating {gap: 6px; margin-top: 14px;}
+.note-head .rating .marker {width: 10px; height: 10px;}
+
 /* PROSE. The reading column, one step below the ink. */
 .container {
   color: var(--prose);
@@ -699,4 +1084,18 @@ img {max-width: 100%;height: auto;}
   }
 
   .site-footer {margin-top: 64px;}
+
+  .stream {--gap: 22px;}
+
+  .note-head {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .note-head .obj {
+    width: 160px;
+    font-size: 10px;
+  }
+
+  .note-music .note-head .obj {width: 240px;}
 }

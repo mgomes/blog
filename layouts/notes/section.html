@@ -1,0 +1,12 @@
+{{ define "main" }}
+    <h1 class="title">{{ .Title }}</h1>
+    {{- with .Description }}
+    <p class="byline">{{ . }}</p>
+    {{- end }}
+    {{- /* Plain notes are clipped to the hero's torn edge, and only the
+         home page carries that path otherwise. */}}
+    {{ partial "tearout-clip.html" . }}
+    {{- $paginator := .Paginate .Pages 24 }}
+    {{ partial "stream.html" $paginator.Pages }}
+    {{ partial "pager.html" . }}
+{{ end }}

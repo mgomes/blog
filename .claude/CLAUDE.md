@@ -7,10 +7,12 @@ It used to run on Blot. Nothing about that setup applies any more. If you find a
 ## Layout
 
 - `content/posts/` — published posts, one markdown file each, YAML frontmatter
+- `content/notes/` — short entries (films, shows, books, records, plain notes), served under `/notes/<slug>/`. See Notes below
 - `content/about.md`, `content/now.md`, `content/subscribe.md` — standalone pages
 - `content/_index.md` — home hero copy: the `tagline` param and the wanted-ad body (the `**WANTED:**` label is part of the markdown)
-- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box. `home.og.html`, `posts/page.og.html` and `home.ogmanifest.json` only exist for the `just og` build (see OpenGraph cards below)
+- `layouts/` — flat Hugo layout names (`home.html`, `page.html`, `section.html`, `term.html`); partials in `layouts/_partials/` (`tearout.html` is the home hero, `tearout-clip.html` its torn-paper clip path); `layouts/_shortcodes/youtube.html` overrides Hugo's built-in so embeds sit in the framed `.embed` box. `home.og.html`, `posts/page.og.html` and `home.ogmanifest.json` only exist for the `just og` build (see OpenGraph cards below). `_partials/stream.html` and `card.html` are the home and notes card grid; `note-object.html` draws a note's object
 - `assets/css/` — `main.css` is the entire design; `chroma.css` / `chroma-dark.css` are generated
+- `static/glyphs.svg` — the generated glyph sprite notes print on their objects (`just glyphs`)
 - `static/` — fonts (MonoLisa and Inter Tight, self-hosted), KaTeX, the vendored justif bundle, `avatar-portrait.png` for the masthead, `favicon.svg` and its PNG renders, the OpenGraph cards (`og-card.png`, `og/<slug>.png`), images under `_Images/`
 
 Drafts are `draft: true` in frontmatter, not a separate directory. `just serve` shows them.
@@ -24,6 +26,8 @@ Posts with non-ASCII titles keep an ASCII filename and override the path with `u
 | `just` / `just serve` | dev server on :1313 with drafts and future-dated posts |
 | `just build` | production build into `public/` |
 | `just draft <slug>` | scaffold a post from `archetypes/posts.md` |
+| `just note <medium> <slug>` | scaffold a note (`film`, `tv`, `book`, `music`, or `note`) from `archetypes/notes.md` |
+| `just glyphs` | redraw the glyph sprite from `tools/glyphs/draw.py` |
 | `just chroma` | regenerate both syntax-highlighting stylesheets |
 | `just tear` | retrace the hero's torn-paper clip path from `tools/tearout/success_not_guaranteed.png` |
 | `just walks` | regenerate per-post drunkard's-walk art (run after adding a post) |
@@ -64,6 +68,18 @@ There is no visited-link color. The previous design had one; this one has a sing
 Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and `InterTight` for the masthead, titles, headings, list titles and the pill button. Everything is self-hosted from `static/fonts/`; nothing loads from a third-party host. Inter Tight is the Google Fonts variable file (SIL OFL, license alongside it), instanced to weights 500–800 and subset to Latin plus Greek with fonttools so "Computing π in Go" keeps its pi.
 
 The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout.html`). The scrap is `.tearout` itself, painted in `--tear` and clipped by an SVG `clipPath` in `tearout-clip.html`, which `just tear` (`tools/tearout/trace.py`) traces from the original tear-out PNG kept alongside it, in bounding-box units. Do not hand-edit the path; rerun the trace. The clip cuts the whole object, so the tear takes the ad's top-left corner with it, exactly as in that image, and the ad's 3px rule box sits inside with roughly the image's margins. The whole thing tilts 1.2 degrees. Because the clip stretches to the ad, a taller-than-wide ad (phones) makes the top-left lump run deeper; the 720px breakpoint pads the first line clear of it. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
+
+### Notes and the stream
+
+The home page is a masonry grid of cards mixing posts and notes, newest first, 12 to a page. Post cards lead with their walk art. A note's `medium` picks the object its card shows: `film` is a frame of 35mm film, `tv` a portable set with rabbit ears, `book` a paperback with a spine crease and page edge, `music` a sleeve with the record half out. Plain notes (`medium: note`, title optional) have no object; the card is a scrap of the hero's newsprint, clipped to the same `#tear` path, carrying the whole note.
+
+`medium`, not `kind`: Hugo reserves `kind` in front matter and fails the build on it.
+
+Object art follows the Love, Death & Robots title cards: a flat field in one of seven `--swatch-*` colors printed with one to three glyphs (`glyphs: [rocket, eye, skull]`, `color: red`). With no glyphs the medium's own glyph is used; with no color one is picked from a hash of the title. Unknown media, colors and glyph names fail the build. The glyphs are drawn with shapely booleans in `tools/glyphs/draw.py`, so a cut-out is a real hole; add one there and rerun `just glyphs` rather than editing the sprite. `uv run tools/glyphs/draw.py --sheet <file.html>` writes a contact sheet.
+
+Objects are sized in em, so one `font-size` scales the whole thing (6px on a card, 12px on the note's page). The swatches hold in both modes; the dark plastics (`--film`, `--tv-body`, `--vinyl`) are lifted in the dark block so they don't sink into the card.
+
+Masonry is `assets/js/stream.js`, inlined right after the grid so it runs before first paint: each card spans as many 1px rows as it is tall, which keeps reading order left to right. Browsers with `display: grid-lanes` skip it.
 
 ### Layout notes
 

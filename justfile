@@ -12,6 +12,11 @@ build:
 draft name:
     hugo new posts/{{name}}.md
 
+# Scaffold a note: just note film project-hail-mary (film, tv, book, music, note)
+note medium name:
+    hugo new notes/{{name}}.md
+    sed -i '' 's/^medium: note$/medium: {{medium}}/' content/notes/{{name}}.md
+
 # Redraw the note glyph library into static/glyphs.svg
 glyphs:
     uv run tools/glyphs/draw.py

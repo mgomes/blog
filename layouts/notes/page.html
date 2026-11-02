@@ -1,0 +1,27 @@
+{{ define "main" }}
+    {{- $medium := .Params.medium | default "note" }}
+    <article class="note note-{{ $medium }}">
+      <p class="meta"><span class="marker"></span>{{ partial "note-label.html" . }} · {{ .Date.Format "2006-01-02" }}{{ range (.GetTerms "tags") }} · <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</p>
+
+      {{- if eq $medium "note" }}
+      {{- with .Title }}
+      <h1 class="title">{{ . }}</h1>
+      {{- end }}
+      {{- else }}
+      <div class="note-head">
+        {{ partial "note-object.html" . }}
+        <div>
+          <h1 class="title">{{ .Title }}</h1>
+          {{- with .Params.creator }}
+          <p class="note-creator">{{ . }}{{ with $.Params.year }} · {{ . }}{{ end }}</p>
+          {{- end }}
+          {{- partial "rating.html" . }}
+        </div>
+      </div>
+      {{- end }}
+
+      <div class="container">
+        {{ .Content }}
+      </div>
+    </article>
+{{ end }}
