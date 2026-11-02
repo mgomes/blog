@@ -5,17 +5,35 @@
   <link>{{ site.BaseURL | strings.TrimSuffix "/" }}</link>
   <atom:link href="{{ "feed.rss" | absURL }}" rel="self" type="application/rss+xml"/>
   <description>{{ printf "<![CDATA[ The feed of updates to %s's blog. ]]>" site.Params.author | safeHTML }}</description>
-  {{- range where site.RegularPages "Section" "posts" }}
+  {{- range where site.RegularPages "Section" "in" (slice "posts" "notes") }}
   {{- /* Blot GUIDs are unencoded permalinks without a trailing slash; keep
         them byte-identical so feed readers don't re-show every post. */}}
   {{- $guid := printf "%s%s" (site.BaseURL | strings.TrimSuffix "/") (strings.TrimSuffix "/" (urls.Parse .Permalink).Path) }}
+  {{- /* Notes file under their verb ("Watched: Alien"), and an untitled
+        note borrows its opening words. */}}
+  {{- $title := .Title }}
+  {{- $body := string .Content }}
+  {{- if eq .Section "notes" }}
+  {{- $medium := .Params.medium | default "note" }}
+  {{- if eq $medium "note" }}
+  {{- $title = .Title | default (.Summary | plainify | truncate 60) }}
+  {{- else }}
+  {{- $title = printf "%s: %s" (partial "note-label.html" .) .Title }}
+  {{- with .Params.creator }}
+  {{- $line := . }}
+  {{- with $.Params.year }}{{ $line = printf "%s · %v" $line . }}{{ end }}
+  {{- with $.Params.rating }}{{ $line = printf "%s · %v/5" $line . }}{{ end }}
+  {{- $body = printf "<p><em>%s</em></p>%s" $line $body }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
   <item>
-    <title>{{ printf "<![CDATA[ %s ]]>" .Title | safeHTML }}</title>
+    <title>{{ printf "<![CDATA[ %s ]]>" $title | safeHTML }}</title>
     <link>{{ $guid }}</link>
     <guid>{{ $guid }}</guid>
     <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
     <dc:creator>{{ printf "<![CDATA[ %s ]]>" site.Params.author | safeHTML }}</dc:creator>
-    <description>{{ printf "<![CDATA[ %s ]]>" (replace (string .Content) "]]>" "]]&gt;") | safeHTML }}</description>
+    <description>{{ printf "<![CDATA[ %s ]]>" (replace $body "]]>" "]]&gt;") | safeHTML }}</description>
   </item>
   {{- end }}
 </channel>
