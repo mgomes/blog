@@ -626,17 +626,21 @@ a.card:hover .card-title > span,
   border-radius: 3px 3px 0 0;
 }
 
-/* Media notes put their object beside the words. */
+/* Media notes put their object beside the words. In a narrow stream
+   column the object gives up width before the words do. */
 .card-media {
+  --words: minmax(124px, 1fr);
   display: grid;
-  grid-template-columns: 96px 1fr;
+  grid-template-columns: minmax(0, 96px) var(--words);
   gap: 18px;
   align-items: center;
 }
 
 .card-media .obj {font-size: 6px;}
 
-.card-music {grid-template-columns: 136px 1fr;}
+.card-music {grid-template-columns: minmax(0, 136px) var(--words);}
+
+.card-media .card-title {overflow-wrap: break-word;}
 
 /* Plain notes are a scrap of the hero's newsprint, clipped to the same
    torn edge, and tilted a little either way so a run of them looks dropped
