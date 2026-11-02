@@ -1,11 +1,14 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
 <channel>
-  <title>{{ printf "<![CDATA[ %s]]>" site.Title | safeHTML }}</title>
+  {{- /* html/template treats <title> as HTML's escaped-text element and
+        escapes even safeHTML inside it, so the whole element is printed. */}}
+  {{ printf "<title><![CDATA[ %s ]]></title>" site.Title | safeHTML }}
   <link>{{ site.BaseURL | strings.TrimSuffix "/" }}</link>
   <atom:link href="{{ "feed.rss" | absURL }}" rel="self" type="application/rss+xml"/>
   <description>{{ printf "<![CDATA[ The feed of updates to %s's blog. ]]>" site.Params.author | safeHTML }}</description>
   {{- range where site.RegularPages "Section" "in" (slice "posts" "notes") }}
+  {{- $page := . }}
   {{- /* Blot GUIDs are unencoded permalinks without a trailing slash; keep
         them byte-identical so feed readers don't re-show every post. */}}
   {{- $guid := printf "%s%s" (site.BaseURL | strings.TrimSuffix "/") (strings.TrimSuffix "/" (urls.Parse .Permalink).Path) }}
@@ -21,14 +24,14 @@
   {{- $title = printf "%s: %s" (partial "note-label.html" .) .Title }}
   {{- with .Params.creator }}
   {{- $line := . }}
-  {{- with $.Params.year }}{{ $line = printf "%s · %v" $line . }}{{ end }}
-  {{- with $.Params.rating }}{{ $line = printf "%s · %v/5" $line . }}{{ end }}
+  {{- with $page.Params.year }}{{ $line = printf "%s · %v" $line . }}{{ end }}
+  {{- with $page.Params.rating }}{{ $line = printf "%s · %v/5" $line . }}{{ end }}
   {{- $body = printf "<p><em>%s</em></p>%s" $line $body }}
   {{- end }}
   {{- end }}
   {{- end }}
   <item>
-    <title>{{ printf "<![CDATA[ %s ]]>" $title | safeHTML }}</title>
+    {{ printf "<title><![CDATA[ %s ]]></title>" (replace $title "]]>" "]]&gt;") | safeHTML }}
     <link>{{ $guid }}</link>
     <guid>{{ $guid }}</guid>
     <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
