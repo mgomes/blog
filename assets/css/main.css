@@ -45,7 +45,7 @@
   --tint: #1f3fb4;                         /* the strip Safari tints its toolbar from, both modes */
   --pill-bg: #141517;
   --pill-fg: #fbfbf7;
-  --tear: #dbdbdb;                         /* the torn newsprint behind the wanted ad */
+  --tear: #e3e3e3;                         /* the torn newsprint behind the wanted ad */
   /* On paper the blue is a marker: it underlines links and floods them on
      hover, turning the text paper-white. */
   --link-underline: 2px;
