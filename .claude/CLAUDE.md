@@ -55,11 +55,11 @@ Hugo renders math with **KaTeX at build time** via goldmark passthrough (`hugo.t
 
 `assets/css/main.css` is the whole design. Every color is a `:root` custom property, and dark mode is a `prefers-color-scheme` block that redeclares those tokens. There is no theme toggle and no theme JS. Add colors as tokens, not literals, or dark mode silently misses them.
 
-The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), a lime accent (`#d4ff2b`), a faint lime halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
+The look is the "studio" direction from the September 2026 mockups: one centered column on paper (`#fbfbf7`) or near-black (`#141517`), an ink-blue accent (`#1f3fb4`, lifted to periwinkle `#8ea6ff` in the dark), a faint blue halo behind the masthead, and Inter Tight for everything that is not prose. The two modes differ in *treatment* as well as color, and those differences are tokens too, so the dark block stays the single switch:
 
-- **On paper the lime is a highlighter.** It underlines links 2px thick and floods a link on hover (`--link-hover-bg`).
-- **In the dark the lime is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
-- The marker square (`.marker`) gets an ink outline on paper (`--marker-ring`) and none in the dark, so both modes share one mark.
+- **On paper the blue is a marker.** It underlines links 2px thick and floods a link on hover (`--link-hover-bg`), turning the text paper-white (`--on-accent`).
+- **In the dark the blue is ink.** Underlines thin to 1px, and hover recolors the text instead of flooding it. The pager has its own `--pager-*` set for the same reason.
+- The accent was lime until November 2026. Dark blue can't do the two jobs lime did with one value (a flood needs light text on it, and dark blue vanishes on near-black), which is why `--accent` and `--on-accent` are redeclared in the dark block.
 
 Prose sits one step below the ink (`--prose`), while titles, links and code chips use `--fg` and h2+ and `strong` use `--fg-strong`, which is white in the dark and ink on paper.
 
@@ -95,7 +95,7 @@ Masonry is `assets/js/stream.js`, inlined right after the grid so it runs before
 
 The card pages load `assets/css/og.css` after a copy of `main.css` with its dark block stripped (`_partials/og-css.html`), because headless Chrome follows the Mac's color scheme and has no switch for it; the build fails loudly if that block's shape changes. Chrome writes the screenshot and then lingers, so the script kills it once the file lands.
 
-The favicon is `static/favicon.svg` (the lime marker square on an ink ground). `just og` also renders `favicon.png` and `apple-touch-icon.png` from it.
+The favicon is `static/favicon.svg` (the marker square in paper on an ink-blue ground). `just og` also renders `favicon.png` and `apple-touch-icon.png` from it.
 
 ### Syntax highlighting is generated
 
@@ -142,4 +142,4 @@ The known failure mode produces gaps around 72px.
 
 `just serve`, then drive Chrome DevTools MCP. `emulate` takes `colorScheme: "dark" | "light"` and a `viewport` string, which is the only sane way to check both schemes and the 720 / 900px breakpoints. If the MCP browser profile is locked by another session, headless Chrome through puppeteer-core with its own `userDataDir` and `emulateMediaFeatures` does the same job.
 
-Hover is where the two modes diverge most (lime flood on paper, lime text in the dark), so check a prose link, a post row, the pager and the Subscribe pill in both schemes.
+Hover is where the two modes diverge most (blue flood with paper text on paper, periwinkle text in the dark), so check a prose link, a post row, the pager and the Subscribe pill in both schemes.

@@ -26,7 +26,7 @@
   color-scheme: light dark;
 
   --bg: #fbfbf7;
-  --glow: #f0f4d6;                         /* lime-tinted halo behind the masthead */
+  --glow: #e8ecf6;                         /* blue-tinted halo behind the masthead */
   --fg: #141517;                           /* ink: titles, links, chips, masthead */
   --fg-strong: #141517;                    /* h2+, strong: ink here, white in dark */
   --prose: #2a2c30;                        /* body copy sits a step below the ink */
@@ -40,18 +40,18 @@
   --code-border: #e3e3dc;
   --embed-a: #ecece6;                      /* stripes behind a loading embed */
   --embed-b: #f3f3ee;
-  --accent: #d4ff2b;
-  --on-accent: #141517;                    /* text on a lime fill, in both modes */
-  --marker-ring: #141517;                  /* the square gets an ink outline on paper only */
+  --accent: #1f3fb4;
+  --on-accent: #fbfbf7;                    /* text on an accent fill */
   --pill-bg: #141517;
   --pill-fg: #fbfbf7;
   --tear: #dcdcd6;                         /* the torn newsprint behind the wanted ad */
-  /* On paper the lime is a highlighter: it underlines links and floods
-     them on hover. Text stays ink. */
+  /* On paper the blue is a marker: it underlines links and floods them on
+     hover, turning the text paper-white. */
   --link-underline: 2px;
   --link-hover-bg: var(--accent);
-  --link-hover-fg: var(--fg);
+  --link-hover-fg: var(--on-accent);
   --pager-fg: var(--fg);
+  --pager-hover-fg: var(--on-accent);
   --pager-underline: var(--accent);
   --pager-hover-bg: var(--accent);
   --pager-hover-underline: var(--accent);
@@ -80,7 +80,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #141517;
-    --glow: #24261c;
+    --glow: #1b1f2c;
+    /* Dark blue vanishes on near-black, so the dark accent is a light one. */
+    --accent: #8ea6ff;
+    --on-accent: #141517;
     --fg: #ececea;                         /* not pure white; less halation on OLED */
     --fg-strong: #fff;
     --prose: #d1d3cf;
@@ -94,16 +97,16 @@
     --code-border: #2a2d33;
     --embed-a: #1c1e22;
     --embed-b: #202227;
-    --marker-ring: transparent;
     --pill-bg: #ececea;
     --pill-fg: #141517;
     --tear: #2b2e34;
-    /* In the dark the lime is ink instead: it colors link hovers rather
-       than flooding them. A lime flood on near-black glares. */
+    /* In the dark the blue is ink instead: it colors link hovers rather
+       than flooding them. A flood on near-black glares. */
     --link-underline: 1px;
     --link-hover-bg: transparent;
     --link-hover-fg: var(--accent);
     --pager-fg: var(--accent);
+    --pager-hover-fg: var(--accent);
     --pager-underline: transparent;
     --pager-hover-bg: transparent;
     --pager-hover-underline: var(--accent);
@@ -209,7 +212,7 @@ strong, b {
   color: var(--fg-strong);
 }
 
-/* LINKS. The lime underline is the default; chrome links (masthead, nav,
+/* LINKS. The accent underline is the default; chrome links (masthead, nav,
    footer, meta, post rows) opt out below. There is no visited color: the
    design has one link treatment and history is not part of it. */
 a {
@@ -296,7 +299,7 @@ a:focus-visible {
   color: var(--on-accent);
 }
 
-/* META LINE. The lime marker square, then date and tags in tracked caps. */
+/* META LINE. The accent marker square, then date and tags in tracked caps. */
 .meta {
   margin: 0 0 24px;
   font: 500 12px / 1 MonoLisaCode, monospace;
@@ -323,7 +326,6 @@ a:focus-visible {
   width: 8px;
   height: 8px;
   background: var(--accent);
-  outline: 1px solid var(--marker-ring);
   display: inline-block;
   flex: none;
 }
@@ -483,7 +485,7 @@ a:focus-visible {
 .pager a:hover {
   background: var(--pager-hover-bg);
   text-decoration-color: var(--pager-hover-underline);
-  color: var(--pager-fg);
+  color: var(--pager-hover-fg);
 }
 
 /* ARCHIVE AND TAG PAGES reuse the rows under year headings. */
@@ -545,8 +547,8 @@ a.card:hover {
   color: var(--fg);
 }
 
-/* Hovering a card marks its title the way a prose link is marked: a lime
-   flood on paper, lime text in the dark. */
+/* Hovering a card marks its title the way a prose link is marked: a blue
+   flood on paper, blue text in the dark. */
 .card-title {
   display: block;
   margin: 8px 0 0;
@@ -670,7 +672,7 @@ a.card:hover .card-title > span,
 
 .rating .marker.on {
   background: var(--accent);
-  outline-color: var(--marker-ring);
+  outline-color: var(--accent);
 }
 
 /* OBJECTS. Each is drawn in em so one font-size scales the whole thing:
@@ -805,7 +807,7 @@ a.card:hover .obj-film {transform: rotate(0);}
 }
 
 /* A record sleeve with the disc half out. Hover pulls it a little further. */
-/* The disc's center sits past the sleeve's edge so half the lime label
+/* The disc's center sits past the sleeve's edge so half the label
    shows: the padding has to exceed half the disc's width. */
 .obj-music {padding-right: 40%;}
 
