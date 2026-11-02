@@ -339,9 +339,35 @@ a:focus-visible {
   text-align: center;
 }
 
-.hero .meta {
-  justify-content: center;
-  margin-bottom: 28px;
+/* THE FOLIO. A newspaper page header over the wanted ad, as wide as the
+   ad: place left, the section in the middle behind the marker, the date
+   right, between a hairline and a double rule. */
+.folio {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  padding: 9px 2px;
+  border-top: 1px solid var(--fg);
+  border-bottom: 3px double var(--fg);
+  font: 500 11px / 1 MonoLisaCode, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.folio > :first-child {text-align: left;}
+.folio > :last-child {text-align: right;}
+
+.folio-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 800 15px / 1 InterTight, system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.22em;
+  color: var(--fg);
 }
 
 /* THE WANTED AD. A classified torn out of a newspaper. The scrap's outline
@@ -1032,16 +1058,20 @@ img {max-width: 100%;height: auto;}
 
   .main-wide {padding-top: 64px;}
 
-  /* The tagline no longer fits one line. As a flex row the marker square
-     would wrap onto a line of its own, so let the text flow around it. */
-  .hero .meta {
-    display: block;
-    line-height: 1.7;
+  /* Three columns don't fit a phone: the section takes the top row, and
+     place and date share the one beneath it. */
+  .folio {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "title title" "place date";
+    gap: 12px 8px;
+    margin-bottom: 24px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
   }
 
-  .hero .marker {
-    vertical-align: middle;
-    margin: 0 8px 0 0;
+  .folio-title {
+    grid-area: title;
+    justify-content: center;
   }
 
   /* Taller than wide here, so the clip's torn top-left lump stretches

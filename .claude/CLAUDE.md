@@ -69,6 +69,8 @@ Type is `MonoLisaText` for prose, `MonoLisaCode` for code and the meta line, and
 
 The home hero is a wanted ad torn out of a newspaper (`layouts/_partials/tearout.html`). The scrap is `.tearout` itself, painted in `--tear` and clipped by an SVG `clipPath` in `tearout-clip.html`, which `just tear` (`tools/tearout/trace.py`) traces from the original tear-out PNG kept alongside it, in bounding-box units. Do not hand-edit the path; rerun the trace. The clip cuts the whole object, so the tear takes the ad's top-left corner with it, exactly as in that image, and the ad's 3px rule box sits inside with roughly the image's margins. The whole thing tilts 1.2 degrees. Because the clip stretches to the ad, a taller-than-wide ad (phones) makes the top-left lump run deeper; the 720px breakpoint pads the first line clear of it. The copy comes from `content/_index.md` and the h1 is the site title in tracked caps behind a marker square. Its paragraph uses native `text-align: justify` on purpose; the wide word gaps are part of the classified look, and it sits outside `.container` so justif never touches it.
 
+Above the ad sits a newspaper folio (`.folio` in `home.html`): the tagline left, CLASSIFIEDS in the middle, and the date right, between a hairline and a double rule. The date is the build date, kept current by the nightly deploy. Hugo's `now` is in the build machine's zone (UTC on Cloudflare), so the template moves it into the site's `timeZone` by borrowing the location from a zoneless `time.AsTime`; `time.Format` alone does not convert.
+
 ### Notes and the stream
 
 The home page is a masonry grid of cards mixing posts and notes, newest first, 12 to a page. Post cards lead with their walk art. A note's `medium` picks the object its card shows: `film` is a frame of 35mm film, `tv` a portable set with rabbit ears, `book` a paperback with a spine crease and page edge, `music` a sleeve with the record half out. Plain notes (`medium: note`, title optional) have no object; the card is a scrap of the hero's newsprint, clipped to the same `#tear` path, carrying the whole note.
@@ -85,7 +87,7 @@ Masonry is `assets/js/stream.js`, inlined right after the grid so it runs before
 
 - `body` is a flex column so the footer pins to the bottom of short pages. `.main` is the 680px reading column; the home page adds `.main-wide` for 900px.
 - The halo is a `radial-gradient` on `body`, sized in px vertically on purpose. A percentage would scale with document height, so a long post would get a glow reaching halfway down the page.
-- Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero meta line in block flow so its marker square stops wrapping onto a line of its own).
+- Breakpoints: 900px tightens the post-list date column, 720px is the phone layout (title above date and tag in each row, wrapped nav, the hero folio restacked with the section on top and place and date beneath).
 
 ### OpenGraph cards and favicon are generated
 

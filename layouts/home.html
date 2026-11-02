@@ -1,6 +1,16 @@
 {{ define "main" }}
     <section class="hero">
-      <p class="meta"><span class="marker"></span>{{ site.Params.author }} · {{ .Params.tagline }}</p>
+      {{- /* Dated the day the site was built; the nightly deploy keeps it
+           current. now is in the build machine's zone (UTC on Cloudflare),
+           so it moves into the site's timeZone, which a zoneless AsTime
+           carries. Months are AP style. */}}
+      {{- $today := now.In (time.AsTime "2000-01-01T00:00:00").Location }}
+      {{- $month := index (slice "Jan." "Feb." "March" "April" "May" "June" "July" "Aug." "Sept." "Oct." "Nov." "Dec.") (sub (int $today.Month) 1) }}
+      <p class="folio">
+        <span>{{ .Params.tagline }}</span>
+        <span class="folio-title"><span class="marker"></span>Classifieds</span>
+        <time datetime="{{ $today.Format "2006-01-02" }}">{{ $today.Format "Mon" }}., {{ $month }} {{ $today.Day }}, {{ $today.Year }}</time>
+      </p>
       {{ partial "tearout.html" . }}
     </section>
 
