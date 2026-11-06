@@ -12,4 +12,4 @@ I've also created and maintain a handful of open source projects. [Vibescript](h
 
 I also have a few apps for the Apple ecosystem. [WordTwist](https://wordtwist.app) is an iOS fill-in crossword game. [Atomic](https://atomicbackup.app) is a backup app that encrypts and dedupes backups at blazing speeds. [DotDecimal](https://dotdecimal.app) is a Mac, iPad, and iOS app designed to be a modern spreadsheet for kids and adults alike.
 
-I write about those side projects and how technology affects the human condition. My goal in life is to learn everything while doing every side quest.
+I love serendipity and the unexpected. My goal in life is to learn everything and do every side quest.
