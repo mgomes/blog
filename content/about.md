@@ -10,7 +10,7 @@ In the past I co-founded [Mav](https://hiremav.com) and worked at [Heroku](https
 
 I maintain a handful of open source projects. [Vibescript](https://vibescript-lang.org) is my own little programming language designed to be embedded in Rust programs. [Adamantium](https://github.com/xipkit/adamantium) is a Rust crate that provides copy-on-write values, scoped tasks, actors, channels, and lint rules to ensure reliable programs.
 
-I have a few apps:
+I have a few apps that I've made:
 
 - [WordTwist](https://wordtwist.app) is an iOS fill-in crossword game.
 - [Atomic](https://atomicbackup.app) is a backup app that encrypts and dedupes backups at blazing speeds.
