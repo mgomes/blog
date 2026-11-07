@@ -14,4 +14,6 @@ I also have a few apps for the Apple ecosystem. [WordTwist](https://wordtwist.ap
 
 I also made [Open Audiobooks](https://openaudiobooks.org), a free catalog of classic books read aloud. Each book is a file with chapters and cover art built in, so your audiobook app shows the chapters and remembers where you stopped.
 
+I also make [Rip](https://ripeditor.com), a fast code and Markdown editor for reviewing the code AI agents write. It runs on macOS, Windows, and Linux.
+
 I revel in serendipity and the unexpected. My goal in life is to learn everything and do every side quest.
