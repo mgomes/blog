@@ -8,15 +8,15 @@ I'm a software engineer based in Michigan (USA). I was born in Brazil, and I spe
 
 In the past I co-founded [Mav](https://hiremav.com) and worked at [Heroku](https://www.heroku.com), where I built internal tooling, [inference and agent endpoints](https://www.heroku.com/ai/managed-inference-and-agents/), and a [vibe-coding product](https://www.heroku.com/blog/turn-ideas-into-apps-heroku-vibes-pilot/).
 
-I've also created and maintain a handful of open source projects. [Vibescript](https://vibescript-lang.org) is my own little programming language designed to be embedded in Rust programs. [Adamantium](https://github.com/xipkit/adamantium) is a Rust crate that provides copy-on-write values, scoped tasks, actors, channels, and lint rules to ensure reliable programs.
+I maintain a handful of open source projects. [Vibescript](https://vibescript-lang.org) is my own little programming language designed to be embedded in Rust programs. [Adamantium](https://github.com/xipkit/adamantium) is a Rust crate that provides copy-on-write values, scoped tasks, actors, channels, and lint rules to ensure reliable programs.
 
-I also have a few apps:
+I have a few apps:
 
 - [WordTwist](https://wordtwist.app) is an iOS fill-in crossword game.
 - [Atomic](https://atomicbackup.app) is a backup app that encrypts and dedupes backups at blazing speeds.
 - [DotDecimal](https://dotdecimal.app) is a Mac, iPad, and iOS app designed to be a modern spreadsheet for kids and adults alike.
 - [Rip](https://ripeditor.com) is a fast code and Markdown editor for reviewing the code AI agents write. It runs on macOS, Windows, and Linux.
 
-I also made [Open Audiobooks](https://openaudiobooks.org), a free catalog of classic books read aloud. Each book is a file with chapters and cover art built in, so your audiobook app shows the chapters and remembers where you stopped.
+I made [Open Audiobooks](https://openaudiobooks.org), a free catalog of classic books read aloud. Each book is a file with chapters and cover art built in, so your audiobook app shows the chapters and remembers where you stopped.
 
 I revel in serendipity and the unexpected. My goal in life is to learn everything and do every side quest.
