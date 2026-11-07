@@ -13,7 +13,7 @@ glyphs: []
 # lime, ink, red, cobalt, tangerine, paper, or pink. Picked from the title if empty.
 color: ''
 tags: []
-draft: true
+draft: false
 tmdb: 1101383
 ---
 
